@@ -1,5 +1,3 @@
-import { NativeAudio } from '@ionic-native/native-audio';
-
 /**
  * Metronome
  */

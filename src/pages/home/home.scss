@@ -1,9 +1,31 @@
 .home-content {
+
     .ion-md-play:before {
+        position: relative;
+        top: 20px;
         font-size: 50px;
     }
 
     .ion-md-pause:before {
+        position: relative;
+        top: 20px;
         font-size: 50px;
+    }
+
+    .bpm-footer {
+        display: inline;
+        font-weight: 700;
+        font-size: 20px;
+        position: relative;
+        top: 5px;
+        left: 20px;
+    }
+
+    .bar-img {
+        padding-left: 0px;
+    }
+
+    .bar-col {
+        padding-left: 0px;
     }
 }

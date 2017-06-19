@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Metronome } from '../../services/metronome';
+import { Metronome, RudimentService } from '../../services';
 
 @Component({
   selector: 'page-home',
@@ -12,11 +12,14 @@ export class HomePage implements OnInit {
   private metronome: any;
   public bpm: number;
   public isPlaying: boolean = false;
+  public rudiments: any[];
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+    private rudimentService: RudimentService) {
   }
 
   ngOnInit() {
+    this.rudiments = this.rudimentService.getRudimentPattern();
     this.bpm = 120;
     this.metronome = new Metronome();
   }
