@@ -10,7 +10,7 @@ export class RudimentService {
             name: "diddle-right",
             imgSrc: "assets/images/diddle-right.png",
             interval: 4,
-            notes: 4,
+            beats: 4,
             startingHand: 'R',
             lastHand: 'R'
         },
@@ -19,7 +19,7 @@ export class RudimentService {
             name: "diddle-left",
             imgSrc: "assets/images/diddle-left.png",
             interval: 4,
-            notes: 4,
+            beats: 4,
             startingHand: 'L',
             lastHand: 'L'
         },
@@ -28,16 +28,16 @@ export class RudimentService {
             name: "diddle-double-right",
             imgSrc: "assets/images/diddle-double-right.png",
             interval: 4,
-            notes: 6,
+            beats: 6,
             startingHand: 'R',
             lastHand: 'R'
         },
         {
             id: 4,
             name: "diddle-double-left",
-            imgSrc: "assets/images/diddle-double-right.png",
+            imgSrc: "assets/images/diddle-double-left.png",
             interval: 4,
-            notes: 6,
+            beats: 6,
             startingHand: 'L',
             lastHand: 'L'
         },
@@ -46,7 +46,7 @@ export class RudimentService {
             name: "diddle-diddle-right",
             imgSrc: "assets/images/diddle-diddle-right.png",
             interval: 4,
-            notes: 6,
+            beats: 6,
             startingHand: 'R',
             lastHand: 'L'
         },
@@ -55,7 +55,7 @@ export class RudimentService {
             name: "diddle-diddle-left",
             imgSrc: "assets/images/diddle-diddle-left.png",
             interval: 4,
-            notes: 6,
+            beats: 6,
             startingHand: 'L',
             lastHand: 'R'
         }
@@ -73,28 +73,36 @@ export class RudimentService {
             let pattern = this.get16NotePattern();
 
             // check for valid sticking patterns
-            if (pattern) {
-                for (let i = 0; i < pattern.length; i++) {
-                    if (i === pattern.length - 1) {
-                        return pattern;
-                    } else if (i + 1 <= pattern.length && pattern[i].lastHand === pattern[i + 1].startingHand) {
-                        break;
-                    }
+            // Last hand of measure cannot equal first hand of next measure
+            for (let i = 0; i < pattern.length; i++) {
+                if (pattern[pattern.length - 1].lastHand === pattern[0].startingHand) {
+                    break;
+                }
+
+                if (i === pattern.length - 1) {
+                    return pattern;
+                } else if (pattern[i].lastHand === pattern[i + 1].startingHand) {
+                    break;
                 }
             }
         }
     }
 
+    /**
+     * Create array of rudiments that equals 16 eight notes or 4 measures of 4/4
+     */
     get16NotePattern() {
         while (true) {
-            let totalNotes = 0;
-            let shuffledArray = this.shuffleArray(this.rudiments);
+            let totalbeats = 0;
+            let shuffledArray = this.shuffleArray(this.rudiments.slice(0));
 
             for (let i = 0; i < shuffledArray.length; i++) {
-                totalNotes += shuffledArray[i].notes;
+                totalbeats += shuffledArray[i].beats;
 
-                if (totalNotes === 16) {
+                if (totalbeats === 16) {
                     return shuffledArray.splice(0, i + 1);
+                } else if (totalbeats > 16) {
+                    break;
                 }
             }
         }
