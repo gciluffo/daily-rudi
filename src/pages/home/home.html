@@ -7,12 +7,21 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content class="home-content" padding>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <ion-row>
+    <ion-col col-5></ion-col>
+    <ion-col col-3>
+      <ion-label>bpm: {{bpm}}</ion-label>
+    </ion-col>
+    <ion-col col-1>
+      <ion-icon *ngIf="!isPlaying" name="play" (click)="play(); isPlaying = !isPlaying"></ion-icon>
+      <ion-icon *ngIf="isPlaying" name="pause" (click)="pause(); isPlaying = !isPlaying"></ion-icon>
+    </ion-col>
+  </ion-row>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ion-item>
+    <ion-range color="secondary" pin="true" snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
+  </ion-item>
+
 </ion-content>
