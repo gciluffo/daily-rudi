@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.rudiments = this.rudimentService.getRudimentPattern();
+    console.log('the pattern:', this.rudiments);
     this.bpm = 120;
     this.metronome = new Metronome();
   }

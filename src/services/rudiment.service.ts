@@ -7,7 +7,7 @@ export class RudimentService {
     private rudiments: any[] = [
         {
             id: 1,
-            name: "diddle-right",
+            name: "Paraddidle(right)",
             imgSrc: "assets/images/diddle-right.png",
             interval: 4,
             beats: 4,
@@ -16,7 +16,7 @@ export class RudimentService {
         },
         {
             id: 2,
-            name: "diddle-left",
+            name: "Paradiddle(left)",
             imgSrc: "assets/images/diddle-left.png",
             interval: 4,
             beats: 4,
@@ -25,7 +25,7 @@ export class RudimentService {
         },
         {
             id: 3,
-            name: "diddle-double-right",
+            name: "Double Paradiddle(right)",
             imgSrc: "assets/images/diddle-double-right.png",
             interval: 4,
             beats: 6,
@@ -34,7 +34,7 @@ export class RudimentService {
         },
         {
             id: 4,
-            name: "diddle-double-left",
+            name: "Double Paraddidle(left)",
             imgSrc: "assets/images/diddle-double-left.png",
             interval: 4,
             beats: 6,
@@ -43,7 +43,7 @@ export class RudimentService {
         },
         {
             id: 5,
-            name: "diddle-diddle-right",
+            name: "Paradiddle-Diddle(right)",
             imgSrc: "assets/images/diddle-diddle-right.png",
             interval: 4,
             beats: 6,
@@ -52,12 +52,48 @@ export class RudimentService {
         },
         {
             id: 6,
-            name: "diddle-diddle-left",
+            name: "Paradiddle-Diddle(left)",
             imgSrc: "assets/images/diddle-diddle-left.png",
             interval: 4,
             beats: 6,
             startingHand: 'L',
             lastHand: 'R'
+        },
+        {
+            id: 7,
+            name: "Single Dragadiddle(right)",
+            imgSrc: "assets/images/diddle-single-drag-right.png",
+            interval: 4,
+            beats: 4,
+            startingHand: 'R',
+            lastHand: 'R'
+        },
+        {
+            id: 8,
+            name: "Single Dragadiddle(left)",
+            imgSrc: "assets/images/diddle-single-drag-left.png",
+            interval: 4,
+            beats: 4,
+            startingHand: 'L',
+            lastHand: 'L'
+        },
+        {
+            id: 9,
+            name: "Drag Paradiddle #1(right)",
+            imgSrc: "assets/images/diddle-drag-1-right.png",
+            interval: 4,
+            beats: 6,
+            startingHand: 'R',
+            lastHand: 'R'
+        },
+        {
+            id: 10,
+            name: "Drag Paradiddle #1(left)",
+            imgSrc: "assets/images/diddle-drag-1-left.png",
+            interval: 4,
+            beats: 6,
+            startingHand: 'L',
+            lastHand: 'L'
         }
     ];
 

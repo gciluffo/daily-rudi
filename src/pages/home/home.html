@@ -12,7 +12,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-4 class="bar-col" *ngFor="let rudiment of rudiments">
-        <img ion-item class="bar-img" [src]="rudiment.imgSrc">
+        <img ion-item class="bar-img" width="200px" height="120px" [src]="rudiment.imgSrc">
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -24,7 +24,7 @@
       <ion-icon *ngIf="isPlaying" name="pause" (click)="pause(); isPlaying = !isPlaying"></ion-icon>
       <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
       <ion-item *ngIf="showRange">
-        <ion-range color="secondary" pin="true" snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
+        <ion-range pin="true" snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
       </ion-item>
     </ion-toolbar>
   </ion-footer>
