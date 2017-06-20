@@ -9,6 +9,7 @@ export class VexRendererService {
     private context: any;
     private VF: any;
     private stave: any;
+    private noteTies: any[] = [];
     public screenDimensions: any = {
         width: 0,
         height: 0
@@ -25,7 +26,7 @@ export class VexRendererService {
 
             let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
-            renderer.resize(this.screenDimensions.width - 50, 500);
+            renderer.resize(this.screenDimensions.width, 500);
             this.context = renderer.getContext();
             this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
 
@@ -37,7 +38,7 @@ export class VexRendererService {
             };
 
             // Create a stave of width 400 at position 10, 40 on the canvas.
-            this.stave = new this.VF.Stave(10, 10, this.screenDimensions.width, options);
+            this.stave = new this.VF.Stave(-10, 10, this.screenDimensions.width, options);
             this.stave.setContext(this.context).draw();
 
             this.renderPattern(pattern);
@@ -49,7 +50,7 @@ export class VexRendererService {
         let allNotes = [];
         let beams = [];
 
-        // create an array of an array of notes
+        // Create an array of an array of notes
         for (let rudiment of pattern) {
             allNotes.push(this.createNoteArray(rudiment));
         }
@@ -60,9 +61,9 @@ export class VexRendererService {
         }
 
         let mergedNotes = [].concat.apply([], allNotes);
-
         vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
         beams.forEach(b => b.draw());
+        if (this.noteTies.length) { this.noteTies.forEach(t => t.draw()); };
     }
 
     addSticking(staveNote: any, annotation: string) {
@@ -73,8 +74,28 @@ export class VexRendererService {
     }
 
     addAccentToFirstBeat(notes: any[]) {
-        notes[0].addArticulation(0, new vexflow.Flow.Articulation("a>").setPosition(vexflow.Flow.Modifier.Position.ABOVE));
+        notes[0].addArticulation(0, new vexflow.Flow.Articulation("a>")
+            .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
         return notes;
+    }
+
+    addTremoloToNote(staveNote: any) {
+        staveNote.addArticulation(0, new vexflow.Flow.Tremolo(1)
+            .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
+    }
+
+    addTiedNotes(positions: any[], notes) {
+        let numOfTies = positions.length / 2;
+        let ties = [];
+
+        for (let i = 0; i < numOfTies; i++) {
+            this.noteTies.push(new this.VF.StaveTie({
+                first_note: notes[positions[i]],
+                last_note: notes[positions[i + 1]],
+                first_indices: [0],
+                last_indices: [0]
+            }).setContext(this.context));
+        }
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -91,10 +112,16 @@ export class VexRendererService {
             let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note });
             this.addSticking(note, rudiment.voicing[i].sticking);
 
+            // If note is doubled
+            if (rudiment.voicing[i].double) {
+                this.addTremoloToNote(note);
+            }
+
             notes.push(note);
         }
 
         let n = this.addAccentToFirstBeat(notes.splice(0));
+        if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, n); }
         return n;
     }
 }

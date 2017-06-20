@@ -7,7 +7,6 @@ export const RUDIMENTS: any[] = [
         beats: 2,
         startingHand: 'R',
         lastHand: 'R',
-        tremoloNotes: null,
         tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
@@ -24,7 +23,6 @@ export const RUDIMENTS: any[] = [
         beats: 2,
         startingHand: 'L',
         lastHand: 'L',
-        tremoloNotes: null,
         tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
@@ -40,7 +38,7 @@ export const RUDIMENTS: any[] = [
         interval: 4,
         beats: 3,
         startingHand: 'R',
-        tremoloNotes: null,
+        lastHand: 'R',
         tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
@@ -59,7 +57,6 @@ export const RUDIMENTS: any[] = [
         beats: 3,
         startingHand: 'L',
         lastHand: 'L',
-        tremoloNotes: null,
         tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
@@ -67,7 +64,7 @@ export const RUDIMENTS: any[] = [
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
         ] // beats = 3
     },
     {
@@ -78,7 +75,6 @@ export const RUDIMENTS: any[] = [
         beats: 3,
         startingHand: 'R',
         lastHand: 'L',
-        tremoloNotes: null,
         tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
@@ -97,15 +93,14 @@ export const RUDIMENTS: any[] = [
         beats: 3,
         startingHand: 'L',
         lastHand: 'R',
-        tremoloNotes: null,
         tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
         ] // beats = 3
     },
     {
@@ -116,7 +111,6 @@ export const RUDIMENTS: any[] = [
         beats: 2,
         startingHand: 'R',
         lastHand: 'R',
-        tremoloNotes: [0],
         tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: false, double: true },
@@ -133,7 +127,6 @@ export const RUDIMENTS: any[] = [
         beats: 2,
         startingHand: 'L',
         lastHand: 'L',
-        tremoloNotes: [0],
         tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', value: .5, flam: false, double: true },
@@ -150,8 +143,7 @@ export const RUDIMENTS: any[] = [
         beats: 3,
         startingHand: 'R',
         lastHand: 'R',
-        tremoloNotes: null,
-        tiedNotes: [1, 2],
+        tiedNotes: [2, 3],
         voicing: [
             { sticking: 'R', note: '16d', value: .25, flam: false, double: false },
             { sticking: '', note: '16r', value: .25, flam: false, double: false },
@@ -171,8 +163,7 @@ export const RUDIMENTS: any[] = [
         beats: 3,
         startingHand: 'L',
         lastHand: 'L',
-        tremoloNotes: null,
-        tiedNotes: [1, 2],
+        tiedNotes: [2, 3],
         voicing: [
             { sticking: 'L', note: '16d', value: .25, flam: false, double: false },
             { sticking: '', note: '16r', value: .25, flam: false, double: false },
