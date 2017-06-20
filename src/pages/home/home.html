@@ -3,19 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Daily Rude</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="home-content" padding>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-4 class="bar-col" *ngFor="let rudiment of rudiments">
-        <img ion-item class="bar-img" width="200px" height="120px" [src]="rudiment.imgSrc">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="blue-line"></div>
+
+  <div #ogStaff></div>
 
   <ion-footer no-border>
     <ion-toolbar>

@@ -28,4 +28,14 @@
     .bar-col {
         padding-left: 0px;
     }
+
+    .blue-line {
+        background-color: blue;
+        width: 1px;
+        height: 300px;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        position: fixed;
+    }
 }
