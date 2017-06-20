@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Metronome, RudimentService } from '../../services';
+import { Metronome, RudimentService, VexRendererService } from '../../services';
 import * as vexflow from 'vexflow';
 
 @Component({
@@ -19,13 +19,16 @@ export class HomePage implements OnInit {
   public rudiments: any[];
   public metronomeSlider: string;
 
+
   constructor(public navCtrl: NavController,
-    private rudimentService: RudimentService) {
+    private rudimentService: RudimentService,
+    private vexRendererService: VexRendererService) {
   }
 
   ngAfterViewInit() {
     let domElement = this.ogStaff.nativeElement;
-    this.renderStaff(domElement);
+    this.VF = vexflow.Flow;
+    this.vexRendererService.renderStaff(domElement, this.VF);
   }
 
   ngOnInit() {
@@ -45,22 +48,4 @@ export class HomePage implements OnInit {
     this.metronome.pause();
     this.metronomeSlider = 'stop';
   }
-
-  renderStaff(domElement: any) {
-    this.VF = vexflow.Flow;
-    // Create an SVG renderer and attach it to the DIV element named "boo".
-    let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
-
-    // Configure the rendering context.
-    renderer.resize(500, 500);
-    var context = renderer.getContext();
-    context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
-
-    // Create a stave of width 400 at position 10, 40 on the canvas.
-    var stave = new this.VF.Stave(10, 40, 350);
-
-    // Connect it to the rendering context and draw!
-    stave.setContext(context).draw();
-  }
-
 }

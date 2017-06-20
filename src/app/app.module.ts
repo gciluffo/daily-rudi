@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { RudimentService } from '../services';
+import { RudimentService, VexRendererService } from '../services';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { NativeAudio } from '@ionic-native/native-audio';
@@ -27,6 +27,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage
   ],
   providers: [
+    VexRendererService,
     RudimentService,
     StatusBar,
     SplashScreen,
