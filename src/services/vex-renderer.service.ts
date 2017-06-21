@@ -3,6 +3,8 @@ import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment'
 import * as vexflow from 'vexflow';
 
+const notePosOffset = 10; // pixels
+
 @Injectable()
 export class VexRendererService {
 
@@ -10,6 +12,11 @@ export class VexRendererService {
     private VF: any;
     private stave: any;
     private noteTies: any[] = [];
+    public meanDistanceNotes: number;
+    public notePositions: any = {
+        firstNotePos: 0,
+        lastNotePos: 0
+    };
     public screenDimensions: any = {
         width: 0,
         height: 0
@@ -64,6 +71,25 @@ export class VexRendererService {
         vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
         beams.forEach(b => b.draw());
         if (this.noteTies.length) { this.noteTies.forEach(t => t.draw()); };
+        this.setFirstLastNotePositions(mergedNotes);
+    }
+
+    setFirstLastNotePositions(notes: any[]) {
+        this.notePositions.firstNotePos = notes[0].getNoteHeadEndX() + notePosOffset;
+        this.notePositions.lastNotePos = notes[notes.length - 1].getNoteHeadEndX() + notePosOffset;
+        this.listNotePositions(notes);
+    }
+
+    listNotePositions(notes: any[]) {
+        let meanDistance = 0;
+
+        for (let i = 0; i + 1 < notes.length; i++) {
+            let delta = (notes[i + 1].getNoteHeadEndX() + notePosOffset) - (notes[i].getNoteHeadEndX() + notePosOffset);
+            meanDistance += delta;
+        }
+
+        this.meanDistanceNotes = meanDistance / notes.length;
+        console.log('meanDistance', this.meanDistanceNotes);
     }
 
     addSticking(staveNote: any, annotation: string) {
@@ -86,7 +112,6 @@ export class VexRendererService {
 
     addTiedNotes(positions: any[], notes) {
         let numOfTies = positions.length / 2;
-        let ties = [];
 
         for (let i = 0; i < numOfTies; i++) {
             this.noteTies.push(new this.VF.StaveTie({
@@ -99,13 +124,6 @@ export class VexRendererService {
     }
 
     createNoteArray(rudiment: Rudiment) {
-        // voicing: [
-        //     { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-        //     { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-        //     { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-        //     { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
-        // ]
-
         let notes: any = [];
 
         for (let i = 0; i < rudiment.voicing.length; i++) {

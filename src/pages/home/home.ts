@@ -4,7 +4,6 @@ import { NavController } from 'ionic-angular';
 import { Metronome, RudimentService, VexRendererService } from '../../services';
 import { Rudiment } from '../../models/rudiment';
 
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -12,13 +11,15 @@ import { Rudiment } from '../../models/rudiment';
 export class HomePage implements OnInit {
 
   @ViewChild('ogStaff') ogStaff: ElementRef;
+  @ViewChild('ogBar') ogBar: ElementRef;
 
-  private metronome: any;
-  private VF: any;
+  public metronome: any;
   public bpm: number;
   public isPlaying: boolean = false;
   public rudiments: Rudiment[];
-  public metronomeSlider: string;
+  private sliderPosition: number = 0;
+  private interval: any;
+  private notePositions: any;
 
   constructor(public navCtrl: NavController,
     private rudimentService: RudimentService,
@@ -32,16 +33,31 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.rudiments = this.rudimentService.getRudimentPattern();
-    this.bpm = 120;
+    this.bpm = 80;
     this.metronome = new Metronome();
+    this.notePositions = this.vexRendererService.notePositions;
+    this.sliderPosition = this.notePositions.firstNotePos;
   }
 
   play() {
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
+    this.moveRight();
   }
 
   pause() {
     this.metronome.pause();
+    this.sliderPosition = this.notePositions.lastNotePos;
+    clearInterval(this.interval);
+  }
+
+  moveRight() {
+    this.interval = setInterval(() => {
+      this.sliderPosition += this.vexRendererService.meanDistanceNotes;
+
+      if (this.sliderPosition >= this.notePositions.lastNotePos) {
+        this.sliderPosition = this.notePositions.firstNotePos;
+      }
+    }, (60.0 / this.bpm) * 1000);
   }
 }
