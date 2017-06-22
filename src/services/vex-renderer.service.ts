@@ -77,10 +77,11 @@ export class VexRendererService {
     setFirstLastNotePositions(notes: any[]) {
         this.notePositions.firstNotePos = notes[0].getNoteHeadEndX() + notePosOffset;
         this.notePositions.lastNotePos = notes[notes.length - 1].getNoteHeadEndX() + notePosOffset;
-        this.listNotePositions(notes);
+        console.log('note positions: ', this.notePositions);
+        this.getMeanNoteDistance(notes);
     }
 
-    listNotePositions(notes: any[]) {
+    getMeanNoteDistance(notes: any[]) {
         let meanDistance = 0;
 
         for (let i = 0; i + 1 < notes.length; i++) {
@@ -88,7 +89,7 @@ export class VexRendererService {
             meanDistance += delta;
         }
 
-        this.meanDistanceNotes = meanDistance / notes.length;
+        this.meanDistanceNotes = meanDistance / 4;
         console.log('meanDistance', this.meanDistanceNotes);
     }
 

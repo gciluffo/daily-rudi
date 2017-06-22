@@ -188,7 +188,7 @@ export class Metronome {
 
     private scheduler() {
         while (this.nextNoteTime < this.audioContext.currentTime + scheduleAheadTime) {
-            this.scheduleTone(this.nextNoteTime, this.next4thNote % numBeatsPerBar ? Pitch.MID : Pitch.HIGH);
+            this.scheduleTone(this.nextNoteTime, Pitch.MID);
             let secondsPerBeat = 60.0 / this.tempo;
             this.nextNoteTime += secondsPerBeat;
             this.next4thNote = (this.next4thNote + 1) % numBeatsPerBar;
@@ -204,7 +204,6 @@ export class Metronome {
     }
 
     private scheduleTone(startTime: number, pitch: Pitch): void {
-
         let osc = this.audioContext.createOscillator();
         osc.connect(this.audioContext.destination);
 

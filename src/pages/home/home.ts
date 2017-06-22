@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   private sliderPosition: number = 0;
   private interval: any;
   private notePositions: any;
+  private resetSlider: boolean = false;
 
   constructor(public navCtrl: NavController,
     private rudimentService: RudimentService,
@@ -47,16 +48,20 @@ export class HomePage implements OnInit {
 
   pause() {
     this.metronome.pause();
-    this.sliderPosition = this.notePositions.lastNotePos;
+    this.sliderPosition = this.notePositions.firstNotePos;
     clearInterval(this.interval);
   }
 
   moveRight() {
+    this.sliderPosition += this.vexRendererService.meanDistanceNotes;
+    console.log('slider position', this.sliderPosition);
+
     this.interval = setInterval(() => {
       this.sliderPosition += this.vexRendererService.meanDistanceNotes;
+      console.log('slider position', this.sliderPosition);
 
       if (this.sliderPosition >= this.notePositions.lastNotePos) {
-        this.sliderPosition = this.notePositions.firstNotePos;
+        this.sliderPosition = this.notePositions.firstNotePos + this.vexRendererService.meanDistanceNotes;
       }
     }, (60.0 / this.bpm) * 1000);
   }

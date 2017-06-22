@@ -9,7 +9,7 @@
 
 <ion-content class="home-content" padding>
 
-  <div #ogBar [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
+  <div *ngIf="!hideSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
 
   <div #ogStaff></div>
 
