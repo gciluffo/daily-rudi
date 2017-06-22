@@ -237,7 +237,7 @@ export const RUDIMENTS: any[] = [
         lastHand: 'L',
         isTriplet: true,
         tiedNotes: null,
-        beamPositions: [[0, 3], [4, 7]],
+        beamPositions: [[0, 3], [3, 6]],
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
@@ -255,7 +255,7 @@ export const RUDIMENTS: any[] = [
         lastHand: 'R',
         isTriplet: true,
         tiedNotes: null,
-        beamPositions: [[0, 3], [4, 7]],
+        beamPositions: [[0, 3], [3, 6]],
         voicing: [
             { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false },

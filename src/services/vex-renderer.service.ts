@@ -105,6 +105,7 @@ export class VexRendererService {
 
         let n = this.addAccentToFirstBeat(notes.splice(0));
         if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, n); }
+        // if (rudiment.isTriplet) { this.renderTripletRudiment(n, rudiment) }
         return n;
     }
 
@@ -116,32 +117,21 @@ export class VexRendererService {
 
         // Now create the tuplets:
         let quarterNoteTriplet = new vexflow.Flow.Tuplet(notes, {
-            num_notes: 3, beats_occupied: 2
+            num_notes: 6, beats_occupied: 2
         });
 
-        // Create the voice:
-        let voice = new vexflow.Flow.Voice({ num_beats: 4, resolution: vexflow.Flow.RESOLUTION })
-        voice.addTickables(notes);
-
-        // Format the voice:
-        let formatter = new vexflow.Flow.Formatter();
-        formatter.format([voice], 775);
-
-        // Draw the voice:
-        voice.draw(this.context, this.stave);
+        this.VF.Formatter.FormatAndDraw(this.context, this.stave, notes);
 
         // Draw the beams:
-        beams.forEach(function (beam) {
+        beams.forEach(beam => {
             beam.draw();
         });
 
         // Draw the tuplets:
         [quarterNoteTriplet]
-            .forEach(function (tuplet) {
-                tuplet.draw();
+            .forEach(tuplet => {
+                tuplet.setContext(this.context).draw();
             });
-
-        return [];
     }
 
     setFirstLastNotePositions(notes: any[]) {
