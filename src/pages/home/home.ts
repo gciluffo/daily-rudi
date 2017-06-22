@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { Metronome, RudimentService, VexRendererService } from '../../services';
+import { SettingsPage } from '../settings/settings';
+
 import { Rudiment } from '../../models/rudiment';
 
 @Component({
@@ -20,7 +22,6 @@ export class HomePage implements OnInit {
   private sliderPosition: number = 0;
   private interval: any;
   private notePositions: any;
-  private resetSlider: boolean = false;
 
   constructor(public navCtrl: NavController,
     private rudimentService: RudimentService,
@@ -29,7 +30,7 @@ export class HomePage implements OnInit {
 
   ngAfterViewInit() {
     let domElement = this.ogStaff.nativeElement;
-    this.vexRendererService.renderStaff(domElement, this.rudiments);
+    this.vexRendererService.createRenderer(domElement, this.rudiments);
   }
 
   ngOnInit() {
@@ -64,5 +65,14 @@ export class HomePage implements OnInit {
         this.sliderPosition = this.notePositions.firstNotePos + this.vexRendererService.meanDistanceNotes;
       }
     }, (60.0 / this.bpm) * 1000);
+  }
+
+  openSettings() {
+    this.navCtrl.push(SettingsPage);
+  }
+
+  generateNewPattern() {
+    this.vexRendererService.context.clear();
+    this.vexRendererService.renderStaff(this.ogStaff.nativeElement, this.rudimentService.getRudimentPattern());
   }
 }

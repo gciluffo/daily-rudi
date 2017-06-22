@@ -1,27 +1,28 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>Daily Rude</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="home-content" padding>
 
-  <div *ngIf="!hideSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
+  <div [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
 
   <div #ogStaff></div>
 
   <ion-footer no-border>
     <ion-toolbar>
-      <button ion-button (click)="showRange = !showRange">tempo</button>
-      <ion-icon *ngIf="!isPlaying" name="play" (click)="play(); isPlaying = !isPlaying"></ion-icon>
-      <ion-icon *ngIf="isPlaying" name="pause" (click)="pause(); isPlaying = !isPlaying"></ion-icon>
-      <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
-      <ion-item *ngIf="showRange">
-        <ion-range pin="true" snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
-      </ion-item>
+      <ion-row>
+        <button ion-button (click)="showRange = !showRange">tempo</button>
+        <ion-icon *ngIf="!isPlaying" name="play" (click)="play(); isPlaying = !isPlaying"></ion-icon>
+        <ion-icon *ngIf="isPlaying" name="pause" (click)="pause(); isPlaying = !isPlaying"></ion-icon>
+        <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
+        <ion-item *ngIf="showRange">
+          <ion-range pin="true" snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
+        </ion-item>
+        <button ion-button (click)="generateNewPattern()"><ion-icon name="refresh"></ion-icon></button>
+        <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
+      </ion-row>
     </ion-toolbar>
   </ion-footer>
 
