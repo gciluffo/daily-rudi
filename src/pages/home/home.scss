@@ -8,10 +8,18 @@
         font-size: 50px;
     }
 
+    .ion-md-refresh:before {
+        font-size: 50px;
+    }
+
+    .ion-md-settings:before {
+        font-size: 50px;
+    }
+
     .bpm-footer {
         display: inline;
         font-weight: 700;
-        font-size: 20px;
+        font-size: 35px;
         position: relative;
         top: 5px;
         left: 20px;
@@ -35,5 +43,14 @@
         top: 0;
         left: 0;
         position: fixed;
+    }
+
+    .toolbar {
+        min-height: 80px;
+    }
+
+    .button {
+        height: 70px;
+        min-width: 70px;
     }
 }

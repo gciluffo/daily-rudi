@@ -40,7 +40,7 @@ export class VexRendererService {
         this.getScreenDimensions().then(() => {
             let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
-            renderer.resize(this.screenDimensions.width, 500);
+            renderer.resize(this.screenDimensions.width, this.screenDimensions.width / 2);
             this.context = renderer.getContext();
             this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
             this.renderStaff(domElement, pattern);
@@ -49,15 +49,21 @@ export class VexRendererService {
 
     renderStaff(domElement: any, pattern: Rudiment[]) {
         let options = {
-            spacing_between_lines_px: 25, // in pixels
-            space_above_staff_ln: 2,      // in staff lines
+            vertical_bar_width: 10,       // Width around vertical bar end-marker
+            glyph_spacing_px: 10,
+            num_lines: 5,
+            fill_style: '#999999',
+            left_bar: true,               // draw vertical bar on left
+            right_bar: true,               // draw vertical bar on right
+            spacing_between_lines_px: 20, // in pixels
+            space_above_staff_ln: 4,      // in staff lines
             space_below_staff_ln: 4,      // in staff lines
-            top_text_position: 1          // in staff lines
+            top_text_position: 1,          // in staff lines
         };
 
         // Create a stave of width 400 at position 10, 40 on the canvas.
         this.noteTies = [];
-        this.stave = new this.VF.Stave(-10, 10, this.screenDimensions.width, options);
+        this.stave = new this.VF.Stave(-2, 15, this.screenDimensions.width, options);
         this.stave.setContext(this.context).draw();
 
         this.renderPattern(pattern);

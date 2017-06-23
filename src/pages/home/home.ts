@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 
-import { Metronome, RudimentService, VexRendererService } from '../../services';
+import { Metronome, RudimentService, VexRendererService, StorageService } from '../../services';
 import { SettingsPage } from '../settings/settings';
 
 import { Rudiment } from '../../models/rudiment';
@@ -22,10 +22,13 @@ export class HomePage implements OnInit {
   private sliderPosition: number = 0;
   private interval: any;
   private notePositions: any;
+  public settings: any;
 
   constructor(public navCtrl: NavController,
     private rudimentService: RudimentService,
-    private vexRendererService: VexRendererService) {
+    private vexRendererService: VexRendererService,
+    private storageService: StorageService,
+    public modalCtrl: ModalController) {
   }
 
   ngAfterViewInit() {
@@ -34,6 +37,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.loadSettings();
     this.rudiments = this.rudimentService.getRudimentPattern();
     this.bpm = 80;
     this.metronome = new Metronome();
@@ -62,17 +66,36 @@ export class HomePage implements OnInit {
       console.log('slider position', this.sliderPosition);
 
       if (this.sliderPosition >= this.notePositions.lastNotePos) {
-        this.sliderPosition = this.notePositions.firstNotePos + this.vexRendererService.meanDistanceNotes;
+        this.sliderPosition = this.notePositions.firstNotePos;
       }
     }, (60.0 / this.bpm) * 1000);
   }
 
+  createSettingsObject() {
+    return {
+      useMetronomeSlider: this.settings.useMetronomeSlider,
+      useRandomAccents: this.settings.useRandomAccents,
+      useRudimentNames: this.settings.useRudimentNames
+    }
+  }
+
   openSettings() {
-    this.navCtrl.push(SettingsPage);
+    let settingsModal = this.modalCtrl.create(SettingsPage, this.createSettingsObject());
+    settingsModal.onDidDismiss(data => {
+      this.settings = data;
+    });
+    settingsModal.present();
   }
 
   generateNewPattern() {
     this.vexRendererService.context.clear();
     this.vexRendererService.renderStaff(this.ogStaff.nativeElement, this.rudimentService.getRudimentPattern());
+  }
+
+  loadSettings() {
+    this.storageService.loadSettings()
+      .then((data) => {
+        this.settings = data;
+      }, error => console.log(error));
   }
 }

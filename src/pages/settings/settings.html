@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+      <ion-title>Options</ion-title>
+      <button ion-button pull-right (click)="dismiss()">dismiss</button>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label>Metronome Slider</ion-label>
+      <ion-toggle [(ngModel)]="settings.useMetronomeSlider" (ngModelChange)="updateSettings()"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Random Accents</ion-label>
+      <ion-toggle [(ngModel)]="settings.useRandomAccents" (ngModelChange)="updateSettings()" disabled="true"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Display Rudiment Names</ion-label>
+      <ion-toggle [(ngModel)]="settings.useRudimentNames" (ngModelChange)="updateSettings()" disabled="true"></ion-toggle>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

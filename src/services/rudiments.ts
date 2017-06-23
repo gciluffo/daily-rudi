@@ -106,7 +106,7 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: true, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: true, accent: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
@@ -121,7 +121,7 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: true, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: true, accent: false },
             { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
             { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
