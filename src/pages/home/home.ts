@@ -62,12 +62,12 @@ export class HomePage implements OnInit {
     console.log('slider position', this.sliderPosition);
 
     this.interval = setInterval(() => {
-      this.sliderPosition += this.vexRendererService.meanDistanceNotes;
-      console.log('slider position', this.sliderPosition);
-
       if (this.sliderPosition >= this.notePositions.lastNotePos) {
         this.sliderPosition = this.notePositions.firstNotePos;
+      } else {
+        this.sliderPosition += this.vexRendererService.meanDistanceNotes;
       }
+      console.log('slider position', this.sliderPosition);
     }, (60.0 / this.bpm) * 1000);
   }
 
@@ -83,6 +83,7 @@ export class HomePage implements OnInit {
     let settingsModal = this.modalCtrl.create(SettingsPage, this.createSettingsObject());
     settingsModal.onDidDismiss(data => {
       this.settings = data;
+      this.vexRendererService.settings = data;
     });
     settingsModal.present();
   }
@@ -90,12 +91,14 @@ export class HomePage implements OnInit {
   generateNewPattern() {
     this.vexRendererService.context.clear();
     this.vexRendererService.renderStaff(this.ogStaff.nativeElement, this.rudimentService.getRudimentPattern());
+    this.sliderPosition = this.notePositions.firstNotePos;
   }
 
   loadSettings() {
     this.storageService.loadSettings()
       .then((data) => {
         this.settings = data;
+        this.vexRendererService.settings = data;
       }, error => console.log(error));
   }
 }

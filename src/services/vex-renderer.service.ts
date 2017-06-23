@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment'
 import * as vexflow from 'vexflow';
 
-const notePosOffset = 10; // pixels
+const notePosOffset = -5; // pixels
 
 @Injectable()
 export class VexRendererService {
@@ -13,6 +13,7 @@ export class VexRendererService {
     public context: any;
     public stave: any;
     public meanDistanceNotes: number;
+    public settings: any;
     public notePositions: any = {
         firstNotePos: 0,
         lastNotePos: 0
@@ -106,12 +107,13 @@ export class VexRendererService {
                 this.addFlam(note, rudiment.voicing[i]);
             }
 
-            if (rudiment.voicing[i].accent) {
+            if (rudiment.voicing[i].accent && !this.settings.useRandomAccents) {
                 this.addAccentToNote(note);
             }
             notes.push(note);
         }
 
+        if (this.settings.useRandomAccents) { this.addRandomAccentToRudiment(notes, rudiment.voicing) }
         if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, notes); }
         return notes;
     }
@@ -165,6 +167,17 @@ export class VexRendererService {
     addAccentToNote(staveNote: any) {
         staveNote.addArticulation(0, new vexflow.Flow.Articulation("a>")
             .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
+    }
+
+    addRandomAccentToRudiment(notes: any[], voicing: any[]) {
+        while (true) {
+            let indexRandom = Math.floor(Math.random() * notes.length)
+
+            if (!voicing[indexRandom].double) {
+                this.addAccentToNote(notes[indexRandom]);
+                break;
+            }
+        }
     }
 
     addTremoloToNote(staveNote: any) {
