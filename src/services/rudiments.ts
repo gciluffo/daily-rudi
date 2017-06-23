@@ -8,10 +8,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -23,10 +23,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -38,12 +38,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -55,12 +55,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -72,12 +72,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -89,12 +89,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -106,10 +106,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: true },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: true, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
         ]
     },
     {
@@ -121,10 +121,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: true },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: true, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
         ]
     },
     {
@@ -136,14 +136,14 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: [2, 3],
         voicing: [
-            { sticking: 'R', note: '16d', value: .25, flam: false, double: false },
-            { sticking: '', note: '16r', value: .25, flam: false, double: false },
-            { sticking: 'L', note: '16d', value: .25, flam: false, double: false },
-            { sticking: 'L', note: '16d', value: .25, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
+            { sticking: 'R', note: '16d', value: .25, flam: false, double: false, accent: true },
+            { sticking: '', note: '16r', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
         ]
     },
     {
@@ -155,14 +155,14 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: [2, 3],
         voicing: [
-            { sticking: 'L', note: '16d', value: .25, flam: false, double: false },
-            { sticking: '', note: '16r', value: .25, flam: false, double: false },
-            { sticking: 'R', note: '16d', value: .25, flam: false, double: false },
-            { sticking: 'R', note: '16d', value: .25, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
+            { sticking: 'L', note: '16d', value: .25, flam: false, double: false, accent: true },
+            { sticking: '', note: '16r', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', value: .25, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
         ]
     },
     {
@@ -174,10 +174,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -189,10 +189,10 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -204,12 +204,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: 'q', value: 1, flam: true, double: false },
-            { sticking: '', note: 'qr', value: 1, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: 'q', value: 1, flam: true, double: false, accent: true },
+            { sticking: '', note: 'qr', value: 1, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -221,12 +221,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: false,
         tiedNotes: null,
         voicing: [
-            { sticking: 'L', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: 'q', value: 1, flam: true, double: false },
-            { sticking: '', note: 'qr', value: 1, flam: false, double: false }
+            { sticking: 'L', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: 'q', value: 1, flam: true, double: false, accent: true },
+            { sticking: '', note: 'qr', value: 1, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -239,12 +239,12 @@ export const RUDIMENTS: any[] = [
         tiedNotes: null,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     },
     {
@@ -257,12 +257,12 @@ export const RUDIMENTS: any[] = [
         tiedNotes: null,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
-            { sticking: 'R', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: true, double: false },
-            { sticking: 'R', note: '8d', value: .5, flam: false, double: false },
-            { sticking: 'L', note: '8d', value: .5, flam: false, double: false }
+            { sticking: 'R', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: true, double: false, accent: true },
+            { sticking: 'R', note: '8d', value: .5, flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', value: .5, flam: false, double: false, accent: false }
         ]
     }
 ];

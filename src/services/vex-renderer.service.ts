@@ -56,6 +56,7 @@ export class VexRendererService {
         };
 
         // Create a stave of width 400 at position 10, 40 on the canvas.
+        this.noteTies = [];
         this.stave = new this.VF.Stave(-10, 10, this.screenDimensions.width, options);
         this.stave.setContext(this.context).draw();
 
@@ -68,8 +69,8 @@ export class VexRendererService {
         let beams = [];
 
         // Create an array of an array of notes
-        for (let rudiment of pattern) {
-            allNotes.push(this.createNoteArray(rudiment));
+        for (let i = 0; i < pattern.length; i++) {
+            allNotes.push(this.createNoteArray(pattern[i]));
         }
 
         // Create a beam for each group of notes
@@ -91,7 +92,6 @@ export class VexRendererService {
             let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note });
             this.addSticking(note, rudiment.voicing[i].sticking);
 
-            // If note is doubled
             if (rudiment.voicing[i].double) {
                 this.addTremoloToNote(note);
             }
@@ -100,13 +100,14 @@ export class VexRendererService {
                 this.addFlam(note, rudiment.voicing[i]);
             }
 
+            if (rudiment.voicing[i].accent) {
+                this.addAccentToNote(note);
+            }
             notes.push(note);
         }
 
-        let n = this.addAccentToFirstBeat(notes.splice(0));
-        if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, n); }
-        // if (rudiment.isTriplet) { this.renderTripletRudiment(n, rudiment) }
-        return n;
+        if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, notes); }
+        return notes;
     }
 
     renderTripletRudiment(notes: any[], rudiment: Rudiment) {
@@ -122,16 +123,11 @@ export class VexRendererService {
 
         this.VF.Formatter.FormatAndDraw(this.context, this.stave, notes);
 
-        // Draw the beams:
         beams.forEach(beam => {
             beam.draw();
         });
 
-        // Draw the tuplets:
-        [quarterNoteTriplet]
-            .forEach(tuplet => {
-                tuplet.setContext(this.context).draw();
-            });
+        quarterNoteTriplet.setContext(this.context).draw();
     }
 
     setFirstLastNotePositions(notes: any[]) {
@@ -160,10 +156,9 @@ export class VexRendererService {
                 .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
     }
 
-    addAccentToFirstBeat(notes: any[]) {
-        notes[0].addArticulation(0, new vexflow.Flow.Articulation("a>")
+    addAccentToNote(staveNote: any) {
+        staveNote.addArticulation(0, new vexflow.Flow.Articulation("a>")
             .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
-        return notes;
     }
 
     addTremoloToNote(staveNote: any) {
