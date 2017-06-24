@@ -88,7 +88,6 @@ export class VexRendererService {
         let mergedNotes = [].concat.apply([], allNotes);
         this.draw(mergedNotes, beams);
         this.setFirstLastNotePositions(mergedNotes);
-        this.setPositionsOfFirstNotes(pattern);
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -198,16 +197,12 @@ export class VexRendererService {
     }
 
     addFlam(note: any, voice: any) {
-        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d', slash: true })
+        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' })
             .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
                 .setFont("Arial", 8, 'italic')
                 .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
         note.addModifier(0, gracenotegroup.beamNotes());
-    }
-
-    setPositionsOfFirstNotes(pattern: Rudiment[]) {
-
     }
 
     draw(mergedNotes: any[], beams: any[]) {

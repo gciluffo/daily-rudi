@@ -49,7 +49,7 @@ export class HomePage implements OnInit {
 
     this.loadSettings();
     this.rudiments = this.rudimentService.getRudimentPattern();
-    this.bpm = 80;
+    this.bpm = 60;
     this.metronome = new Metronome();
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
   }
@@ -65,6 +65,14 @@ export class HomePage implements OnInit {
     this.metronome.pause();
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     clearInterval(this.sliderInterval);
+  }
+
+  tempoChange() {
+    if (this.isPlaying) {
+      this.metronome.setTempo(this.bpm);
+      clearInterval(this.sliderInterval);
+      this.moveRight();
+    }
   }
 
   moveRight() {

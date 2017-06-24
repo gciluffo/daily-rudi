@@ -16,7 +16,7 @@
         </button>
         <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
         <ion-item *ngIf="showRange">
-          <ion-range snaps="true" [(ngModel)]="bpm" min="40" max="200"></ion-range>
+          <ion-range snaps="true" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" min="40" max="200"></ion-range>
         </ion-item>
         <button ion-button (click)="generateNewPattern()"><ion-icon name="refresh"></ion-icon></button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
