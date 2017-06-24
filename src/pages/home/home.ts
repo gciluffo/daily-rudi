@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import { Metronome, RudimentService, VexRendererService, StorageService } from '../../services';
 import { SettingsPage } from '../settings/settings';
+import moment from 'moment';
 
 import { Rudiment } from '../../models/rudiment';
 
@@ -20,15 +21,15 @@ export class HomePage implements OnInit {
   public isPlaying: boolean = false;
   public rudiments: Rudiment[];
   private sliderPosition: number = 0;
-  private interval: any;
-  private notePositions: any;
+  private sliderInterval: any;
   public settings: any;
 
   constructor(public navCtrl: NavController,
     private rudimentService: RudimentService,
     private vexRendererService: VexRendererService,
     private storageService: StorageService,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController,
+    public platform: Platform) {
   }
 
   ngAfterViewInit() {
@@ -37,15 +38,24 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.platform.pause.subscribe(() => {
+      console.log('[INFO] App paused');
+      this.pause();
+    });
+
+    this.platform.resume.subscribe(() => {
+      console.log('[INFO] App resumed');
+    });
+
     this.loadSettings();
     this.rudiments = this.rudimentService.getRudimentPattern();
     this.bpm = 80;
     this.metronome = new Metronome();
-    this.notePositions = this.vexRendererService.notePositions;
-    this.sliderPosition = this.notePositions.firstNotePos;
+    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
   }
 
   play() {
+    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
     this.moveRight();
@@ -53,21 +63,21 @@ export class HomePage implements OnInit {
 
   pause() {
     this.metronome.pause();
-    this.sliderPosition = this.notePositions.firstNotePos;
-    clearInterval(this.interval);
+    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+    clearInterval(this.sliderInterval);
   }
 
   moveRight() {
-    this.sliderPosition += this.vexRendererService.meanDistanceNotes;
-    console.log('slider position', this.sliderPosition);
+    let counter = 0;
 
-    this.interval = setInterval(() => {
-      if (this.sliderPosition >= this.notePositions.lastNotePos) {
-        this.sliderPosition = this.notePositions.firstNotePos;
+    this.sliderInterval = setInterval(() => {
+      counter++;
+      if (counter === 4) { // assuming we are in 4/4 time
+        this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+        counter = 0;
       } else {
         this.sliderPosition += this.vexRendererService.meanDistanceNotes;
       }
-      console.log('slider position', this.sliderPosition);
     }, (60.0 / this.bpm) * 1000);
   }
 
@@ -75,8 +85,9 @@ export class HomePage implements OnInit {
     return {
       useMetronomeSlider: this.settings.useMetronomeSlider,
       useRandomAccents: this.settings.useRandomAccents,
-      useRudimentNames: this.settings.useRudimentNames
-    }
+      useRudimentNames: this.settings.useRudimentNames,
+      useNotifications: this.settings.useNotifications
+    };
   }
 
   openSettings() {
@@ -91,7 +102,7 @@ export class HomePage implements OnInit {
   generateNewPattern() {
     this.vexRendererService.context.clear();
     this.vexRendererService.renderStaff(this.ogStaff.nativeElement, this.rudimentService.getRudimentPattern());
-    this.sliderPosition = this.notePositions.firstNotePos;
+    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
   }
 
   loadSettings() {

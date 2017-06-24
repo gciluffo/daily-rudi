@@ -1,6 +1,6 @@
 <ion-content class="home-content" no-bounce>
 
-  <div *ngIf="settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
+  <div *ngIf="settings?.useMetronomeSlider && isPlaying" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
 
   <div #ogStaff></div>
 

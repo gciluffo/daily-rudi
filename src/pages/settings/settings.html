@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-row>
       <ion-title>Options</ion-title>
-      <button ion-button pull-right (click)="dismiss()">dismiss</button>
+      <button ion-button pull-right (click)="dismiss()">Save</button>
     </ion-row>
   </ion-navbar>
 </ion-header>
@@ -23,6 +23,11 @@
     <ion-item>
       <ion-label>Display Rudiment Names</ion-label>
       <ion-toggle [(ngModel)]="settings.useRudimentNames" (ngModelChange)="updateSettings()" disabled="true"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Allow Notifications</ion-label>
+      <ion-toggle [(ngModel)]="settings.useNotifications" (ngModelChange)="updateSettings()" disabled="true"></ion-toggle>
     </ion-item>
 
   </ion-list>

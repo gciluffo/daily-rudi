@@ -34,14 +34,13 @@
     }
 
     .blue-line {
-        // -webkit-flex-wrap: wrap;
-        // -webkit-transition: all linear .75s;
+        opacity: .1;
         background-color: blue;
-        width: 1px;
-        height: 300px;
+        width: 180px;
+        height: 170px;
         z-index: 10;
-        top: 0;
-        left: 0;
+        top: 60px;
+        left: -10px;
         position: fixed;
     }
 

@@ -2,13 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { StorageService } from '../../services';
 
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
@@ -43,5 +36,6 @@ export class SettingsPage implements OnInit {
     this.settings.useMetronomeSlider = this.navParams.get('useMetronomeSlider');
     this.settings.useRandomAccents = this.navParams.get('useRandomAccents');
     this.settings.useRudimentNames = this.navParams.get('useRudimentNames');
+    this.settings.useNotifications = this.navParams.get('useNotifications');
   }
 }

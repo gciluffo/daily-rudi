@@ -14,6 +14,7 @@ export class VexRendererService {
     public stave: any;
     public meanDistanceNotes: number;
     public settings: any;
+    public firstNotePositions: any[] = [];
     public notePositions: any = {
         firstNotePos: 0,
         lastNotePos: 0
@@ -79,17 +80,15 @@ export class VexRendererService {
         for (let i = 0; i < pattern.length; i++) {
             allNotes.push(this.createNoteArray(pattern[i]));
         }
-
-        // Create a beam for each group of notes
+        // Create a beam for each array of notes
         for (let notes of allNotes) {
             beams = [...beams, new this.VF.Beam(notes).setContext(this.context)];
         }
 
         let mergedNotes = [].concat.apply([], allNotes);
-        vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
-        beams.forEach(b => b.draw());
-        if (this.noteTies.length) { this.noteTies.forEach(t => t.draw()); };
+        this.draw(mergedNotes, beams);
         this.setFirstLastNotePositions(mergedNotes);
+        this.setPositionsOfFirstNotes(pattern);
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -205,5 +204,15 @@ export class VexRendererService {
                 .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
         note.addModifier(0, gracenotegroup.beamNotes());
+    }
+
+    setPositionsOfFirstNotes(pattern: Rudiment[]) {
+
+    }
+
+    draw(mergedNotes: any[], beams: any[]) {
+        vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
+        beams.forEach(b => b.draw());
+        if (this.noteTies.length) { this.noteTies.forEach(t => t.draw()); };
     }
 }
