@@ -7,6 +7,8 @@ import moment from 'moment';
 
 import { Rudiment } from '../../models/rudiment';
 
+const NUM_REFRESHES = 5;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -22,6 +24,7 @@ export class HomePage implements OnInit {
   public rudiments: Rudiment[];
   private sliderPosition: number = 0;
   private sliderInterval: any;
+  private numOfRefreshes: number;
   public settings: any;
 
   constructor(public navCtrl: NavController,
@@ -39,6 +42,12 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.timerService.resetRefreshes.subscribe((flag: boolean) => {
+      if (flag) {
+        this.numOfRefreshes = NUM_REFRESHES;
+      }
+    });
+
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
       this.timerService.clearTimerInterval();

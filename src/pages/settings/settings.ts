@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, Platform } from 'ionic-angular';
 import { StorageService, TimerService } from '../../services';
 
 @Component({
@@ -18,11 +18,13 @@ export class SettingsPage implements OnInit {
     public navParams: NavParams,
     public timerService: TimerService,
     private storageService: StorageService,
-    public viewCtrl: ViewController) {
+    public viewCtrl: ViewController,
+    private platform: Platform) {
   }
 
   ngOnInit() {
     this.getNavParams();
+    this.overrideBackButton();
   }
 
   updateSettings() {
@@ -38,5 +40,11 @@ export class SettingsPage implements OnInit {
     this.settings.useRandomAccents = this.navParams.get('useRandomAccents');
     this.settings.useRudimentNames = this.navParams.get('useRudimentNames');
     this.settings.useNotifications = this.navParams.get('useNotifications');
+  }
+
+  overrideBackButton() {
+    this.platform.registerBackButtonAction(() => {
+      this.dismiss();
+    });
   }
 }

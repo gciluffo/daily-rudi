@@ -1,6 +1,6 @@
 export const RUDIMENTS: any[] = [
     {
-        name: "Paraddidle(R)",
+        name: "Paraddidle",
         interval: 4,
         beats: 2,
         startingHand: 'R',
@@ -15,7 +15,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Paradiddle(L)",
+        name: "Paradiddle",
         interval: 4,
         beats: 2,
         startingHand: 'L',
@@ -30,7 +30,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Double Paradiddle(R)",
+        name: "Double Paradiddle",
         interval: 4,
         beats: 3,
         startingHand: 'R',
@@ -47,7 +47,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Double Paraddidle(L)",
+        name: "Double Paraddidle",
         interval: 4,
         beats: 3,
         startingHand: 'L',
@@ -64,7 +64,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Paradiddle-Diddle(R)",
+        name: "Paradiddle-Diddle",
         interval: 4,
         beats: 3,
         startingHand: 'R',
@@ -81,7 +81,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Paradiddle-Diddle(L)",
+        name: "Paradiddle-Diddle",
         interval: 4,
         beats: 3,
         startingHand: 'L',
@@ -98,7 +98,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Single Dragadiddle(R)",
+        name: "Single Dragadiddle",
         interval: 4,
         beats: 2,
         startingHand: 'R',
@@ -113,7 +113,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Single Dragadiddle(L)",
+        name: "Single Dragadiddle",
         interval: 4,
         beats: 2,
         startingHand: 'L',
@@ -128,7 +128,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Drag Paradiddle #1(R)",
+        name: "Drag Paradiddle #1",
         interval: 4,
         beats: 3,
         startingHand: 'R',
@@ -147,7 +147,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Drag Paradiddle #1(L)",
+        name: "Drag Paradiddle #1",
         interval: 4,
         beats: 3,
         startingHand: 'L',
@@ -166,7 +166,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flam Paradiddle (R)",
+        name: "Flam Paradiddle",
         interval: 4,
         beats: 2,
         startingHand: 'R',
@@ -181,7 +181,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flam Paradiddle (L)",
+        name: "Flam Paradiddle",
         interval: 4,
         beats: 2,
         startingHand: 'L',
@@ -196,7 +196,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flamacue (R)",
+        name: "Flamacue",
         interval: 4,
         beats: 4,
         startingHand: 'R',
@@ -213,7 +213,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flamacue (L)",
+        name: "Flamacue",
         interval: 4,
         beats: 4,
         startingHand: 'L',
@@ -230,7 +230,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Single Stroke Roll(R)",
+        name: "Single Stroke Roll",
         interval: 4,
         beats: 2,
         startingHand: 'R',
@@ -245,7 +245,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Single Stroke Roll(L)",
+        name: "Single Stroke Roll",
         interval: 4,
         beats: 2,
         startingHand: 'L',
@@ -260,7 +260,7 @@ export const RUDIMENTS: any[] = [
         ]
     }
     // {
-    //     name: "Flam Accent (R)",
+    //     name: "Flam Accent ",
     //     interval: 4,
     //     beats: 2,
     //     startingHand: 'R',
@@ -278,7 +278,7 @@ export const RUDIMENTS: any[] = [
     //     ]
     // },
     // {
-    //     name: "Flam Accent (L)",
+    //     name: "Flam Accent ",
     //     interval: 4,
     //     beats: 2,
     //     startingHand: 'L',
