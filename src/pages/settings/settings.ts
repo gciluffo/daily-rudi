@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { StorageService } from '../../services';
+import { StorageService, TimerService } from '../../services';
 
 @Component({
   selector: 'page-settings',
@@ -16,6 +16,7 @@ export class SettingsPage implements OnInit {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public timerService: TimerService,
     private storageService: StorageService,
     public viewCtrl: ViewController) {
   }
