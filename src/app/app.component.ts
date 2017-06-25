@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { HomePage } from '../pages/home/home';
-import { StorageService } from '../services';
+import { StorageService, VexRendererService } from '../services';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,16 +18,17 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private storageService: StorageService,
-    private screenOrientation: ScreenOrientation) {
+    private screenOrientation: ScreenOrientation,
+    private vexRendererService: VexRendererService) {
     this.splashScreen.show();
     this.platformReady();
   }
 
   platformReady() {
     this.platform.ready().then(() => {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_SECONDARY);
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+      this.vexRendererService.screenDimensions.width = this.platform.width();
+      this.vexRendererService.screenDimensions.height = this.platform.height();
+      console.log('dimensions', this.vexRendererService.screenDimensions);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

@@ -13,7 +13,9 @@ export class VexRendererService {
     public context: any;
     public stave: any;
     public meanDistanceNotes: number;
-    public settings: any;
+    public settings: any = {
+        useRandomAccents: false
+    };
     public firstNotePositions: any[] = [];
     public notePositions: any = {
         firstNotePos: 0,
