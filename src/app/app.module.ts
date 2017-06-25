@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
-import { RudimentService, VexRendererService, StorageService } from '../services';
+import { RudimentService, VexRendererService, StorageService, TimerService } from '../services';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -36,6 +36,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
     StorageService,
     VexRendererService,
     RudimentService,
+    TimerService,
     StatusBar,
     NativeStorage,
     SplashScreen,

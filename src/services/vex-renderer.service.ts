@@ -42,7 +42,8 @@ export class VexRendererService {
         this.getScreenDimensions().then(() => {
             let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
-            renderer.resize(this.screenDimensions.width, this.screenDimensions.width / 2);
+            console.log('screen dimensions', this.screenDimensions);
+            renderer.resize(this.screenDimensions.width, this.screenDimensions.width - 100);
             this.context = renderer.getContext();
             this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
             this.renderStaff(domElement, pattern);
@@ -140,7 +141,6 @@ export class VexRendererService {
     setFirstLastNotePositions(notes: any[]) {
         this.notePositions.firstNotePos = notes[0].getNoteHeadEndX() + notePosOffset;
         this.notePositions.lastNotePos = notes[notes.length - 1].getNoteHeadEndX() + notePosOffset;
-        console.log('note positions: ', this.notePositions);
         this.getMeanNoteDistance(notes);
     }
 

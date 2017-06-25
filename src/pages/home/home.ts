@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
-import { Metronome, RudimentService, VexRendererService, StorageService } from '../../services';
+import { Metronome, RudimentService, VexRendererService, StorageService, TimerService } from '../../services';
 import { SettingsPage } from '../settings/settings';
 import moment from 'moment';
 
@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
     private rudimentService: RudimentService,
     private vexRendererService: VexRendererService,
     private storageService: StorageService,
+    private timerService: TimerService,
     public modalCtrl: ModalController,
     public platform: Platform) {
   }
@@ -40,6 +41,10 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
+      this.timerService.clearTimerInterval();
+      this.settings.timeLeft = this.timerService.timeLeft.format('YYYY-MM-DD HH:mm');
+      this.settings.logOutTime = moment().format('YYYY-MM-DD HH:mm');
+      this.storageService.updateSettings(this.settings);
       this.pause();
     });
 
@@ -117,9 +122,14 @@ export class HomePage implements OnInit {
 
   loadSettings() {
     this.storageService.loadSettings()
-      .then((data) => {
+      .then((data: any) => {
         this.settings = data;
         this.vexRendererService.settings = data;
+
+        if (data.timeLeft) {
+          this.timerService.updateCurrentTimerOnOpen(data.timeLeft, data.logOutTime);
+          this.timerService.startInterval();
+        }
       }, error => console.log(error));
   }
 }

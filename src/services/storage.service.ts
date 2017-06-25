@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { TimerService } from './timer.service';
 
 @Injectable()
 export class StorageService {
 
     public settings: any;
 
-    constructor(private nativeStorage: NativeStorage) {
+    constructor(private nativeStorage: NativeStorage,
+        private timerService: TimerService) {
     }
 
     updateSettings(settings: any) {
@@ -26,14 +28,16 @@ export class StorageService {
                     resolve(data);
                 },
                 error => {
-                    // If no settings
-                    console.log('No settings');
+                    // If no settings, first time opening app
+                    console.log('No settings, first time logging in');
                     let dumbData = {
                         useMetronomeSlider: true,
                         useRandomAccents: false,
                         useRudimentNames: true,
                         useNotifications: false
                     };
+                    this.timerService.resetTimeLeft();
+                    this.timerService.startInterval();
                     this.updateSettings(dumbData);
                     resolve(dumbData);
                 });
