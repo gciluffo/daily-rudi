@@ -45,7 +45,7 @@ export class VexRendererService {
             let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
             console.log('screen dimensions', this.screenDimensions);
-            renderer.resize(this.screenDimensions.width, this.screenDimensions.width - 100);
+            renderer.resize(this.screenDimensions.width, this.screenDimensions.height);
             this.context = renderer.getContext();
             this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
             this.renderStaff(domElement, pattern);
