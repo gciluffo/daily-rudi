@@ -2,6 +2,10 @@
 
   <div *ngIf="settings?.useMetronomeSlider && isPlaying" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
 
+  <div class="rudiment-names" *ngFor="let rudiment of rudiments" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
+    <span class="rudiment-name">{{rudiment.name}}</span>
+  </div>
+
   <div #ogStaff></div>
 
   <ion-footer no-border>

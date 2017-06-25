@@ -88,6 +88,7 @@ export class VexRendererService {
         let mergedNotes = [].concat.apply([], allNotes);
         this.draw(mergedNotes, beams);
         this.setFirstLastNotePositions(mergedNotes);
+        this.setDistancesBetweenPatterns(pattern, mergedNotes);
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -153,6 +154,25 @@ export class VexRendererService {
 
         this.meanDistanceNotes = meanDistance / 4;
         console.log('meanDistance', this.meanDistanceNotes);
+    }
+
+    getFirstNotePositionsOfPattern(pattern: Rudiment[], mergedNotes: any[]) {
+        let indices = [0];
+        let index = 0;
+
+        for (let i = 0; i < pattern.length - 1; i++) {
+            index += pattern[i].voicing.length;
+            indices.push(index);
+        }
+
+        return indices;
+    }
+
+    setDistancesBetweenPatterns(pattern: Rudiment[], mergedNotes: any[]) {
+        let indicies = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
+        for (let i = 0; i < indicies.length; i++) {
+            pattern[i].firstNotePosition = mergedNotes[indicies[i]].getNoteHeadEndX();
+        }
     }
 
     addSticking(staveNote: any, annotation: string) {

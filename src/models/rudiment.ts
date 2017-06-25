@@ -8,4 +8,5 @@ export class Rudiment {
     tiedNotes: string[];
     voicing: any[];
     isTriplet: boolean;
+    firstNotePosition: number; // in pixels
 }
