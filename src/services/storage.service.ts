@@ -31,7 +31,7 @@ export class StorageService {
                     let dumbData = {
                         useMetronomeSlider: true,
                         useRandomAccents: false,
-                        useRudimentNames: false,
+                        useRudimentNames: true,
                         useNotifications: false
                     };
                     this.updateSettings(dumbData);

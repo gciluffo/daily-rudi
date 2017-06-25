@@ -109,8 +109,10 @@ export class HomePage implements OnInit {
 
   generateNewPattern() {
     this.vexRendererService.context.clear();
-    this.vexRendererService.renderStaff(this.ogStaff.nativeElement, this.rudimentService.getRudimentPattern());
+    let rudiments = this.rudimentService.getRudimentPattern();
+    this.vexRendererService.renderStaff(this.ogStaff.nativeElement, rudiments);
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+    this.rudiments = rudiments;
   }
 
   loadSettings() {
