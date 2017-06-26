@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { HomePage } from '../pages/home/home';
-import { StorageService, VexRendererService } from '../services';
+import { StorageService, VexRendererService, SplashService } from '../services';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,11 +15,11 @@ export class MyApp {
 
   constructor(public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
     private storageService: StorageService,
     private screenOrientation: ScreenOrientation,
-    private vexRendererService: VexRendererService) {
-    this.splashScreen.show();
+    private vexRendererService: VexRendererService,
+    public splashService: SplashService) {
+    this.splashService.show();
     this.platformReady();
   }
 
@@ -30,7 +29,6 @@ export class MyApp {
       this.vexRendererService.screenDimensions.height = this.platform.height();
       console.log('dimensions', this.vexRendererService.screenDimensions);
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
     });
   }
 }

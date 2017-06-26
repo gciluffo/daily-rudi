@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
-import { Metronome, RudimentService, VexRendererService, StorageService, TimerService } from '../../services';
+import {
+  Metronome, RudimentService, VexRendererService,
+  StorageService, TimerService, NotificationService, SplashService
+} from '../../services';
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
 
@@ -33,7 +36,9 @@ export class HomePage implements OnInit {
     private timerService: TimerService,
     public modalCtrl: ModalController,
     public platform: Platform,
-    private _ngZone: NgZone) {
+    private _ngZone: NgZone,
+    private notifcationService: NotificationService,
+    public splashService: SplashService) {
   }
 
   ngOnInit() {
@@ -131,6 +136,7 @@ export class HomePage implements OnInit {
     this.vexRendererService.renderStaff(pattern);
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.pattern = pattern;
+    this.splashService.hide();
   }
 
   loadSettings() {

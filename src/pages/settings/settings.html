@@ -27,7 +27,7 @@
 
     <ion-item>
       <ion-label>Allow Notifications</ion-label>
-      <ion-toggle [(ngModel)]="settings.useNotifications" (ngModelChange)="updateSettings()" disabled="true"></ion-toggle>
+      <ion-toggle [(ngModel)]="settings.useNotifications" (ngModelChange)="updateSettings(); updateNotifications($event)"></ion-toggle>
     </ion-item>
 
   </ion-list>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ViewController, Platform } from 'ionic-angular';
-import { StorageService, TimerService } from '../../services';
+import { StorageService, TimerService, NotificationService } from '../../services';
 
 @Component({
   selector: 'page-settings',
@@ -19,7 +19,8 @@ export class SettingsPage implements OnInit {
     public timerService: TimerService,
     private storageService: StorageService,
     public viewCtrl: ViewController,
-    private platform: Platform) {
+    private platform: Platform,
+    private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -46,5 +47,13 @@ export class SettingsPage implements OnInit {
     this.platform.registerBackButtonAction(() => {
       this.dismiss();
     });
+  }
+
+  updateNotifications(useNotifications: boolean) {
+    if (!useNotifications) {
+      this.notificationService.cancelAllNotifications();
+    } else {
+      this.notificationService.scheduleNotificationAtTime(this.timerService.getRestartDate());
+    }
   }
 }
