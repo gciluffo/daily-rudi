@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Injectable()

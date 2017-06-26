@@ -42,13 +42,10 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidLoad() {
-    console.log('hide deh plash from home');
     this.splashService.hide();
   }
 
   ngOnInit() {
-    console.log('oninit');
-
     this.timerService.resetRefreshes.subscribe((flag: boolean) => {
       this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
     });
@@ -125,11 +122,11 @@ export class HomePage implements OnInit {
   }
 
   renderPattern(pattern: Rudiment[]) {
-    if (!this.vexRendererService.context) {
+    if (!this.vexRendererService.context) { // first time loading
       let domElement = this.ogStaff.nativeElement;
       this.vexRendererService.createRenderer(domElement)
         .then((context: any) => {
-          console.log('first time setting up context');
+          this.splashService.hide();
           this.drawPattern(pattern);
         });
     } else {
@@ -155,7 +152,6 @@ export class HomePage implements OnInit {
         if (data.logOutTime) {
           this.timerService.updateCurrentTimerOnOpen(data.timeLeft, data.logOutTime);
           this.timerService.startInterval();
-          console.log('the pattern from storage', data.pattern);
           let pattern = JSON.parse(data.pattern)
           this.renderPattern(pattern);
         } else { // else first time logging in 
@@ -171,7 +167,6 @@ export class HomePage implements OnInit {
     this.settings.timeLeft = this.timerService.timeLeft.format('YYYY-MM-DD HH:mm');
     this.settings.logOutTime = moment().format('YYYY-MM-DD HH:mm');
     this.settings.numOfRefreshes = this.numOfRefreshes;
-    console.log('pattern to save', this.pattern);
     this.settings.pattern = JSON.stringify(this.pattern);
     this.storageService.updateSettings(this.settings);
     this.pause();

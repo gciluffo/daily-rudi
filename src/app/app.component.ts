@@ -19,7 +19,6 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     private vexRendererService: VexRendererService,
     public splashService: SplashService) {
-    console.log('show deh plash from app.component');
     this.splashService.show();
     this.platformReady();
   }
@@ -28,7 +27,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.vexRendererService.screenDimensions.width = this.platform.width();
       this.vexRendererService.screenDimensions.height = this.platform.height();
-      console.log('dimensions', this.vexRendererService.screenDimensions);
       this.statusBar.styleDefault();
     });
   }

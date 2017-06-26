@@ -57,7 +57,6 @@ export class Metronome {
         this.usesWorker = (<any>window).Worker ? true : false;
 
         if (this.usesWorker) {
-            console.log(document.URL);
             this.intervalWorker = new Worker('assets/js/IntervalWorker.js');
 
             this.intervalWorker.onmessage = (event) => {
