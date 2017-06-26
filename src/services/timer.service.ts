@@ -28,10 +28,8 @@ export class TimerService {
 
     getRestartDate() {
         let then = moment();
-        // then.add('hours', this.timeLeft.hours());
-        // then.add('minutes', this.timeLeft.minutes());
-
-        then.add('minute', 2);
+        then.add('hours', this.timeLeft.hours());
+        then.add('minutes', this.timeLeft.minutes());
         return then;
     }
 

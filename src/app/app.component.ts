@@ -19,6 +19,7 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     private vexRendererService: VexRendererService,
     public splashService: SplashService) {
+    console.log('show deh plash from app.component');
     this.splashService.show();
     this.platformReady();
   }

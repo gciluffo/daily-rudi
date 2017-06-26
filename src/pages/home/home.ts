@@ -41,7 +41,14 @@ export class HomePage implements OnInit {
     public splashService: SplashService) {
   }
 
+  ionViewDidLoad() {
+    console.log('hide deh plash from home');
+    this.splashService.hide();
+  }
+
   ngOnInit() {
+    console.log('oninit');
+
     this.timerService.resetRefreshes.subscribe((flag: boolean) => {
       this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
     });
@@ -136,7 +143,6 @@ export class HomePage implements OnInit {
     this.vexRendererService.renderStaff(pattern);
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.pattern = pattern;
-    this.splashService.hide();
   }
 
   loadSettings() {
