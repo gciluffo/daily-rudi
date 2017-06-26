@@ -2,7 +2,7 @@
 
   <div *ngIf="settings?.useMetronomeSlider && isPlaying" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
 
-  <div [hidden]="!settings?.useRudimentNames" class="rudiment-names" *ngFor="let rudiment of rudiments" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
+  <div [hidden]="!settings?.useRudimentNames" class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
     <span class="rudiment-name">{{rudiment.name}}</span>
   </div>
 
@@ -22,7 +22,10 @@
         <ion-item *ngIf="showRange">
           <ion-range snaps="true" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" min="40" max="200"></ion-range>
         </ion-item>
-        <button ion-button (click)="generateNewPattern()"><ion-icon name="refresh"></ion-icon></button>
+        <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())" [disabled]="numOfRefreshes === 0">
+          <ion-icon name="refresh"></ion-icon>
+          <span class="button-badge">{{numOfRefreshes}}</span>
+          </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
       </ion-row>
     </ion-toolbar>

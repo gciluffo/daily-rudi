@@ -77,4 +77,15 @@
         border-bottom: 1px solid black;
         position: absolute;
     }
+
+    .button-badge {
+        background-color: black;
+        border-radius: 10px;
+        color: white;
+        padding: 1px 4px;
+        font-size: 20px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Rudiment } from '../models/rudiment';
 import { RUDIMENTS } from './rudiments'
 
 const NUM_REFRESHES = 5;
@@ -9,7 +10,7 @@ export class RudimentService {
     constructor() {
     }
 
-    getRudimentPattern() {
+    getRudimentPattern(): Rudiment[] {
         while (true) {
             let pattern = this.get16NotePattern();
 

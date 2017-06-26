@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   public metronome: any;
   public bpm: number;
   public isPlaying: boolean = false;
-  public rudiments: Rudiment[];
+  public pattern: Rudiment[];
   public sliderPosition: number = 0;
   private sliderInterval: any;
   private counter: number = 0;
@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
   public settings: any;
 
   constructor(public navCtrl: NavController,
-    private rudimentService: RudimentService,
+    public rudimentService: RudimentService,
     private vexRendererService: VexRendererService,
     private storageService: StorageService,
     private timerService: TimerService,
@@ -36,25 +36,14 @@ export class HomePage implements OnInit {
     private _ngZone: NgZone) {
   }
 
-  ngAfterViewInit() {
-    let domElement = this.ogStaff.nativeElement;
-    this.vexRendererService.createRenderer(domElement, this.rudiments);
-  }
-
   ngOnInit() {
     this.timerService.resetRefreshes.subscribe((flag: boolean) => {
-      if (flag) {
-        this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
-      }
+      this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
     });
 
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
-      this.timerService.clearTimerInterval();
-      this.settings.timeLeft = this.timerService.timeLeft.format('YYYY-MM-DD HH:mm');
-      this.settings.logOutTime = moment().format('YYYY-MM-DD HH:mm');
-      this.storageService.updateSettings(this.settings);
-      this.pause();
+      this.saveSettings();
     });
 
     this.platform.resume.subscribe(() => {
@@ -62,7 +51,6 @@ export class HomePage implements OnInit {
     });
 
     this.loadSettings();
-    this.rudiments = this.rudimentService.getRudimentPattern();
     this.bpm = 60;
     this.metronome = new Metronome();
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
@@ -124,12 +112,25 @@ export class HomePage implements OnInit {
     settingsModal.present();
   }
 
-  generateNewPattern() {
-    this.vexRendererService.context.clear();
-    let rudiments = this.rudimentService.getRudimentPattern();
-    this.vexRendererService.renderStaff(this.ogStaff.nativeElement, rudiments);
+  renderPattern(pattern: Rudiment[]) {
+    if (!this.vexRendererService.context) {
+      let domElement = this.ogStaff.nativeElement;
+      this.vexRendererService.createRenderer(domElement)
+        .then((context: any) => {
+          console.log('first time setting up context');
+          this.drawPattern(pattern);
+        });
+    } else {
+      this.numOfRefreshes--;
+      this.vexRendererService.context.clear();
+      this.drawPattern(pattern);
+    }
+  }
+
+  drawPattern(pattern: Rudiment[]) {
+    this.vexRendererService.renderStaff(pattern);
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
-    this.rudiments = rudiments;
+    this.pattern = pattern;
   }
 
   loadSettings() {
@@ -137,13 +138,30 @@ export class HomePage implements OnInit {
       .then((data: any) => {
         this.settings = data;
         this.vexRendererService.settings = data;
+        this.numOfRefreshes = data.numOfRefreshes;
 
-        if (data.timeLeft) {
+        if (data.logOutTime) {
           this.timerService.updateCurrentTimerOnOpen(data.timeLeft, data.logOutTime);
           this.timerService.startInterval();
+          console.log('the pattern from storage', data.pattern);
+          let pattern = JSON.parse(data.pattern)
+          this.renderPattern(pattern);
         } else { // else first time logging in 
           this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
+          this.numOfRefreshes--;
+          this.renderPattern(this.rudimentService.getRudimentPattern());
         }
       }, error => console.log(error));
+  }
+
+  saveSettings() {
+    this.timerService.clearTimerInterval();
+    this.settings.timeLeft = this.timerService.timeLeft.format('YYYY-MM-DD HH:mm');
+    this.settings.logOutTime = moment().format('YYYY-MM-DD HH:mm');
+    this.settings.numOfRefreshes = this.numOfRefreshes;
+    console.log('pattern to save', this.pattern);
+    this.settings.pattern = JSON.stringify(this.pattern);
+    this.storageService.updateSettings(this.settings);
+    this.pause();
   }
 }

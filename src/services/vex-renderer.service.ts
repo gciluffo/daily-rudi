@@ -40,19 +40,21 @@ export class VexRendererService {
         });
     }
 
-    createRenderer(domElement: any, pattern: Rudiment[]) {
-        this.getScreenDimensions().then(() => {
-            let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
+    createRenderer(domElement: any) {
+        return new Promise((resolve, reject) => {
+            this.getScreenDimensions().then(() => {
+                let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
-            console.log('screen dimensions', this.screenDimensions);
-            renderer.resize(this.screenDimensions.width, this.screenDimensions.height);
-            this.context = renderer.getContext();
-            this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
-            this.renderStaff(domElement, pattern);
+                console.log('screen dimensions', this.screenDimensions);
+                renderer.resize(this.screenDimensions.width, this.screenDimensions.height);
+                this.context = renderer.getContext();
+                this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
+                resolve(this.context);
+            });
         });
     }
 
-    renderStaff(domElement: any, pattern: Rudiment[]) {
+    renderStaff(pattern: Rudiment[]) {
         let options = {
             vertical_bar_width: 10,       // Width around vertical bar end-marker
             glyph_spacing_px: 10,
