@@ -2,12 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import { Metronome, RudimentService, VexRendererService, StorageService, TimerService } from '../../services';
-import { SettingsPage } from '../settings/settings';
-import moment from 'moment';
-
 import { Rudiment } from '../../models/rudiment';
+import { SettingsPage } from '../settings/settings';
 
-const NUM_REFRESHES = 5;
+import moment from 'moment';
 
 @Component({
   selector: 'page-home',
@@ -24,7 +22,7 @@ export class HomePage implements OnInit {
   public rudiments: Rudiment[];
   private sliderPosition: number = 0;
   private sliderInterval: any;
-  private numOfRefreshes: number;
+  public numOfRefreshes: number;
   public settings: any;
 
   constructor(public navCtrl: NavController,
@@ -44,7 +42,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.timerService.resetRefreshes.subscribe((flag: boolean) => {
       if (flag) {
-        this.numOfRefreshes = NUM_REFRESHES;
+        this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
       }
     });
 
@@ -138,6 +136,8 @@ export class HomePage implements OnInit {
         if (data.timeLeft) {
           this.timerService.updateCurrentTimerOnOpen(data.timeLeft, data.logOutTime);
           this.timerService.startInterval();
+        } else { // else first time logging in 
+          this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
         }
       }, error => console.log(error));
   }

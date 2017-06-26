@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { RUDIMENTS } from './rudiments'
 
+const NUM_REFRESHES = 5;
+
 @Injectable()
 export class RudimentService {
 
@@ -57,5 +59,9 @@ export class RudimentService {
         }
 
         return a;
+    }
+
+    getNumberOfRefreshes() {
+        return NUM_REFRESHES;
     }
 }
