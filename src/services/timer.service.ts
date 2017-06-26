@@ -39,7 +39,6 @@ export class TimerService {
             this.resetRefreshes.emit(true);
             this.resetTimeLeft();
         } else {
-            console.log('Minutes passed since last open', duration);
             console.log('Minutes passed since last open', minutes);
             this.timeLeft = oldTimer.subtract(duration);
         }
@@ -48,7 +47,6 @@ export class TimerService {
     startInterval() {
         this.timerInterval = setInterval(() => {
             this.timeLeft.subtract('minute', 1);
-            console.log('countdown', this.timeLeft.format('HH:mm'));
 
             if (this.timeLeft.format('HH:mm') === '00:00') {
                 console.log('RESET THE SHIT');

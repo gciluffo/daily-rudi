@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import { Metronome, RudimentService, VexRendererService, StorageService, TimerService } from '../../services';
@@ -20,8 +20,9 @@ export class HomePage implements OnInit {
   public bpm: number;
   public isPlaying: boolean = false;
   public rudiments: Rudiment[];
-  private sliderPosition: number = 0;
+  public sliderPosition: number = 0;
   private sliderInterval: any;
+  private counter: number = 0;
   public numOfRefreshes: number;
   public settings: any;
 
@@ -31,7 +32,8 @@ export class HomePage implements OnInit {
     private storageService: StorageService,
     private timerService: TimerService,
     public modalCtrl: ModalController,
-    public platform: Platform) {
+    public platform: Platform,
+    private _ngZone: NgZone) {
   }
 
   ngAfterViewInit() {
@@ -64,41 +66,44 @@ export class HomePage implements OnInit {
     this.bpm = 60;
     this.metronome = new Metronome();
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+    this.moveRight();
   }
 
   play() {
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
-    this.moveRight();
+    this.counter = 0;
   }
 
   pause() {
     this.metronome.pause();
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     clearInterval(this.sliderInterval);
+    this.counter = 0;
   }
 
   tempoChange() {
     if (this.isPlaying) {
       this.metronome.setTempo(this.bpm);
       clearInterval(this.sliderInterval);
-      this.moveRight();
     }
   }
 
   moveRight() {
-    let counter = 0;
-
-    this.sliderInterval = setInterval(() => {
-      counter++;
-      if (counter === 4) { // assuming we are in 4/4 time
-        this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
-        counter = 0;
-      } else {
-        this.sliderPosition += this.vexRendererService.meanDistanceNotes;
-      }
-    }, (60.0 / this.bpm) * 1000);
+    this.metronome.tick.subscribe((flag: boolean) => {
+      this._ngZone.run(() => {
+        this.counter++;
+        if (this.counter === 5) { // assuming we are in 4/4 time
+          this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+          this.counter = 1;
+        } else if (this.counter === 1) {
+          // no no
+        } else {
+          this.sliderPosition += this.vexRendererService.meanDistanceNotes;
+        }
+      });
+    });
   }
 
   createSettingsObject() {

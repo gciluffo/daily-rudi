@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 /**
  * Metronome
  */
@@ -9,8 +10,6 @@ const maxNoteQueLength = 5;
 
 const scheduleInterval = 25.0; // ms. How often the scheduling is called.
 const scheduleAheadTime = 0.1; // Seconds
-
-enum Pitch { HIGH, MID, LOW };
 
 export class Metronome {
 
@@ -30,10 +29,12 @@ export class Metronome {
     private next4thNote: number = 0;
 
     private noteQue: { progress: number, time: number, tempo: number }[];
+    public tick: EventEmitter<boolean> = new EventEmitter();
 
     constructor() {
         // Safari needs prefix webkitAudioContext
         this.audioContext = new ((<any>window).AudioContext || (<any>window).webkitAudioContext)();
+        this.setGain();
 
         // --Suspend/resume--
         this.canSuspend = (() => {
@@ -188,7 +189,7 @@ export class Metronome {
 
     private scheduler() {
         while (this.nextNoteTime < this.audioContext.currentTime + scheduleAheadTime) {
-            this.scheduleTone(this.nextNoteTime, Pitch.MID);
+            this.scheduleTone(this.nextNoteTime);
             let secondsPerBeat = 60.0 / this.tempo;
             this.nextNoteTime += secondsPerBeat;
             this.next4thNote = (this.next4thNote + 1) % numBeatsPerBar;
@@ -203,31 +204,22 @@ export class Metronome {
         }
     }
 
-    private scheduleTone(startTime: number, pitch: Pitch): void {
+    private scheduleTone(startTime: number): void {
         let osc = this.audioContext.createOscillator();
         osc.connect(this.audioContext.destination);
 
-        let frequency = 0;
-
-        switch (pitch) {
-            case Pitch.HIGH:
-                frequency = 880;
-                break;
-            case Pitch.MID:
-                frequency = 440;
-                break;
-            case Pitch.LOW:
-                frequency = 220;
-                break;
-            default:
-                console.log('Invalid pitch');
-                frequency = 220;
-                break;
-        }
+        let frequency = 550;
 
         osc.frequency.value = frequency;
         osc.start(startTime);
         osc.stop(startTime + noteLength);
+        this.tick.emit(true);
+    }
+
+    private setGain() {
+        let gainNode = this.audioContext.createGain();
+        gainNode.gain.value = 3; // setting it to 10%
+        gainNode.connect(this.audioContext.destination);
     }
 }
 
