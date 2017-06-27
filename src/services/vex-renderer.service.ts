@@ -85,7 +85,11 @@ export class VexRendererService {
         }
         // Create a beam for each array of notes
         for (let notes of allNotes) {
-            beams = [...beams, new this.VF.Beam(notes).setContext(this.context)];
+            if (notes.length === 1) {
+                // do nothing
+            } else {
+                beams = [...beams, new this.VF.Beam(notes).setContext(this.context)];
+            }
         }
 
         let mergedNotes = [].concat.apply([], allNotes);
@@ -112,11 +116,14 @@ export class VexRendererService {
             if (rudiment.voicing[i].accent && !this.settings.useRandomAccents) {
                 this.addAccentToNote(note);
             }
+
+            if (rudiment.voicing[i].doubleGrace) {
+                this.addDoubleGraceNote(note, rudiment.voicing[i]);
+            }
             notes.push(note);
         }
 
         if (this.settings.useRandomAccents) { this.addRandomAccentToRudiment(notes, rudiment.voicing) }
-        if (rudiment.tiedNotes) { this.addTiedNotes(rudiment.tiedNotes, notes); }
         return notes;
     }
 
@@ -207,26 +214,28 @@ export class VexRendererService {
             .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
     }
 
-    addTiedNotes(positions: any[], notes) {
-        let numOfTies = positions.length / 2;
-
-        for (let i = 0; i < numOfTies; i++) {
-            this.noteTies.push(new this.VF.StaveTie({
-                first_note: notes[positions[i]],
-                last_note: notes[positions[i + 1]],
-                first_indices: [0],
-                last_indices: [0]
-            }).setContext(this.context));
-        }
-    }
-
-    addFlam(note: any, voice: any) {
+    addFlam(staveNote: any, voice: any) {
         let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' })
             .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
                 .setFont("Arial", 8, 'italic')
                 .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
-        note.addModifier(0, gracenotegroup.beamNotes());
+        staveNote.addModifier(0, gracenotegroup.beamNotes());
+    }
+
+    addDoubleGraceNote(staveNote: any, voice) {
+        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' })
+            .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
+                .setFont("Arial", 8, 'italic')
+                .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
+
+        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' })
+            .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
+                .setFont("Arial", 8, 'italic')
+                .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
+
+        let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote1, gracenote2], true);
+        staveNote.addModifier(0, gracenotegroup.beamNotes());
     }
 
     draw(mergedNotes: any[], beams: any[]) {
