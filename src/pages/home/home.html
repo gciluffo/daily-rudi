@@ -1,9 +1,13 @@
 <ion-content class="home-content" no-bounce>
 
-  <div *ngIf="settings?.useMetronomeSlider && isPlaying" [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>
+  <!--<div [style.transform]="'translateX(' + sliderPosition + 'px)'" class="blue-line"></div>-->
 
   <div [hidden]="!settings?.useRudimentNames" class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
     <span class="rudiment-name">{{rudiment.name}}</span>
+  </div>
+
+  <div id="animationContainer" class="canvas-div">
+    <canvas id="top-canvas" class="canvas" [style.left.px]="vexRendererService.notePositions.staveOffset"></canvas>
   </div>
 
   <div #ogStaff></div>

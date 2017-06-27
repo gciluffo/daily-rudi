@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment'
 import * as vexflow from 'vexflow';
 
-const notePosOffset = -5; // pixels
+const notePosOffset = -2; // pixels
 
 @Injectable()
 export class VexRendererService {
@@ -16,7 +16,6 @@ export class VexRendererService {
     public settings: any = {
         useRandomAccents: false
     };
-    public firstNotePositions: any[] = [];
     public notePositions: any = {
         firstNotePos: 0,
         lastNotePos: 0
@@ -45,7 +44,6 @@ export class VexRendererService {
             this.getScreenDimensions().then(() => {
                 let renderer = new this.VF.Renderer(domElement, this.VF.Renderer.Backends.SVG);
 
-                console.log('screen dimensions', this.screenDimensions);
                 renderer.resize(this.screenDimensions.width, this.screenDimensions.height);
                 this.context = renderer.getContext();
                 this.context.setFont("Arial", 10, 0).setBackgroundFillStyle("#eed");
@@ -156,8 +154,10 @@ export class VexRendererService {
             meanDistance += delta;
         }
 
-        this.meanDistanceNotes = meanDistance / 4;
-        console.log('meanDistance', this.meanDistanceNotes);
+        this.meanDistanceNotes = (this.notePositions.lastNotePos - this.notePositions.firstNotePos) / 4;
+        this.notePositions.staveWidth = this.stave.getWidth();
+        this.notePositions.staveOffset = this.stave.getWidth() - ((this.notePositions.lastNotePos - this.notePositions.firstNotePos)
+            + (this.stave.getWidth() - this.notePositions.lastNotePos));
     }
 
     getFirstNotePositionsOfPattern(pattern: Rudiment[], mergedNotes: any[]) {

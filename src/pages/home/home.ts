@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import {
-  Metronome, RudimentService, VexRendererService,
+  Metronome, MetronomeAnimation, RudimentService, VexRendererService,
   StorageService, TimerService, NotificationService, SplashService
 } from '../../services';
+
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
 
@@ -28,10 +29,12 @@ export class HomePage implements OnInit {
   private counter: number = 0;
   public numOfRefreshes: number;
   public settings: any;
+  public metronomeAnimation: MetronomeAnimation;
+  public notePositions: any;
 
   constructor(public navCtrl: NavController,
     public rudimentService: RudimentService,
-    private vexRendererService: VexRendererService,
+    public vexRendererService: VexRendererService,
     private storageService: StorageService,
     private timerService: TimerService,
     public modalCtrl: ModalController,
@@ -71,6 +74,7 @@ export class HomePage implements OnInit {
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
     this.counter = 0;
+    this.metronomeAnimation.toggle();
   }
 
   pause() {
@@ -78,6 +82,7 @@ export class HomePage implements OnInit {
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     clearInterval(this.sliderInterval);
     this.counter = 0;
+    this.metronomeAnimation.toggle();
   }
 
   tempoChange() {
@@ -91,11 +96,9 @@ export class HomePage implements OnInit {
     this.metronome.tick.subscribe((flag: boolean) => {
       this._ngZone.run(() => {
         this.counter++;
-        if (this.counter === 5) { // assuming we are in 4/4 time
+        if (this.counter === 4) { // assume we are in 4/4 time
           this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
-          this.counter = 1;
-        } else if (this.counter === 1) {
-          // no no
+          this.counter = 0;
         } else {
           this.sliderPosition += this.vexRendererService.meanDistanceNotes;
         }
@@ -128,6 +131,8 @@ export class HomePage implements OnInit {
         .then((context: any) => {
           this.splashService.hide();
           this.drawPattern(pattern);
+          this.initializeAnimation();
+          this.notePositions = this.vexRendererService.notePositions;
         });
     } else {
       this.numOfRefreshes--;
@@ -170,5 +175,13 @@ export class HomePage implements OnInit {
     this.settings.pattern = JSON.stringify(this.pattern);
     this.storageService.updateSettings(this.settings);
     this.pause();
+  }
+
+  initializeAnimation() {
+    this.metronomeAnimation = new MetronomeAnimation(() => {
+      return this.metronome.getCurrentTime();
+    }, () => {
+      return this.metronome.readNoteQue();
+    }, this.vexRendererService.notePositions);
   }
 }
