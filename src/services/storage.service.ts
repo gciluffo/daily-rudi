@@ -35,7 +35,6 @@ export class StorageService {
                     let dumbData = {
                         useMetronomeSlider: true,
                         useRandomAccents: false,
-                        useRudimentNames: true,
                         useNotifications: true
                     };
                     this.timerService.resetTimeLeft();

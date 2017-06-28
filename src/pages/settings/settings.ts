@@ -10,8 +10,7 @@ export class SettingsPage implements OnInit {
 
   public settings: any = {
     useMetronomeSlider: null,
-    useRandomAccents: null,
-    useRudimentNames: null
+    useRandomAccents: null
   };
 
   constructor(public navCtrl: NavController,
@@ -39,7 +38,6 @@ export class SettingsPage implements OnInit {
   getNavParams() {
     this.settings.useMetronomeSlider = this.navParams.get('useMetronomeSlider');
     this.settings.useRandomAccents = this.navParams.get('useRandomAccents');
-    this.settings.useRudimentNames = this.navParams.get('useRudimentNames');
     this.settings.useNotifications = this.navParams.get('useNotifications');
   }
 

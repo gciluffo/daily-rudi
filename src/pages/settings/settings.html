@@ -21,11 +21,6 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Display Rudiment Names</ion-label>
-      <ion-toggle [(ngModel)]="settings.useRudimentNames" (ngModelChange)="updateSettings()"></ion-toggle>
-    </ion-item>
-
-    <ion-item>
       <ion-label>Allow Notifications</ion-label>
       <ion-toggle [(ngModel)]="settings.useNotifications" (ngModelChange)="updateSettings(); updateNotifications($event)"></ion-toggle>
     </ion-item>

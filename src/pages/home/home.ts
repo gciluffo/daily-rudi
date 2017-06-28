@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import {
-  Metronome, MetronomeAnimation, RudimentService, VexRendererService,
+  Metronome, RudimentService, VexRendererService,
   StorageService, TimerService, NotificationService, SplashService
 } from '../../services';
 
@@ -29,7 +29,6 @@ export class HomePage implements OnInit {
   private counter: number = 0;
   public numOfRefreshes: number;
   public settings: any;
-  public metronomeAnimation: MetronomeAnimation;
   public notePositions: any;
 
   constructor(public navCtrl: NavController,
@@ -74,7 +73,6 @@ export class HomePage implements OnInit {
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
     this.counter = 0;
-    this.metronomeAnimation.toggle();
   }
 
   pause() {
@@ -82,7 +80,6 @@ export class HomePage implements OnInit {
     this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     clearInterval(this.sliderInterval);
     this.counter = 0;
-    this.metronomeAnimation.toggle();
   }
 
   tempoChange() {
@@ -110,7 +107,6 @@ export class HomePage implements OnInit {
     return {
       useMetronomeSlider: this.settings.useMetronomeSlider,
       useRandomAccents: this.settings.useRandomAccents,
-      useRudimentNames: this.settings.useRudimentNames,
       useNotifications: this.settings.useNotifications
     };
   }
@@ -131,7 +127,6 @@ export class HomePage implements OnInit {
         .then((context: any) => {
           this.splashService.hide();
           this.drawPattern(pattern);
-          this.initializeAnimation();
           this.notePositions = this.vexRendererService.notePositions;
         });
     } else {
@@ -175,13 +170,5 @@ export class HomePage implements OnInit {
     this.settings.pattern = JSON.stringify(this.pattern);
     this.storageService.updateSettings(this.settings);
     this.pause();
-  }
-
-  initializeAnimation() {
-    this.metronomeAnimation = new MetronomeAnimation(() => {
-      return this.metronome.getCurrentTime();
-    }, () => {
-      return this.metronome.readNoteQue();
-    }, this.vexRendererService.notePositions);
   }
 }
