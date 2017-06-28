@@ -9,7 +9,6 @@ const notePosOffset = -2; // pixels
 export class VexRendererService {
 
     private VF: any;
-    private noteTies: any[] = [];
     public context: any;
     public stave: any;
     public meanDistanceNotes: number;
@@ -67,7 +66,6 @@ export class VexRendererService {
         };
 
         // Create a stave of width 400 at position 10, 40 on the canvas.
-        this.noteTies = [];
         this.stave = new this.VF.Stave(-2, 15, this.screenDimensions.width, options);
         this.stave.setContext(this.context).draw();
 
@@ -78,24 +76,41 @@ export class VexRendererService {
         console.log('pattern to draw', pattern);
         let allNotes = [];
         let beams = [];
+        let tripletPositions = [];
 
         // Create an array of an array of notes
         for (let i = 0; i < pattern.length; i++) {
             allNotes.push(this.createNoteArray(pattern[i]));
         }
         // Create a beam for each array of notes
-        for (let notes of allNotes) {
-            if (notes.length === 1) {
-                // do nothing
-            } else {
-                beams = [...beams, new this.VF.Beam(notes).setContext(this.context)];
+        for (let i = 0; i < allNotes.length; i++) {
+            if (pattern[i].isTriplet) {
+                tripletPositions.push(i);
+            } else if (allNotes[i].length !== 1) {
+                beams = [...beams, new this.VF.Beam(allNotes[i]).setContext(this.context)];
             }
         }
 
         let mergedNotes = [].concat.apply([], allNotes);
-        this.draw(mergedNotes, beams);
+        this.draw(mergedNotes, beams, tripletPositions, allNotes, pattern);
         this.setFirstLastNotePositions(mergedNotes);
         this.setDistancesBetweenPatterns(pattern, mergedNotes);
+    }
+
+    getTripletPositionsFromMergedNotes(mergedNotes: any[], allNotes: any[], tripletPositions: any[], pattern: Rudiment[]) {
+        let positionsObj = {
+            positions: [],
+            patternIndex: []
+        };
+        let firstNotePositions = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
+
+        for (let index of tripletPositions) {
+            let notes = allNotes[index];
+            positionsObj.positions.push([firstNotePositions[index], firstNotePositions[index] + notes.length]);
+            positionsObj.patternIndex.push(index);
+        }
+
+        return positionsObj;
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -127,24 +142,26 @@ export class VexRendererService {
         return notes;
     }
 
-    renderTripletRudiment(notes: any[], rudiment: Rudiment) {
+    renderTripletRudiment(rudiment: Rudiment, notes: any[]) {
+        let triplets = [];
         // Setup the beams: we do this before defining tuplets so that default bracketing will work.
         let beams = rudiment.beamPositions.map(i => {
-            return new vexflow.Flow.Beam(notes.slice(i[0], i[1])).setContext(this.context);
+            return new this.VF.Beam(notes.slice(i[0], i[1]));
         });
 
+        for (let beams of rudiment.beamPositions) {
+            triplets.push(new vexflow.Flow.Tuplet(notes.slice(beams[0], beams[1])));
+        }
         // Now create the tuplets:
-        let quarterNoteTriplet = new vexflow.Flow.Tuplet(notes, {
-            num_notes: 6, beats_occupied: 2
-        });
-
-        this.VF.Formatter.FormatAndDraw(this.context, this.stave, notes);
+        // this.VF.Formatter.FormatAndDraw(this.context, this.stave, notes);
 
         beams.forEach(beam => {
-            beam.draw();
+            beam.setContext(this.context).draw();
         });
 
-        quarterNoteTriplet.setContext(this.context).draw();
+        triplets.forEach(triplet => {
+            triplet.setContext(this.context).draw();
+        });
     }
 
     setFirstLastNotePositions(notes: any[]) {
@@ -238,9 +255,14 @@ export class VexRendererService {
         staveNote.addModifier(0, gracenotegroup.beamNotes());
     }
 
-    draw(mergedNotes: any[], beams: any[]) {
+    draw(mergedNotes: any[], beams: any[], tripletPositions: any[], allNotes: any[], pattern: Rudiment[]) {
         vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
+        if (tripletPositions.length) {
+            let positionsObj = this.getTripletPositionsFromMergedNotes(mergedNotes, allNotes, tripletPositions, pattern);
+            for (let i = 0; i < positionsObj.positions.length; i++) {
+                this.renderTripletRudiment(pattern[positionsObj.patternIndex[i]], mergedNotes.slice(positionsObj.positions[i][0], positionsObj.positions[i][1]));
+            }
+        }
         beams.forEach(b => b.draw());
-        if (this.noteTies.length) { this.noteTies.forEach(t => t.draw()); };
     }
 }

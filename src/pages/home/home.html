@@ -6,9 +6,9 @@
     <span class="rudiment-name">{{rudiment.name}}</span>
   </div>
 
-  <div id="animationContainer" class="canvas-div">
+  <!--<div id="animationContainer" class="canvas-div">
     <canvas id="top-canvas" class="canvas" [style.left.px]="vexRendererService.notePositions.staveOffset"></canvas>
-  </div>
+  </div>-->
 
   <div #ogStaff></div>
 
@@ -23,9 +23,9 @@
           <ion-icon name="pause"></ion-icon>
         </button>
         <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
-        <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())" [disabled]="numOfRefreshes === 0">
+        <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())"> <!--[disabled]="numOfRefreshes === 0"-->
           <ion-icon name="refresh"></ion-icon>
-          <span class="button-badge">{{numOfRefreshes}}</span>
+          <!--<span class="button-badge">{{numOfRefreshes}}</span>-->
           </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
         <ion-item *ngIf="showRange">
