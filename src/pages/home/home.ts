@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
-import {
-  Metronome, RudimentService, VexRendererService,
-  StorageService, TimerService, NotificationService, SplashService
-} from '../../services';
+import { Metronome, RudimentService, VexRendererService, StorageService, SplashService } from '../../services';
 
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
@@ -27,7 +24,6 @@ export class HomePage implements OnInit {
   public sliderPosition: number = 0;
   private sliderInterval: any;
   private counter: number = 0;
-  public numOfRefreshes: number;
   public settings: any;
   public notePositions: any;
 
@@ -35,11 +31,9 @@ export class HomePage implements OnInit {
     public rudimentService: RudimentService,
     public vexRendererService: VexRendererService,
     private storageService: StorageService,
-    private timerService: TimerService,
     public modalCtrl: ModalController,
     public platform: Platform,
     private _ngZone: NgZone,
-    private notifcationService: NotificationService,
     public splashService: SplashService) {
   }
 
@@ -48,10 +42,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.timerService.resetRefreshes.subscribe((flag: boolean) => {
-      this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
-    });
-
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
       this.saveSettings();
@@ -93,9 +83,11 @@ export class HomePage implements OnInit {
     this.metronome.tick.subscribe((flag: boolean) => {
       this._ngZone.run(() => {
         this.counter++;
-        if (this.counter === 4) { // assume we are in 4/4 time
+        if (this.counter === 5) { // assuming we are in 4/4 time
           this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
-          this.counter = 0;
+          this.counter = 1;
+        } else if (this.counter === 1) {
+          // no no
         } else {
           this.sliderPosition += this.vexRendererService.meanDistanceNotes;
         }
@@ -130,7 +122,6 @@ export class HomePage implements OnInit {
           this.notePositions = this.vexRendererService.notePositions;
         });
     } else {
-      this.numOfRefreshes--;
       this.vexRendererService.context.clear();
       this.drawPattern(pattern);
     }
@@ -147,26 +138,17 @@ export class HomePage implements OnInit {
       .then((data: any) => {
         this.settings = data;
         this.vexRendererService.settings = data;
-        this.numOfRefreshes = data.numOfRefreshes;
 
         if (data.logOutTime) {
-          this.timerService.updateCurrentTimerOnOpen(data.timeLeft, data.logOutTime);
-          this.timerService.startInterval();
           let pattern = JSON.parse(data.pattern)
           this.renderPattern(pattern);
         } else { // else first time logging in 
-          this.numOfRefreshes = this.rudimentService.getNumberOfRefreshes();
-          this.numOfRefreshes--;
           this.renderPattern(this.rudimentService.getRudimentPattern());
         }
       }, error => console.log(error));
   }
 
   saveSettings() {
-    this.timerService.clearTimerInterval();
-    this.settings.timeLeft = this.timerService.timeLeft.format('YYYY-MM-DD HH:mm');
-    this.settings.logOutTime = moment().format('YYYY-MM-DD HH:mm');
-    this.settings.numOfRefreshes = this.numOfRefreshes;
     this.settings.pattern = JSON.stringify(this.pattern);
     this.storageService.updateSettings(this.settings);
     this.pause();
