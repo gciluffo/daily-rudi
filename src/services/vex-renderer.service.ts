@@ -227,29 +227,38 @@ export class VexRendererService {
     }
 
     addTremoloToNote(staveNote: any) {
-        staveNote.addArticulation(0, new vexflow.Flow.Tremolo(1)
-            .setPosition(vexflow.Flow.Modifier.Position.ABOVE));
+        let tremolo = new vexflow.Flow.Tremolo(1);
+
+        staveNote.addArticulation(0, tremolo);
+    }
+
+    setGraceNoteShift(gracenote: any) {
+        gracenote.setXShift(0);
+    }
+
+    addGraceNoteSticking(gracenote: any, voice) {
+        let annotation = new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
+            .setFont("Arial", 8, 'italic')
+            .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM);
+
+        gracenote.addModifier(0, annotation);
     }
 
     addFlam(staveNote: any, voice: any) {
-        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' })
-            .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
-                .setFont("Arial", 8, 'italic')
-                .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
+        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' });
+
+        this.addGraceNoteSticking(gracenote, voice);
+        this.setGraceNoteShift(gracenote);
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
         staveNote.addModifier(0, gracenotegroup.beamNotes());
     }
 
     addDoubleGraceNote(staveNote: any, voice) {
-        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' })
-            .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
-                .setFont("Arial", 8, 'italic')
-                .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
+        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
+        this.addGraceNoteSticking(gracenote1, voice);
 
-        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' })
-            .addModifier(0, new vexflow.Flow.Annotation(voice.sticking === 'R' ? 'L' : 'R')
-                .setFont("Arial", 8, 'italic')
-                .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM));
+        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
+        this.addGraceNoteSticking(gracenote2, voice);
 
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote1, gracenote2], true);
         staveNote.addModifier(0, gracenotegroup.beamNotes());

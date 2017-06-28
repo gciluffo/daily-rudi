@@ -5,7 +5,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -19,7 +18,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -33,7 +31,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -49,7 +46,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -65,7 +61,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -83,7 +78,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -101,7 +95,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -117,7 +110,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -133,7 +125,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: true, accent: false },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -147,7 +138,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: true, accent: false },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -161,7 +151,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
@@ -176,7 +165,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
@@ -191,7 +179,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', flam: false, double: false, accent: true },
             { sticking: 'L', note: '8d', flam: false, double: false, accent: false, doubleGrace: true },
@@ -207,7 +194,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', flam: false, double: false, accent: true },
             { sticking: 'R', note: '8d', flam: false, double: false, accent: false, doubleGrace: true },
@@ -223,7 +209,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: true, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -237,7 +222,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: true, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -251,7 +235,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: true, double: false, accent: true },
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
@@ -266,7 +249,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: true, double: false, accent: true },
             { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
@@ -281,7 +263,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '16d', flam: false, double: true, accent: false },
             { sticking: 'L', note: '16d', flam: false, double: true, accent: false },
@@ -295,7 +276,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: true, accent: false },
             { sticking: 'R', note: '16d', flam: false, double: true, accent: false },
@@ -309,7 +289,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: 'q', value: 1, flam: false, double: false, accent: true, doubleGrace: true }
         ]
@@ -320,7 +299,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: 'q', value: 1, flam: false, double: false, accent: true, doubleGrace: true }
         ]
@@ -331,7 +309,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'R', note: '8d', flam: false, double: false, accent: false, doubleGrace: true },
             { sticking: 'L', note: '8d', flam: false, double: false, accent: true }
@@ -343,7 +320,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,
-        tiedNotes: null,
         voicing: [
             { sticking: 'L', note: '8d', flam: false, double: false, accent: false, doubleGrace: true },
             { sticking: 'R', note: '8d', flam: false, double: false, accent: true }
@@ -355,7 +331,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'R',
         lastHand: 'L',
         isTriplet: true,
-        tiedNotes: null,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
             { sticking: 'R', note: '8d', flam: true, double: false, accent: true },
@@ -372,7 +347,6 @@ export const RUDIMENTS: any[] = [
         startingHand: 'L',
         lastHand: 'R',
         isTriplet: true,
-        tiedNotes: null,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
             { sticking: 'L', note: '8d', flam: true, double: false, accent: true },
@@ -382,5 +356,97 @@ export const RUDIMENTS: any[] = [
             { sticking: 'L', note: '8d', flam: false, double: false, accent: false },
             { sticking: 'R', note: '8d', flam: false, double: false, accent: false }
         ]
-    }
-];
+    },
+    {
+        name: "Flam Tap",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Single Flam Mill",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'R',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Single Flam Mill",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'L', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Pataflala",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: true, double: false, accent: true }
+        ]
+    },
+    {
+        name: "Pataflala",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'R',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'L', note: '16d', flam: true, double: false, accent: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: true, double: false, accent: true }
+        ]
+    },
+    {
+        name: "Single Ratamacue",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: true,
+        beamPositions: [[0, 3]],
+        voicing: [
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: true }
+        ]
+    },
+    {
+        name: "Single Ratamacue",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'R',
+        isTriplet: false,
+        beamPositions: [[0, 3]],
+        voicing: [
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true }
+        ]
+    }];
