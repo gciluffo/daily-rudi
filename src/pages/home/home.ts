@@ -98,8 +98,7 @@ export class HomePage implements OnInit {
   createSettingsObject() {
     return {
       useMetronomeSlider: this.settings.useMetronomeSlider,
-      useRandomAccents: this.settings.useRandomAccents,
-      useNotifications: this.settings.useNotifications
+      useRandomAccents: this.settings.useRandomAccents
     };
   }
 
@@ -139,7 +138,7 @@ export class HomePage implements OnInit {
         this.settings = data;
         this.vexRendererService.settings = data;
 
-        if (data.logOutTime) {
+        if (data.pattern) {
           let pattern = JSON.parse(data.pattern)
           this.renderPattern(pattern);
         } else { // else first time logging in 

@@ -20,15 +20,5 @@
       <ion-toggle [(ngModel)]="settings.useRandomAccents" (ngModelChange)="updateSettings()"></ion-toggle>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Allow Notifications</ion-label>
-      <ion-toggle [(ngModel)]="settings.useNotifications" (ngModelChange)="updateSettings(); updateNotifications($event)"></ion-toggle>
-    </ion-item>
-
   </ion-list>
-
-  <ion-row>
-    <div class="timer">New rudes in {{timerService.getTimeLeft()}}</div>
-  </ion-row>
-
 </ion-content>

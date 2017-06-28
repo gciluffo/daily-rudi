@@ -3,7 +3,7 @@
   <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.meanDistanceNotes"
     class="blue-line"></div>
 
-  <div [hidden]="!settings?.useRudimentNames" class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
+  <div class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
     <span class="rudiment-name">{{rudiment.name}}</span>
   </div>
 

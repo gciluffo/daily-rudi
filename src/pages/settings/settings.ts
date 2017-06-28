@@ -36,7 +36,6 @@ export class SettingsPage implements OnInit {
   getNavParams() {
     this.settings.useMetronomeSlider = this.navParams.get('useMetronomeSlider');
     this.settings.useRandomAccents = this.navParams.get('useRandomAccents');
-    this.settings.useNotifications = this.navParams.get('useNotifications');
   }
 
   overrideBackButton() {

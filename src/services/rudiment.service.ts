@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Rudiment } from '../models/rudiment';
 import { RUDIMENTS } from './rudiments'
 
-const NUM_REFRESHES = 5;
-
 @Injectable()
 export class RudimentService {
 
@@ -41,9 +39,9 @@ export class RudimentService {
             for (let i = 0; i < shuffledArray.length; i++) {
                 totalbeats += shuffledArray[i].beats;
 
-                if (totalbeats === 8) {
+                if (totalbeats === 4) {
                     return shuffledArray.splice(0, i + 1);
-                } else if (totalbeats > 8) {
+                } else if (totalbeats > 4) {
                     break;
                 }
             }
@@ -60,9 +58,5 @@ export class RudimentService {
         }
 
         return a;
-    }
-
-    getNumberOfRefreshes() {
-        return NUM_REFRESHES;
     }
 }
