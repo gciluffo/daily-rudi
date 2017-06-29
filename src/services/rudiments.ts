@@ -441,7 +441,7 @@ export const RUDIMENTS: any[] = [
         beats: 1,
         startingHand: 'L',
         lastHand: 'R',
-        isTriplet: false,
+        isTriplet: true,
         beamPositions: [[0, 3]],
         voicing: [
             { sticking: 'L', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },

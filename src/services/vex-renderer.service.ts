@@ -237,7 +237,7 @@ export class VexRendererService {
     }
 
     setGraceNoteShift(gracenote: any) {
-        gracenote.setXShift(10);
+        gracenote.setXShift(0);
     }
 
     addGraceNoteSticking(gracenote: any, voice) {
@@ -245,8 +245,6 @@ export class VexRendererService {
             .setFont("Arial", 8, 'italic')
             .setVerticalJustification(vexflow.Flow.Annotation.VerticalJustify.BOTTOM)
             .setPosition(vexflow.Flow.Modifier.Position.RIGHT);
-
-        annotation.setXShift(10);
 
         gracenote.addModifier(0, annotation);
     }
