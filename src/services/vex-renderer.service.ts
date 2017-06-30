@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Rudiment } from '../models/rudiment'
+import { Rudiment } from '../models/rudiment';
+import { PlayaService } from './playa.service';
 import * as vexflow from 'vexflow';
 
+<<<<<<< HEAD
 const offset = 15;
+=======
+<<<<<<< HEAD
+const offset = 10;
+=======
+
+const notePosOffset = -2; // pixels
+>>>>>>> get midi libararies working
+>>>>>>> get midi libararies working
 
 @Injectable()
 export class VexRendererService {
@@ -21,7 +31,13 @@ export class VexRendererService {
         useRandomAccents: false
     };
 
+<<<<<<< HEAD
     constructor(private platform: Platform) {
+=======
+    constructor(private platform: Platform,
+        private playaService: PlayaService) {
+        this.VF = vexflow.Flow;
+>>>>>>> get midi libararies working
     }
 
     getScreenDimensions() {
@@ -219,6 +235,14 @@ export class VexRendererService {
             }
         }
         beams.forEach(b => b.draw());
+
+        this.createMIDITrack(mergedNotes);
+    }
+
+    createMIDITrack(notes: any[]) {
+        let voice = new this.VF.Voice({ num_beats: 4, beat_value: 1 });
+        voice.addTickables(notes);
+        this.playaService.initialize(voice);
     }
 
     ///// UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////

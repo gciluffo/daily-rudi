@@ -6,12 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
-import { RudimentService, VexRendererService, StorageService, SplashService } from '../services';
+
+import { RudimentService, VexRendererService, StorageService, SplashService, PlayaService } from '../services';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import { MediaPlugin, MediaObject } from '@ionic-native/media';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     HomePage
   ],
   providers: [
+    File,
+    MediaPlugin,
+    PlayaService,
     SplashService,
     StorageService,
     VexRendererService,
