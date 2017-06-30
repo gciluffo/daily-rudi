@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MediaPlugin, MediaObject } from '@ionic-native/media';
-import { File } from '@ionic-native/file';
 
 import * as MidiWriter from 'midi-writer-js';
 import * as MidiPlayer from 'midi-player-js';
@@ -9,11 +7,7 @@ import * as SoundfontPlayer from 'soundfont-player';
 @Injectable()
 export class PlayaService {
 
-    private metronome: any;
-
-    constructor(private media: MediaPlugin,
-        private file: File) {
-        console.log('soundPlayer', SoundfontPlayer);
+    constructor() {
     }
 
     initialize(voice: any) {
@@ -28,7 +22,7 @@ export class PlayaService {
         let wait;
         let pitches = [];
 
-        voice.tickables.forEach((tickable, i) => {
+        voice.tickables.forEach((tickable) => {
             pitches = [];
 
             if (tickable.noteType === 'n') {
@@ -42,14 +36,26 @@ export class PlayaService {
                 return;
             }
 
-            let event = new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(voice.tickables[i]), wait: wait });
-            track.addEvent(event);
+            if (tickable.modifiers.length) {
+                tickable.modifiers.forEach((modifier) => {
+                    if (modifier.grace_notes) {
+                        track.addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: '16', wait: wait }));
+                    }
+                });
+            }
+
+            track.addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable), wait: wait }));
 
             // reset wait
             wait = 0;
         });
 
         return track;
+    }
+
+    addNoteEventToTrack(track: any, event: any) {
+        new MidiWriter.NoteEvent(event);
+        track.addEvent(event);
     }
 
     convertPitch(pitch) {
@@ -72,18 +78,19 @@ export class PlayaService {
     }
 
     playTrack(track: any) {
-        SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
+        SoundfontPlayer.instrument(new AudioContext(), 'melodic_tom').then((instrument) => {
             // Initialize player and register event handler
             // Initialize player and register event handler
             let Player = new MidiPlayer.Player((event) => {
                 if (event.name == 'Note on') {
-                    instrument.play(event.noteName, null, { gain: 4 });
+                    console.log(event);
+                    instrument.play(event.noteName, null, { gain: 5 });
                 }
             });
 
             // Load a MIDI file
             Player.loadDataUri(track.dataUri());
             Player.play();
-        })
+        });
     }
 }
