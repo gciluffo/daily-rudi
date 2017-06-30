@@ -20,11 +20,13 @@ export class PlayaService {
         let tracks = [];
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(4, 4);
-        tracks[0].setTempo(100);
+        tracks[0].setTempo(30);
         let wait;
+        let velocity = 50;
         let pitches = [];
 
         tracks[1] = new MidiWriter.Track();
+        tracks[2] = new MidiWriter.Track(); // for grace notes
         voice.tickables.forEach((tickable) => {
             pitches = [];
 
@@ -38,12 +40,16 @@ export class PlayaService {
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
                     if (modifier.grace_notes) {
-                        // track.addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: '16', wait: wait, velocity: 30 }));
+                        // tracks[2].addEvent(new MidiWriter.NoteEvent({ wait: '4', pitch: pitches, duration: '8', velocity: 10 }));
                     }
+                    // if (annotation.accent) {
+                    //     velocity = 70
+                    // }
                 });
             }
 
-            tracks[1].addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable) }));
+            tracks[1].addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable), velocity: velocity }));
+            velocity = 50;
         });
 
         return tracks;
@@ -70,6 +76,10 @@ export class PlayaService {
                 return note.isDotted() ? 'd8' : '8';
         }
 
+        if (note.tupletStack.length) {
+            return '8t';
+        }
+
         return note.duration;
     }
 
@@ -89,7 +99,6 @@ export class PlayaService {
             Player.play();
         });
     }
-
 
     generateZelda() {
         var tracks = [];
@@ -205,6 +214,7 @@ export class PlayaService {
         notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
         tracks[2].addEvent(notes);
 
+        console.log('zelda tracks', tracks);
 
         var write = new MidiWriter.Writer(tracks);
 
