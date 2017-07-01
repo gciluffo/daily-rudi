@@ -7,10 +7,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 import { RudimentService, VexRendererService, StorageService, SplashService } from '../services';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { StatusBar } from '@ionic-native/status-bar';
-import { NativeAudio } from '@ionic-native/native-audio';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
@@ -34,15 +32,12 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
   ],
   providers: [
     SplashService,
-    ScreenOrientation,
     StorageService,
-    LocalNotifications,
     VexRendererService,
     RudimentService,
     StatusBar,
     NativeStorage,
     SplashScreen,
-    NativeAudio,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
