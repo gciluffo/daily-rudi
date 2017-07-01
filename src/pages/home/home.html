@@ -1,6 +1,6 @@
 <ion-content class="home-content" no-bounce>
 
-  <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.meanDistanceNotes"
+  <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
     class="blue-line"></div>
 
   <div class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">

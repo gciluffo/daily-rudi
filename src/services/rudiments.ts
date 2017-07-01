@@ -305,7 +305,7 @@ export const RUDIMENTS: any[] = [
     },
     {
         name: "Single Drag Tap",
-        beats: .5,
+        beats: 1,
         startingHand: 'L',
         lastHand: 'L',
         isTriplet: false,
@@ -316,7 +316,7 @@ export const RUDIMENTS: any[] = [
     },
     {
         name: "Single Drag Tap",
-        beats: .5,
+        beats: 1,
         startingHand: 'R',
         lastHand: 'R',
         isTriplet: false,

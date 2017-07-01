@@ -3,29 +3,25 @@ import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment'
 import * as vexflow from 'vexflow';
 
-const notePosOffset = -2; // pixels
+const offset = 10;
 
 @Injectable()
 export class VexRendererService {
 
-    private VF: any;
     public context: any;
     public stave: any;
     public meanDistanceNotes: number;
-    public settings: any = {
-        useRandomAccents: false
-    };
-    public notePositions: any = {
-        firstNotePos: 0,
-        lastNotePos: 0
-    };
+    public firstBeatPositions: any[] = [];
+    public firstBeatWidths: any[] = [];
     public screenDimensions: any = {
         width: 0,
         height: 0
     };
+    public settings: any = {
+        useRandomAccents: false
+    };
 
     constructor(private platform: Platform) {
-        this.VF = vexflow.Flow;
     }
 
     getScreenDimensions() {
@@ -41,7 +37,7 @@ export class VexRendererService {
     createRenderer(domElement: any) {
         return new Promise((resolve, reject) => {
             this.getScreenDimensions().then(() => {
-                let renderer = new vexflow.Flow.Renderer(domElement, this.VF.Renderer.Backends.SVG);
+                let renderer = new vexflow.Flow.Renderer(domElement, vexflow.Flow.Renderer.Backends.SVG);
 
                 renderer.resize(this.screenDimensions.width, this.screenDimensions.height);
                 this.context = renderer.getContext();
@@ -66,7 +62,7 @@ export class VexRendererService {
         };
 
         // Create a stave of width 400 at position 10, 40 on the canvas.
-        this.stave = new this.VF.Stave(-2, 15, this.screenDimensions.width, options);
+        this.stave = new vexflow.Flow.Stave(-2, 15, this.screenDimensions.width, options);
         this.stave.setContext(this.context).draw();
 
         this.renderPattern(pattern);
@@ -86,32 +82,16 @@ export class VexRendererService {
         for (let i = 0; i < allNotes.length; i++) {
             if (pattern[i].isTriplet) {
                 tripletPositions.push(i);
-                beams = [...beams, new this.VF.Beam(allNotes[i]).setContext(this.context)];
+                beams = [...beams, new vexflow.Flow.Beam(allNotes[i]).setContext(this.context)];
             } else if (allNotes[i].length !== 1) {
-                beams = [...beams, new this.VF.Beam(allNotes[i]).setContext(this.context)];
+                beams = [...beams, new vexflow.Flow.Beam(allNotes[i]).setContext(this.context)];
             }
         }
 
         let mergedNotes = [].concat.apply([], allNotes);
         this.draw(mergedNotes, beams, tripletPositions, allNotes, pattern);
-        this.setFirstLastNotePositions(mergedNotes);
         this.setDistancesBetweenPatterns(pattern, mergedNotes);
-    }
-
-    getTripletPositionsFromMergedNotes(mergedNotes: any[], allNotes: any[], tripletPositions: any[], pattern: Rudiment[]) {
-        let positionsObj = {
-            positions: [],
-            patternIndex: []
-        };
-        let firstNotePositions = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
-
-        for (let index of tripletPositions) {
-            let notes = allNotes[index];
-            positionsObj.positions.push([firstNotePositions[index], firstNotePositions[index] + notes.length]);
-            positionsObj.patternIndex.push(index);
-        }
-
-        return positionsObj;
+        this.getOffsetOfFirstBeats(mergedNotes, pattern);
     }
 
     createNoteArray(rudiment: Rudiment) {
@@ -147,14 +127,12 @@ export class VexRendererService {
         let triplets = [];
         // Setup the beams: we do this before defining tuplets so that default bracketing will work.
         let beams = rudiment.beamPositions.map(i => {
-            return new this.VF.Beam(notes.slice(i[0], i[1]));
+            return new vexflow.Flow.Beam(notes.slice(i[0], i[1]));
         });
 
         for (let beams of rudiment.beamPositions) {
             triplets.push(new vexflow.Flow.Tuplet(notes.slice(beams[0], beams[1])));
         }
-        // Now create the tuplets:
-        // this.VF.Formatter.FormatAndDraw(this.context, this.stave, notes);
 
         beams.forEach(beam => {
             beam.setContext(this.context).draw();
@@ -163,45 +141,6 @@ export class VexRendererService {
         triplets.forEach(triplet => {
             triplet.setContext(this.context).draw();
         });
-    }
-
-    setFirstLastNotePositions(notes: any[]) {
-        this.notePositions.firstNotePos = notes[0].getNoteHeadEndX() + notePosOffset;
-        this.notePositions.lastNotePos = notes[notes.length - 1].getNoteHeadEndX() + notePosOffset;
-        this.getMeanNoteDistance(notes);
-    }
-
-    getMeanNoteDistance(notes: any[]) {
-        let meanDistance = 0;
-
-        for (let i = 0; i + 1 < notes.length; i++) {
-            let delta = (notes[i + 1].getNoteHeadEndX() + notePosOffset) - (notes[i].getNoteHeadEndX() + notePosOffset);
-            meanDistance += delta;
-        }
-
-        this.meanDistanceNotes = (this.notePositions.lastNotePos - this.notePositions.firstNotePos) / 4;
-        this.notePositions.staveWidth = this.stave.getWidth();
-        this.notePositions.staveOffset = this.stave.getWidth() - ((this.notePositions.lastNotePos - this.notePositions.firstNotePos)
-            + (this.stave.getWidth() - this.notePositions.lastNotePos));
-    }
-
-    getFirstNotePositionsOfPattern(pattern: Rudiment[], mergedNotes: any[]) {
-        let indices = [0];
-        let index = 0;
-
-        for (let i = 0; i < pattern.length - 1; i++) {
-            index += pattern[i].voicing.length;
-            indices.push(index);
-        }
-
-        return indices;
-    }
-
-    setDistancesBetweenPatterns(pattern: Rudiment[], mergedNotes: any[]) {
-        let indicies = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
-        for (let i = 0; i < indicies.length; i++) {
-            pattern[i].firstNotePosition = mergedNotes[indicies[i]].getNoteHeadEndX();
-        }
     }
 
     addSticking(staveNote: any, annotation: string) {
@@ -281,4 +220,95 @@ export class VexRendererService {
         }
         beams.forEach(b => b.draw());
     }
+
+    ///// UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    getFirstNotePositionsOfPattern(pattern: Rudiment[], mergedNotes: any[]) {
+        let indices = [0];
+        let index = 0;
+
+        for (let i = 0; i < pattern.length - 1; i++) {
+            index += pattern[i].voicing.length;
+            indices.push(index);
+        }
+
+        return indices;
+    }
+
+    getFirstBeatPositionsOfNotes(pattern: Rudiment[]) {
+        let notes = [];
+        for (let rudiment of pattern) {
+            notes = [...notes, ...rudiment.voicing];
+        }
+
+        let positions = [0];
+        let beat = 0;
+        for (let i = 0; i < notes.length; i++) {
+            switch (notes[i].note) {
+                case 'q':
+                    beat = beat + 1;
+                    break;
+                case '8d':
+                    beat = beat + .5;
+                    break;
+                case '16d':
+                    beat = beat + .25;
+                    break;
+            }
+
+            if (beat === 1) {
+                positions.push(i + 1);
+                beat = 0;
+            }
+        }
+
+        return positions.slice(0, -1);
+    }
+
+    getOffsetOfFirstBeats(mergedNotes: any[], pattern: Rudiment[]) {
+        let positions = this.getFirstBeatPositionsOfNotes(pattern);
+
+        for (let i = 0; i < positions.length; i++) {
+            positions[i] = mergedNotes[positions[i]].getNoteHeadEndX();
+        }
+
+        this.getWidthsOfFirstBeats(positions);
+        this.firstBeatPositions = positions;
+    }
+
+    getWidthsOfFirstBeats(positions: any[]) {
+        for (let i = 0; i < positions.length; i++) {
+            if (i === positions.length - 1) {
+                this.firstBeatWidths[i] = this.stave.getWidth() - positions[i] - offset;
+            } else {
+                this.firstBeatWidths[i] = positions[i + 1] - positions[i] - offset;
+            }
+        }
+    }
+
+    setDistancesBetweenPatterns(pattern: Rudiment[], mergedNotes: any[]) {
+        let indicies = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
+        for (let i = 0; i < indicies.length; i++) {
+            pattern[i].firstNotePosition = mergedNotes[indicies[i]].getNoteHeadEndX();
+        }
+    }
+
+    getTripletPositionsFromMergedNotes(mergedNotes: any[], allNotes: any[], tripletPositions: any[], pattern: Rudiment[]) {
+        let positionsObj = {
+            positions: [],
+            patternIndex: []
+        };
+        let firstNotePositions = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
+
+        for (let index of tripletPositions) {
+            let notes = allNotes[index];
+            positionsObj.positions.push([firstNotePositions[index], firstNotePositions[index] + notes.length]);
+            positionsObj.patternIndex.push(index);
+        }
+
+        return positionsObj;
+    }
+
 }

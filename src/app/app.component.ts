@@ -23,8 +23,6 @@ export class MyApp {
 
   platformReady() {
     this.platform.ready().then(() => {
-      this.vexRendererService.screenDimensions.width = this.platform.width();
-      this.vexRendererService.screenDimensions.height = this.platform.height();
       this.statusBar.styleDefault();
     });
   }

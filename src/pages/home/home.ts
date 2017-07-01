@@ -6,7 +6,7 @@ import { Metronome, RudimentService, VexRendererService, StorageService, SplashS
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
 
-import moment from 'moment';
+const offset = 10;
 
 @Component({
   selector: 'page-home',
@@ -54,12 +54,10 @@ export class HomePage implements OnInit {
     this.loadSettings();
     this.bpm = 60;
     this.metronome = new Metronome();
-    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.moveRight();
   }
 
   play() {
-    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
     this.counter = 0;
@@ -67,7 +65,7 @@ export class HomePage implements OnInit {
 
   pause() {
     this.metronome.pause();
-    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+    this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
     clearInterval(this.sliderInterval);
     this.counter = 0;
   }
@@ -84,12 +82,12 @@ export class HomePage implements OnInit {
       this._ngZone.run(() => {
         this.counter++;
         if (this.counter === 5) { // assuming we are in 4/4 time
-          this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+          this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
           this.counter = 1;
         } else if (this.counter === 1) {
           // no no
         } else {
-          this.sliderPosition += this.vexRendererService.meanDistanceNotes;
+          this.sliderPosition = this.vexRendererService.firstBeatPositions[this.counter - 1] - offset;
         }
       });
     });
@@ -118,7 +116,6 @@ export class HomePage implements OnInit {
         .then((context: any) => {
           this.splashService.hide();
           this.drawPattern(pattern);
-          this.notePositions = this.vexRendererService.notePositions;
         });
     } else {
       this.vexRendererService.context.clear();
@@ -128,7 +125,7 @@ export class HomePage implements OnInit {
 
   drawPattern(pattern: Rudiment[]) {
     this.vexRendererService.renderStaff(pattern);
-    this.sliderPosition = this.vexRendererService.notePositions.firstNotePos;
+    this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
     this.pattern = pattern;
   }
 
