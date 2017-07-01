@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment'
 import * as vexflow from 'vexflow';
 
-const offset = 10;
+const offset = 15;
 
 @Injectable()
 export class VexRendererService {
@@ -246,24 +246,27 @@ export class VexRendererService {
         let positions = [0];
         let beat = 0;
         for (let i = 0; i < notes.length; i++) {
-            switch (notes[i].note) {
-                case 'q':
-                    beat = beat + 1;
-                    break;
-                case '8d':
-                    beat = beat + .5;
-                    break;
-                case '16d':
-                    beat = beat + .25;
-                    break;
+            if (notes[i].note === 'q') {
+                beat = beat + 1;
+            } else if (notes[i].note === '16d' && notes[i].isTriplet) {
+                console.log('16th note triplet');
+                beat = beat + .17;
+            } else if (notes[i].note === '8d' && notes[i].isTriplet) {
+                console.log('8th note triplet');
+                beat = beat + .34;
+            } else if (notes[i].note === '8d') {
+                beat = beat + .5;
+            } else if (notes[i].note === '16d') {
+                beat = beat + .25;
             }
 
-            if (beat === 1) {
+            if (beat >= 1) {
                 positions.push(i + 1);
                 beat = 0;
             }
         }
 
+        console.log('positions', positions);
         return positions.slice(0, -1);
     }
 

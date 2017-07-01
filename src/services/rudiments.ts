@@ -333,12 +333,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: true,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
-            { sticking: 'R', note: '8d', flam: true, double: false, accent: true },
-            { sticking: 'L', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'R', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'L', note: '8d', flam: true, double: false, accent: true },
-            { sticking: 'R', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'L', note: '8d', flam: false, double: false, accent: false }
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
         ]
     },
     {
@@ -349,12 +349,12 @@ export const RUDIMENTS: any[] = [
         isTriplet: true,
         beamPositions: [[0, 3], [3, 6]],
         voicing: [
-            { sticking: 'L', note: '8d', flam: true, double: false, accent: true },
-            { sticking: 'R', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'L', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'R', note: '8d', flam: true, double: false, accent: true },
-            { sticking: 'L', note: '8d', flam: false, double: false, accent: false },
-            { sticking: 'R', note: '8d', flam: false, double: false, accent: false }
+            { sticking: 'L', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
         ]
     },
     {
@@ -430,9 +430,9 @@ export const RUDIMENTS: any[] = [
         isTriplet: true,
         beamPositions: [[0, 3]],
         voicing: [
-            { sticking: 'R', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
-            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
-            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false, doubleGrace: true, isTriplet: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false, isTriplet: true },
             { sticking: 'L', note: '8d', flam: false, double: false, accent: true }
         ]
     },
@@ -444,9 +444,9 @@ export const RUDIMENTS: any[] = [
         isTriplet: true,
         beamPositions: [[0, 3]],
         voicing: [
-            { sticking: 'L', note: '16d', flam: false, double: false, accent: false, doubleGrace: true },
-            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
-            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false, doubleGrace: true, isTriplet: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false, isTriplet: true },
             { sticking: 'R', note: '8d', flam: true, double: false, accent: true }
         ]
     }];
