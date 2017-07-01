@@ -425,8 +425,8 @@ export const RUDIMENTS: any[] = [
     {
         name: "Single Ratamacue",
         beats: 1,
-        startingHand: 'R',
-        lastHand: 'L',
+        startingHand: 'L',
+        lastHand: 'R',
         isTriplet: true,
         beamPositions: [[0, 3]],
         voicing: [
@@ -439,8 +439,8 @@ export const RUDIMENTS: any[] = [
     {
         name: "Single Ratamacue",
         beats: 1,
-        startingHand: 'L',
-        lastHand: 'R',
+        startingHand: 'R',
+        lastHand: 'L',
         isTriplet: true,
         beamPositions: [[0, 3]],
         voicing: [
