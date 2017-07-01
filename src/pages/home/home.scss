@@ -99,4 +99,12 @@
         position: relative;
         top: 45%;
     }
+
+    .snare-button-active {
+        background-color: red;
+    }
+
+    .snare-button-inactive {
+        background-color: grey;
+    }
 }

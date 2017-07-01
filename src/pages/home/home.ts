@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
-import { Metronome, RudimentService, VexRendererService, StorageService, SplashService } from '../../services';
+import { Metronome, RudimentService, VexRendererService, StorageService, SplashService, PlayaService } from '../../services';
 
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   public metronome: any;
   public bpm: number;
   public isPlaying: boolean = false;
+  public playMidi: boolean = false;
   public pattern: Rudiment[];
   public sliderPosition: number = 0;
   private sliderInterval: any;
@@ -34,6 +35,7 @@ export class HomePage implements OnInit {
     public modalCtrl: ModalController,
     public platform: Platform,
     private _ngZone: NgZone,
+    private playaService: PlayaService,
     public splashService: SplashService) {
   }
 
@@ -57,7 +59,18 @@ export class HomePage implements OnInit {
     this.moveRight();
   }
 
-  play() {
+  playAll() {
+    if (this.playMidi) {
+      this.playaService.playTrack()
+        .then(() => {
+          this.playMetronome();
+        });
+    } else {
+      this.playMetronome();
+    }
+  }
+
+  playMetronome() {
     this.metronome.setTempo(this.bpm);
     this.metronome.play();
     this.counter = 0;
@@ -68,6 +81,15 @@ export class HomePage implements OnInit {
     this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
     clearInterval(this.sliderInterval);
     this.counter = 0;
+  }
+
+  setMidi() {
+    if (this.isPlaying) {
+
+    } else {
+
+    }
+    this.playaService.initializeVoice(this.vexRendererService.voice, this.bpm);
   }
 
   tempoChange() {
@@ -110,7 +132,7 @@ export class HomePage implements OnInit {
   }
 
   renderPattern(pattern: Rudiment[]) {
-    if (!this.vexRendererService.context) { // first time loading
+    if (!this.vexRendererService.context) { // first time loading up the app
       let domElement = this.ogStaff.nativeElement;
       this.vexRendererService.createRenderer(domElement)
         .then((context: any) => {
@@ -124,6 +146,7 @@ export class HomePage implements OnInit {
   }
 
   drawPattern(pattern: Rudiment[]) {
+    this.vexRendererService.bpm = this.bpm;
     this.vexRendererService.renderStaff(pattern);
     this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
     this.pattern = pattern;

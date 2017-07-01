@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment';
 import { PlayaService } from './playa.service';
+import { HomePage } from '../pages/home/home';
 import * as vexflow from 'vexflow';
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 const offset = 15;
 =======
@@ -14,30 +16,31 @@ const offset = 10;
 const notePosOffset = -2; // pixels
 >>>>>>> get midi libararies working
 >>>>>>> get midi libararies working
+=======
+
+const offset = 10;
+>>>>>>> wire up the button for midid playbac
 
 @Injectable()
 export class VexRendererService {
 
-    public context: any;
-    public stave: any;
     public meanDistanceNotes: number;
     public firstBeatPositions: any[] = [];
     public firstBeatWidths: any[] = [];
+    public voice: any;
+    public bpm: number;
+    public stave: any;
+    public context: any;
+    public settings: any = {
+        useRandomAccents: false
+    };
     public screenDimensions: any = {
         width: 0,
         height: 0
     };
-    public settings: any = {
-        useRandomAccents: false
-    };
 
-<<<<<<< HEAD
-    constructor(private platform: Platform) {
-=======
     constructor(private platform: Platform,
         private playaService: PlayaService) {
-        this.VF = vexflow.Flow;
->>>>>>> get midi libararies working
     }
 
     getScreenDimensions() {
@@ -240,9 +243,11 @@ export class VexRendererService {
     }
 
     createMIDITrack(notes: any[]) {
-        let voice = new this.VF.Voice({ num_beats: 4, beat_value: 1 });
+        let voice = new vexflow.Flow.Voice({ num_beats: 4, beat_value: 1 });
+        this.voice = voice;
         voice.addTickables(notes);
-        this.playaService.initialize(voice);
+        this.playaService.initializeVoice(voice, this.bpm);
+        // this.playaService.playTrack();
     }
 
     ///// UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////

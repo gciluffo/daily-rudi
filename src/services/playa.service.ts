@@ -7,28 +7,32 @@ import * as SoundfontPlayer from 'soundfont-player';
 @Injectable()
 export class PlayaService {
 
+    private midi: any;
+    private voice: any;
+
     constructor() {
     }
 
-    initialize(voice: any) {
-        let tracks = this.trackFromVoice(voice);
-        let write = new MidiWriter.Writer(tracks);
-        this.playTrack(write);
+    initializeVoice(voice: any, bpm: number) {
+        let tracks = this.trackFromVoice(voice, bpm);
+        this.midi = new MidiWriter.Writer(tracks);
+        // this.midi = this.generateZelda();
     }
 
-    trackFromVoice(voice) {
+    trackFromVoice(voice, tempo) {
         let tracks = [];
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(4, 4);
-        tracks[0].setTempo(30);
+        tracks[0].setTempo(tempo);
         let wait;
         let velocity = 50;
         let pitches = [];
+        let notes = [];
 
         tracks[1] = new MidiWriter.Track();
-        tracks[2] = new MidiWriter.Track(); // for grace notes
         voice.tickables.forEach((tickable) => {
             pitches = [];
+            notes = [];
 
             if (tickable.noteType === 'n') {
                 tickable.keys.forEach((key) => {
@@ -40,7 +44,7 @@ export class PlayaService {
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
                     if (modifier.grace_notes) {
-                        // tracks[2].addEvent(new MidiWriter.NoteEvent({ wait: '4', pitch: pitches, duration: '8', velocity: 10 }));
+                        notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
                     }
                     // if (annotation.accent) {
                     //     velocity = 70
@@ -48,7 +52,8 @@ export class PlayaService {
                 });
             }
 
-            tracks[1].addEvent(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable), velocity: velocity }));
+            notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable), velocity: velocity }));
+            tracks[1].addEvent(notes);
             velocity = 50;
         });
 
@@ -83,21 +88,25 @@ export class PlayaService {
         return note.duration;
     }
 
-    playTrack(track: any) {
-        SoundfontPlayer.instrument(new AudioContext(), 'melodic_tom').then((instrument) => {
-            // Initialize player and register event handler
-            // Initialize player and register event handler
-            let Player = new MidiPlayer.Player((event) => {
-                if (event.name == 'Note on') {
-                    console.log(event);
-                    instrument.play(event.noteName, null, { gain: 7 });
-                }
-            });
+    public playTrack() {
+        return new Promise((resolve, reject) => {
+            SoundfontPlayer.instrument(new AudioContext(), 'acoustic_grand_piano').then((instrument) => {
 
-            // Load a MIDI file
-            Player.loadDataUri(track.dataUri());
-            Player.play();
+                // Initialize player and register event handler
+                let Player = new MidiPlayer.Player((event) => {
+                    resolve();
+                    if (event.name == 'Note on') {
+                        console.log(event);
+                        instrument.play(event.noteName, null, { gain: 7 });
+                    }
+                });
+
+                // Load a MIDI file
+                Player.loadDataUri(this.midi.dataUri());
+                Player.play();
+            });
         });
+
     }
 
     generateZelda() {
@@ -105,7 +114,7 @@ export class PlayaService {
 
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(3, 4);
-        tracks[0].setTempo(40);
+        tracks[0].setTempo(60);
 
         var notes;
 
