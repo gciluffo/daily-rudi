@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import * as MidiWriter from 'midi-writer-js';
 import * as MidiPlayer from 'midi-player-js';
@@ -9,14 +9,19 @@ export class PlayaService {
 
     private midi: any;
     private voice: any;
+    private instrument: any;
+    private metronomeIsPlaying: boolean = false;
+    public midiHasStarted: EventEmitter<boolean> = new EventEmitter();
 
     constructor() {
+        this.intitializeInstrument();
     }
 
     initializeVoice(voice: any, bpm: number) {
         let tracks = this.trackFromVoice(voice, bpm);
+        console.log('tracks', tracks);
+        console.log('voice', voice);
         this.midi = new MidiWriter.Writer(tracks);
-        // this.midi = this.generateZelda();
     }
 
     trackFromVoice(voice, tempo) {
@@ -24,36 +29,27 @@ export class PlayaService {
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(4, 4);
         tracks[0].setTempo(tempo);
-        let wait;
         let velocity = 50;
-        let pitches = [];
-        let notes = [];
+        let note;
 
         tracks[1] = new MidiWriter.Track();
+
         voice.tickables.forEach((tickable) => {
-            pitches = [];
-            notes = [];
-
-            if (tickable.noteType === 'n') {
-                tickable.keys.forEach((key) => {
-                    // build array of pitches
-                    pitches.push(this.convertPitch(key));
-                });
-            }
-
+            console.log('derp')
+            // check for grace notes
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
                     if (modifier.grace_notes) {
-                        notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
+                        // notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
                     }
-                    // if (annotation.accent) {
-                    //     velocity = 70
-                    // }
+                    if (modifier.type === 'a>') { // increase veolocity for accented notes
+                        velocity = 70
+                    }
                 });
             }
 
-            notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: this.convertDuration(tickable), velocity: velocity }));
-            tracks[1].addEvent(notes);
+            note = new MidiWriter.NoteEvent({ pitch: ['b4'], duration: this.convertDuration(tickable), velocity: velocity });
+            tracks[1].addEvent(note);
             velocity = 50;
         });
 
@@ -65,168 +61,48 @@ export class PlayaService {
         track.addEvent(event);
     }
 
-    convertPitch(pitch) {
-        return pitch.replace('/', '');
-    }
-
     convertDuration(note) {
+        if (note.tupletStack.length) {
+            return note.duration + 't';
+        }
+
         switch (note.duration) {
             case 'w':
                 return '1';
             case 'h':
-                return note.isDotted() ? 'd2' : '2';
+                return note.getDots() ? 'd2' : '2';
             case 'q':
-                return note.isDotted() ? 'd4' : '4';
+                return note.getDots() ? 'd4' : '4';
             case '8':
-                return note.isDotted() ? 'd8' : '8';
-        }
-
-        if (note.tupletStack.length) {
-            return '8t';
+                return note.getDots() ? 'd8' : '8';
         }
 
         return note.duration;
     }
 
     public playTrack() {
-        return new Promise((resolve, reject) => {
-            SoundfontPlayer.instrument(new AudioContext(), 'acoustic_grand_piano').then((instrument) => {
+        this.metronomeIsPlaying = true;
+        // Initialize player and register event handler
+        let Player = new MidiPlayer.Player((event) => {
+            if (event.name == 'Note on') {
+                if (this.metronomeIsPlaying) {
+                    this.midiHasStarted.emit(true);
+                    this.metronomeIsPlaying = false;
+                }
 
-                // Initialize player and register event handler
-                let Player = new MidiPlayer.Player((event) => {
-                    resolve();
-                    if (event.name == 'Note on') {
-                        console.log(event);
-                        instrument.play(event.noteName, null, { gain: 7 });
-                    }
-                });
-
-                // Load a MIDI file
-                Player.loadDataUri(this.midi.dataUri());
-                Player.play();
-            });
+                console.log(event);
+                this.instrument.play(event.noteName, null, { gain: event.velocity / 10 });
+            }
         });
 
+        // Load a MIDI file
+        Player.loadDataUri(this.midi.dataUri());
+        Player.play();
     }
 
-    generateZelda() {
-        var tracks = [];
-
-        tracks[0] = new MidiWriter.Track();
-        tracks[0].setTimeSignature(3, 4);
-        tracks[0].setTempo(60);
-
-        var notes;
-
-        // melody
-        tracks[1] = new MidiWriter.Track();
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4', 'C#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['B4', 'D5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['G#4', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4', 'C#5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4', 'C#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['B4', 'D5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['G#4', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4', 'C#5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        // note how the previous rest is handled: it became the wait
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['D#5', 'F#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['D5', 'G#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'A5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['E5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['D#5', 'F#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['D5', 'G#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'A5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['C#5', 'E5'], duration: '2' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4', 'C#5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['C#5', 'E5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['B4', 'D5'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['G#4', 'B4'], duration: '4' });
-        tracks[1].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ pitch: ['A4'], duration: '2' });
-        tracks[1].addEvent(notes);
-
-        // bass
-        tracks[2] = new MidiWriter.Track();
-        notes = new MidiWriter.NoteEvent({ pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['E3'], duration: '2' });
-        tracks[2].addEvent(notes);
-        notes = new MidiWriter.NoteEvent({ wait: '4', pitch: ['A3'], duration: '2' });
-        tracks[2].addEvent(notes);
-
-        console.log('zelda tracks', tracks);
-
-        var write = new MidiWriter.Writer(tracks);
-
-        return write;
+    intitializeInstrument() {
+        SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
+            this.instrument = instrument;
+        });
     }
 }

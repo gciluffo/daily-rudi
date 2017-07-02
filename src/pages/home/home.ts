@@ -44,6 +44,11 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.playaService.midiHasStarted
+      .subscribe(() => {
+        this.playMetronome();
+      });
+
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
       this.saveSettings();
@@ -61,10 +66,7 @@ export class HomePage implements OnInit {
 
   playAll() {
     if (this.playMidi) {
-      this.playaService.playTrack()
-        .then(() => {
-          this.playMetronome();
-        });
+      this.playaService.playTrack();
     } else {
       this.playMetronome();
     }
@@ -84,12 +86,12 @@ export class HomePage implements OnInit {
   }
 
   setMidi() {
-    if (this.isPlaying) {
-
-    } else {
-
+    if (this.playMidi) {
+      if (this.isPlaying) {
+        // TODO: find a way to start the player at beginning of the stave
+      }
+      this.initializeMidi();
     }
-    this.playaService.initializeVoice(this.vexRendererService.voice, this.bpm);
   }
 
   tempoChange() {
@@ -97,6 +99,10 @@ export class HomePage implements OnInit {
       this.metronome.setTempo(this.bpm);
       clearInterval(this.sliderInterval);
     }
+  }
+
+  tempoOnRelease() {
+    this.initializeMidi();
   }
 
   moveRight() {
@@ -138,10 +144,16 @@ export class HomePage implements OnInit {
         .then((context: any) => {
           this.splashService.hide();
           this.drawPattern(pattern);
+          if (this.playMidi) {
+            this.initializeMidi();
+          }
         });
     } else {
       this.vexRendererService.context.clear();
       this.drawPattern(pattern);
+      if (this.playMidi) {
+        this.initializeMidi();
+      }
     }
   }
 
@@ -171,5 +183,9 @@ export class HomePage implements OnInit {
     this.settings.pattern = JSON.stringify(this.pattern);
     this.storageService.updateSettings(this.settings);
     this.pause();
+  }
+
+  initializeMidi() {
+    this.playaService.initializeVoice(this.vexRendererService.voice, this.bpm);
   }
 }

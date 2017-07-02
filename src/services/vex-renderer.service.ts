@@ -2,24 +2,9 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment';
 import { PlayaService } from './playa.service';
-import { HomePage } from '../pages/home/home';
 import * as vexflow from 'vexflow';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 const offset = 15;
-=======
-<<<<<<< HEAD
-const offset = 10;
-=======
-
-const notePosOffset = -2; // pixels
->>>>>>> get midi libararies working
->>>>>>> get midi libararies working
-=======
-
-const offset = 10;
->>>>>>> wire up the button for midid playbac
 
 @Injectable()
 export class VexRendererService {
@@ -243,10 +228,9 @@ export class VexRendererService {
     }
 
     createMIDITrack(notes: any[]) {
-        let voice = new vexflow.Flow.Voice({ num_beats: 4, beat_value: 1 });
-        this.voice = voice;
-        voice.addTickables(notes);
-        this.playaService.initializeVoice(voice, this.bpm);
+        this.voice = new vexflow.Flow.Voice({ num_beats: 4, beat_value: 1 });
+        this.voice.addTickables(notes);
+        // this.playaService.initializeVoice(voice, this.bpm);
         // this.playaService.playTrack();
     }
 
@@ -278,10 +262,8 @@ export class VexRendererService {
             if (notes[i].note === 'q') {
                 beat = beat + 1;
             } else if (notes[i].note === '16d' && notes[i].isTriplet) {
-                console.log('16th note triplet');
                 beat = beat + .17;
             } else if (notes[i].note === '8d' && notes[i].isTriplet) {
-                console.log('8th note triplet');
                 beat = beat + .34;
             } else if (notes[i].note === '8d') {
                 beat = beat + .5;
@@ -295,7 +277,6 @@ export class VexRendererService {
             }
         }
 
-        console.log('positions', positions);
         return positions.slice(0, -1);
     }
 

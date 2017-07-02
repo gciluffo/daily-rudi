@@ -20,7 +20,7 @@
           <ion-icon name="pause"></ion-icon>
         </button>
         <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
-        <button ion-button (click)="setMidi(); playMidi = !playMidi" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
+        <button ion-button (click)="playMidi = !playMidi; setMidi()" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
             <span style="font-size: 30px" class="snare-button-text">S</span>
         </button>
         <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())">
@@ -28,7 +28,8 @@
         </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
         <ion-item *ngIf="showRange">
-          <ion-range snaps="true" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" min="40" max="200"></ion-range>
+          <ion-range snaps="true" debounce="500" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" (ionChange)="tempoOnRelease()" min="40"
+            max="200"></ion-range>
         </ion-item>
       </ion-row>
     </ion-toolbar>
