@@ -13,7 +13,6 @@ export class PlayaService {
     private instrument: any;
     private metronomeIsPlaying: boolean = false;
     private player: any;
-    private trackLength: number;
     public midiHasStarted: EventEmitter<boolean> = new EventEmitter();
     private midiLoop: any;
     private bpm: number = 60;
@@ -28,7 +27,7 @@ export class PlayaService {
     initializeVoice(voice: any, bpm: number) {
         this.bpm = bpm;
         let tracks = this.trackFromVoice(voice, this.bpm);
-        console.log('tracks', tracks);
+        console.log('tracks', tracks[1].events);
         console.log('voice', voice);
         this.midi = new MidiWriter.Writer(tracks);
     }
@@ -41,7 +40,6 @@ export class PlayaService {
         let velocity = 50;
         let notes = [];
         let tremolo = false;
-
         tracks[1] = new MidiWriter.Track();
 
         voice.tickables.forEach((tickable) => {
@@ -50,8 +48,12 @@ export class PlayaService {
             // check for grace notes
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
-                    if (modifier.grace_notes) {
+                    if (modifier.grace_notes && modifier.grace_notes.length === 1) { // if its a flam
                         // notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
+                    }
+                    if (modifier.grace_notes && modifier.grace_notes.length === 2) { // if its a grace note roll
+                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
+                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
                     }
                     if (modifier.type === 'a>') { // increase veolocity for accented notes
                         velocity = 70
@@ -69,7 +71,6 @@ export class PlayaService {
             tremolo = false;
         });
 
-        this.trackLength = tracks[1].events.length + 1;
         return tracks;
     }
 
@@ -98,9 +99,11 @@ export class PlayaService {
     }
 
     public playMidi() {
+        let previousEvent: any = {};
         // Initialize player and register event handler
         this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
+                previousEvent = event;
                 if (this.metronomeIsPlaying) {
                     this.midiHasStarted.emit(true);
                     this.metronomeIsPlaying = false;
