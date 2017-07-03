@@ -12,8 +12,6 @@ import { RudimentService, VexRendererService, StorageService, SplashService, Pla
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
-import { MediaPlugin, MediaObject } from '@ionic-native/media';
-import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -33,8 +31,6 @@ import { File } from '@ionic-native/file';
     HomePage
   ],
   providers: [
-    File,
-    MediaPlugin,
     PlayaService,
     SplashService,
     StorageService,
