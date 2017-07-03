@@ -80,6 +80,7 @@ export class HomePage implements OnInit {
 
   pause() {
     this.metronome.pause();
+    this.playaService.stopPlayer();
     this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
     clearInterval(this.sliderInterval);
     this.counter = 0;
@@ -138,6 +139,7 @@ export class HomePage implements OnInit {
   }
 
   renderPattern(pattern: Rudiment[]) {
+    this.playaService.stopPlayer();
     if (!this.vexRendererService.context) { // first time loading up the app
       let domElement = this.ogStaff.nativeElement;
       this.vexRendererService.createRenderer(domElement)

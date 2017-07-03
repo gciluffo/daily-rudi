@@ -8,17 +8,21 @@ import * as SoundfontPlayer from 'soundfont-player';
 export class PlayaService {
 
     private midi: any;
-    private voice: any;
     private instrument: any;
     private metronomeIsPlaying: boolean = false;
+    private player: any;
+    private trackLength: number;
     public midiHasStarted: EventEmitter<boolean> = new EventEmitter();
+    private midiLoop: any;
+    private bpm: number = 60;
 
     constructor() {
         this.intitializeInstrument();
     }
 
     initializeVoice(voice: any, bpm: number) {
-        let tracks = this.trackFromVoice(voice, bpm);
+        this.bpm = bpm - .25;
+        let tracks = this.trackFromVoice(voice, this.bpm);
         console.log('tracks', tracks);
         console.log('voice', voice);
         this.midi = new MidiWriter.Writer(tracks);
@@ -35,7 +39,6 @@ export class PlayaService {
         tracks[1] = new MidiWriter.Track();
 
         voice.tickables.forEach((tickable) => {
-            console.log('derp')
             // check for grace notes
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
@@ -53,6 +56,7 @@ export class PlayaService {
             velocity = 50;
         });
 
+        this.trackLength = tracks[1].events.length + 1;
         return tracks;
     }
 
@@ -80,10 +84,9 @@ export class PlayaService {
         return note.duration;
     }
 
-    public playTrack() {
-        this.metronomeIsPlaying = true;
+    public playMidi() {
         // Initialize player and register event handler
-        let Player = new MidiPlayer.Player((event) => {
+        this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
                 if (this.metronomeIsPlaying) {
                     this.midiHasStarted.emit(true);
@@ -96,13 +99,40 @@ export class PlayaService {
         });
 
         // Load a MIDI file
-        Player.loadDataUri(this.midi.dataUri());
-        Player.play();
+        this.player.loadDataUri(this.midi.dataUri());
+        this.player.play();
+    }
+
+    playTrack() {
+        this.metronomeIsPlaying = true;
+        this.playMidi();
+        this.midiLoop = setInterval(() => {
+            this.playMidi();
+        }, ((60.0 / this.bpm) * 1000) * 4);
     }
 
     intitializeInstrument() {
         SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
             this.instrument = instrument;
         });
+    }
+
+    stopPlayer() {
+        if (this.player) {
+            this.player.stop();
+            clearInterval(this.midiLoop);
+        }
+    }
+
+    play() {
+        if (this.player) {
+            this.player.play();
+        }
+    }
+
+    changePlayerTempo(bpm) {
+        if (this.player) {
+            this.player.tempo = bpm;
+        }
     }
 }
