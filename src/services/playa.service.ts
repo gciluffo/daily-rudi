@@ -1,5 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
+import { Metronome } from './metronome';
+
 import * as MidiWriter from 'midi-writer-js';
 import * as MidiPlayer from 'midi-player-js';
 import * as SoundfontPlayer from 'soundfont-player';
@@ -15,13 +17,16 @@ export class PlayaService {
     public midiHasStarted: EventEmitter<boolean> = new EventEmitter();
     private midiLoop: any;
     private bpm: number = 60;
+    private metronome: any;
 
     constructor() {
         this.intitializeInstrument();
+        this.metronome = new Metronome();
+        this.getTicks();
     }
 
     initializeVoice(voice: any, bpm: number) {
-        this.bpm = bpm - .25;
+        this.bpm = bpm;
         let tracks = this.trackFromVoice(voice, this.bpm);
         console.log('tracks', tracks);
         console.log('voice', voice);
@@ -34,11 +39,14 @@ export class PlayaService {
         tracks[0].setTimeSignature(4, 4);
         tracks[0].setTempo(tempo);
         let velocity = 50;
-        let note;
+        let notes = [];
+        let tremolo = false;
 
         tracks[1] = new MidiWriter.Track();
 
         voice.tickables.forEach((tickable) => {
+            notes = [];
+
             // check for grace notes
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
@@ -48,12 +56,17 @@ export class PlayaService {
                     if (modifier.type === 'a>') { // increase veolocity for accented notes
                         velocity = 70
                     }
+                    if (modifier.code === 'v74') { // if tremolo
+                        tremolo = true;
+                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '32', velocity: velocity }));
+                    }
                 });
             }
 
-            note = new MidiWriter.NoteEvent({ pitch: ['b4'], duration: this.convertDuration(tickable), velocity: velocity });
-            tracks[1].addEvent(note);
+            notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: tremolo ? '32' : this.convertDuration(tickable), velocity: velocity }));
+            tracks[1].addEvent(notes);
             velocity = 50;
+            tremolo = false;
         });
 
         this.trackLength = tracks[1].events.length + 1;
@@ -114,6 +127,12 @@ export class PlayaService {
     intitializeInstrument() {
         SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
             this.instrument = instrument;
+        });
+    }
+
+    getTicks() {
+        this.metronome.tick.subscribe((flag: boolean) => {
+            console.log('tick bitch');
         });
     }
 
