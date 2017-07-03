@@ -23,7 +23,6 @@ export class HomePage implements OnInit {
   public playMidi: boolean = false;
   public pattern: Rudiment[];
   public sliderPosition: number = 0;
-  private sliderInterval: any;
   private counter: number = 0;
   public settings: any;
   public notePositions: any;
@@ -44,11 +43,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.playaService.midiHasStarted
-      .subscribe(() => {
-        this.playMetronome();
-      });
-
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
       this.saveSettings();
@@ -59,7 +53,7 @@ export class HomePage implements OnInit {
     });
 
     this.loadSettings();
-    this.bpm = 60;
+    this.bpm = 50;
     this.metronome = new Metronome();
     this.moveRight();
   }
@@ -67,9 +61,8 @@ export class HomePage implements OnInit {
   playAll() {
     if (this.playMidi) {
       this.playaService.playTrack();
-    } else {
-      this.playMetronome();
     }
+    this.playMetronome();
   }
 
   playMetronome() {
@@ -80,25 +73,24 @@ export class HomePage implements OnInit {
 
   pause() {
     this.metronome.pause();
-    this.playaService.stopPlayer();
+    this.playaService.stop();
     this.sliderPosition = this.vexRendererService.firstBeatPositions[0] - offset;
-    clearInterval(this.sliderInterval);
     this.counter = 0;
   }
 
-  setMidi() {
+  toggleMidi() {
     if (this.playMidi) {
-      if (this.isPlaying) {
-        // TODO: find a way to start the player at beginning of the stave
-      }
       this.initializeMidi();
+    }
+
+    if (this.isPlaying && !this.playMidi) {
+      this.playaService.stop();
     }
   }
 
   tempoChange() {
     if (this.isPlaying) {
       this.metronome.setTempo(this.bpm);
-      clearInterval(this.sliderInterval);
     }
   }
 
@@ -117,6 +109,11 @@ export class HomePage implements OnInit {
           // no no
         } else {
           this.sliderPosition = this.vexRendererService.firstBeatPositions[this.counter - 1] - offset;
+        }
+
+        // If playback is on, start it on the first beat
+        if (this.counter === 1 && this.playMidi && !this.playaService.isPlaying()) {
+          this.playaService.playTrack();
         }
       });
     });
@@ -139,7 +136,7 @@ export class HomePage implements OnInit {
   }
 
   renderPattern(pattern: Rudiment[]) {
-    this.playaService.stopPlayer();
+    this.playaService.stop();
     if (!this.vexRendererService.context) { // first time loading up the app
       let domElement = this.ogStaff.nativeElement;
       this.vexRendererService.createRenderer(domElement)

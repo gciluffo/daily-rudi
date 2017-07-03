@@ -11,11 +11,9 @@ export class PlayaService {
 
     private midi: any;
     private instrument: any;
-    private metronomeIsPlaying: boolean = false;
     private player: any;
-    public midiHasStarted: EventEmitter<boolean> = new EventEmitter();
     private midiLoop: any;
-    private bpm: number = 60;
+    private bpm: number = 50;
     private metronome: any;
 
     constructor() {
@@ -52,8 +50,8 @@ export class PlayaService {
                         // notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
                     }
                     if (modifier.grace_notes && modifier.grace_notes.length === 2) { // if its a grace note roll
-                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
-                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
+                        // notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
+                        // notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
                     }
                     if (modifier.type === 'a>') { // increase veolocity for accented notes
                         velocity = 70
@@ -72,11 +70,6 @@ export class PlayaService {
         });
 
         return tracks;
-    }
-
-    addNoteEventToTrack(track: any, event: any) {
-        new MidiWriter.NoteEvent(event);
-        track.addEvent(event);
     }
 
     convertDuration(note) {
@@ -99,16 +92,9 @@ export class PlayaService {
     }
 
     public playMidi() {
-        let previousEvent: any = {};
         // Initialize player and register event handler
         this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
-                previousEvent = event;
-                if (this.metronomeIsPlaying) {
-                    this.midiHasStarted.emit(true);
-                    this.metronomeIsPlaying = false;
-                }
-
                 console.log(event);
                 this.instrument.play(event.noteName, null, { gain: event.velocity / 10 });
             }
@@ -120,7 +106,6 @@ export class PlayaService {
     }
 
     playTrack() {
-        this.metronomeIsPlaying = true;
         this.playMidi();
         this.midiLoop = setInterval(() => {
             this.playMidi();
@@ -139,7 +124,7 @@ export class PlayaService {
         });
     }
 
-    stopPlayer() {
+    stop() {
         if (this.player) {
             this.player.stop();
             clearInterval(this.midiLoop);
@@ -149,6 +134,14 @@ export class PlayaService {
     play() {
         if (this.player) {
             this.player.play();
+        }
+    }
+
+    isPlaying() {
+        if (!this.player) {
+            return false;
+        } else {
+            return this.player.isPlaying();
         }
     }
 
