@@ -294,7 +294,7 @@ export class VexRendererService {
     getWidthsOfFirstBeats(positions: any[]) {
         for (let i = 0; i < positions.length; i++) {
             if (i === positions.length - 1) {
-                this.firstBeatWidths[i] = this.stave.getWidth() - positions[i] - offset;
+                this.firstBeatWidths[i] = (this.stave.getWidth() - positions[i] - offset) + 13;
             } else {
                 this.firstBeatWidths[i] = positions[i + 1] - positions[i] - offset;
             }

@@ -217,8 +217,8 @@ export class Metronome {
 
     private setGain() {
         let gainNode = this.audioContext.createGain();
-        gainNode.gain.value = 3; // setting it to 10%
         gainNode.connect(this.audioContext.destination);
+        gainNode.gain.value = 1; // setting it to 10%
     }
 }
 

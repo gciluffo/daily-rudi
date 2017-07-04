@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Metronome } from './metronome';
 
@@ -15,11 +15,20 @@ export class PlayaService {
     private midiLoop: any;
     private bpm: number = 50;
     private metronome: any;
+    private audioContext: any;
+    private mixGain: any;
+    private filterGain: any;
 
     constructor() {
         this.intitializeInstrument();
         this.metronome = new Metronome();
         this.getTicks();
+        this.audioContext = new AudioContext();
+        this.filterGain = this.audioContext.createGain();
+        this.mixGain = this.audioContext.createGain();
+        this.mixGain.connect(this.audioContext.destination);
+        this.mixGain.gain.value = 0;
+        this.filterGain.gain.value = 0;
     }
 
     initializeVoice(voice: any, bpm: number) {
@@ -35,7 +44,6 @@ export class PlayaService {
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(4, 4);
         tracks[0].setTempo(tempo);
-        let velocity = 50;
         let notes = [];
         let tremolo = false;
         tracks[1] = new MidiWriter.Track();
@@ -54,18 +62,17 @@ export class PlayaService {
                         // notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
                     }
                     if (modifier.type === 'a>') { // increase veolocity for accented notes
-                        velocity = 70
+
                     }
                     if (modifier.code === 'v74') { // if tremolo
                         tremolo = true;
-                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '32', velocity: velocity }));
+                        notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '32' }));
                     }
                 });
             }
 
-            notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: tremolo ? '32' : this.convertDuration(tickable), velocity: velocity }));
+            notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: tremolo ? '32' : this.convertDuration(tickable) }));
             tracks[1].addEvent(notes);
-            velocity = 50;
             tremolo = false;
         });
 
@@ -95,8 +102,10 @@ export class PlayaService {
         // Initialize player and register event handler
         this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
-                console.log(event);
-                this.instrument.play(event.noteName, null, { gain: event.velocity / 10 });
+                // console.log(event);
+                // this.instrument.play(event.noteName, null, { gain: 2 });
+                // this.snare();
+                this.scheduleTone();
             }
         });
 
@@ -150,4 +159,57 @@ export class PlayaService {
             this.player.tempo = bpm;
         }
     }
+
+    private scheduleTone(): void {
+        let osc = this.audioContext.createOscillator();
+        osc.connect(this.audioContext.destination);
+
+        osc.frequency.value = 700;
+        osc.start(this.audioContext.currentTime + .1);
+        osc.stop(this.audioContext.currentTime + .15 + .020);
+    }
+
+    snare() {
+        var osc3 = this.audioContext.createOscillator();
+        var gainOsc3 = this.audioContext.createGain();
+
+        this.filterGain.gain.setValueAtTime(1, this.audioContext.currentTime);
+        this.filterGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
+
+        osc3.type = "triangle";
+        osc3.frequency.value = 100;
+        gainOsc3.gain.value = 0;
+
+        gainOsc3.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainOsc3.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+
+        osc3.connect(gainOsc3);
+        gainOsc3.connect(this.mixGain);
+
+        this.mixGain.gain.value = 1;
+
+        osc3.start(this.audioContext.currentTime);
+        osc3.stop(this.audioContext.currentTime + 0.2);
+
+        var node = this.audioContext.createBufferSource(),
+            buffer = this.audioContext.createBuffer(1, 4096, this.audioContext.sampleRate),
+            data = buffer.getChannelData(0);
+
+        var filter = this.audioContext.createBiquadFilter();
+        filter.type = "highpass";
+        filter.frequency.setValueAtTime(100, this.audioContext.currentTime);
+        filter.frequency.linearRampToValueAtTime(1000, this.audioContext.currentTime + 0.2);
+
+
+        for (var i = 0; i < 4096; i++) {
+            data[i] = Math.random();
+        }
+        node.buffer = buffer;
+        node.loop = true;
+        node.connect(filter);
+        filter.connect(this.filterGain);
+        this.filterGain.connect(this.mixGain);
+        node.start(this.audioContext.currentTime);
+        node.stop(this.audioContext.currentTime + 0.020);
+    };
 }
