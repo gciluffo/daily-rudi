@@ -28,7 +28,7 @@
         </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
         <ion-item *ngIf="showRange">
-          <ion-range snaps="true" debounce="500" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" (ionChange)="tempoOnRelease()" min="40"
+          <ion-range snaps="true" debounce="500" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" (ionChange)="tempoOnRelease()" min="20"
             max="200"></ion-range>
         </ion-item>
       </ion-row>

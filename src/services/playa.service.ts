@@ -55,7 +55,7 @@ export class PlayaService {
             if (tickable.modifiers.length) {
                 tickable.modifiers.forEach((modifier) => {
                     if (modifier.grace_notes && modifier.grace_notes.length === 1) { // if its a flam
-                        // notes.push(new MidiWriter.NoteEvent({ pitch: pitches, duration: '64' }));
+                        // notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '4', grace: ['b4'] }));
                     }
                     if (modifier.grace_notes && modifier.grace_notes.length === 2) { // if its a grace note roll
                         // notes.push(new MidiWriter.NoteEvent({ pitch: ['b4'], duration: '16', velocity: 10 }));
@@ -102,7 +102,7 @@ export class PlayaService {
         // Initialize player and register event handler
         this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
-                // console.log(event);
+                console.log(event);
                 // this.instrument.play(event.noteName, null, { gain: 2 });
                 // this.snare();
                 this.scheduleTone();
@@ -166,7 +166,7 @@ export class PlayaService {
 
         osc.frequency.value = 700;
         osc.start(this.audioContext.currentTime + .1);
-        osc.stop(this.audioContext.currentTime + .15 + .020);
+        osc.stop(this.audioContext.currentTime + .1 + .020);
     }
 
     snare() {
