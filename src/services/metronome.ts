@@ -58,7 +58,6 @@ export class Metronome {
 
         if (this.usesWorker) {
             this.intervalWorker = new Worker('assets/js/IntervalWorker.js');
-            console.log('this.intervalWorker', this.intervalWorker);
             this.intervalWorker.onmessage = (event) => {
                 if (event.data === 'tick') {
                     this.scheduler();

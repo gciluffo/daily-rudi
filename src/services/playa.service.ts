@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { Metronome } from './metronome';
-
 import * as MidiWriter from 'midi-writer-js';
 import * as MidiPlayer from 'midi-player-js';
 import * as SoundfontPlayer from 'soundfont-player';
@@ -14,15 +12,16 @@ export class PlayaService {
     private player: any;
     private midiLoop: any;
     private bpm: number = 50;
-    private metronome: any;
     private audioContext: any;
     private mixGain: any;
     private filterGain: any;
 
     constructor() {
         this.intitializeInstrument();
-        this.metronome = new Metronome();
-        this.getTicks();
+        this.initializeWebAudio();
+    }
+
+    initializeWebAudio() {
         this.audioContext = new AudioContext();
         this.filterGain = this.audioContext.createGain();
         this.mixGain = this.audioContext.createGain();
@@ -105,7 +104,7 @@ export class PlayaService {
                 console.log(event);
                 // this.instrument.play(event.noteName, null, { gain: 2 });
                 // this.snare();
-                this.scheduleTone();
+                this.snare();
             }
         });
 
@@ -124,12 +123,6 @@ export class PlayaService {
     intitializeInstrument() {
         SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
             this.instrument = instrument;
-        });
-    }
-
-    getTicks() {
-        this.metronome.tick.subscribe((flag: boolean) => {
-            console.log('tick bitch');
         });
     }
 
