@@ -16,15 +16,12 @@ export class Metronome {
     private tempo: number; // beats per minute (BPM)
     private isPlaying: boolean = false;
     private audioContext: AudioContext;
+    private soundBuffer: any;
     private audioLoopTimerHandle: number;
-
     private canSuspend: boolean = false;
-
     private usesWorker: boolean = false;
     private intervalWorker: Worker;
-
     private suspendTimerId: number = 0;
-
     private nextNoteTime: number = 0;
     private next4thNote: number = 0;
 
@@ -34,7 +31,7 @@ export class Metronome {
     constructor() {
         // Safari needs prefix webkitAudioContext
         this.audioContext = new ((<any>window).AudioContext || (<any>window).webkitAudioContext)();
-        this.setGain();
+        this.loadSound();
 
         // --Suspend/resume--
         this.canSuspend = (() => {
@@ -187,7 +184,9 @@ export class Metronome {
 
     private scheduler() {
         while (this.nextNoteTime < this.audioContext.currentTime + scheduleAheadTime) {
-            this.scheduleTone(this.nextNoteTime);
+            // this.scheduleTone(this.nextNoteTime);
+            this.playSound();
+            this.tick.emit(true);
             let secondsPerBeat = 60.0 / this.tempo;
             this.nextNoteTime += secondsPerBeat;
             this.next4thNote = (this.next4thNote + 1) % numBeatsPerBar;
@@ -202,22 +201,31 @@ export class Metronome {
         }
     }
 
-    private scheduleTone(startTime: number): void {
-        let osc = this.audioContext.createOscillator();
-        osc.connect(this.audioContext.destination);
+    loadSound() {
+        let request = new XMLHttpRequest();
+        request.open('GET', 'assets/sounds/pink.wav', true);
+        request.responseType = 'arraybuffer';
 
-        let frequency = 550;
-
-        osc.frequency.value = frequency;
-        osc.start(startTime);
-        osc.stop(startTime + noteLength);
-        this.tick.emit(true);
+        // Decode asynchronously
+        request.onload = () => {
+            this.audioContext.decodeAudioData(request.response, (buffer) => {
+                this.soundBuffer = buffer;
+            });
+        }
+        request.send();
     }
 
-    private setGain() {
-        let gainNode = this.audioContext.createGain();
-        gainNode.connect(this.audioContext.destination);
-        gainNode.gain.value = 1; // setting it to 10%
+    playSound() {
+        let source = this.audioContext.createBufferSource();
+        source.buffer = this.soundBuffer;
+        source.connect(this.audioContext.destination);
+
+        let gain = this.audioContext.createGain();
+        gain.gain.value = 4;
+        source.connect(gain);
+        gain.connect(this.audioContext.destination);
+
+        source.start(0);
     }
 }
 

@@ -20,9 +20,9 @@
           <ion-icon name="pause"></ion-icon>
         </button>
         <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
-        <button ion-button (click)="playMidi = !playMidi; toggleMidi()" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
+        <!--<button ion-button (click)="playMidi = !playMidi; toggleMidi()" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
             <span style="font-size: 30px" class="snare-button-text">S</span>
-        </button>
+        </button>-->
         <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())">
           <ion-icon name="refresh"></ion-icon>
         </button>
