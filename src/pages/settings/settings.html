@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
+  <ion-list *ngIf="settings">
 
     <ion-item>
       <ion-label>Metronome Slider</ion-label>
@@ -18,6 +18,15 @@
     <ion-item>
       <ion-label>Random Accents</ion-label>
       <ion-toggle [(ngModel)]="settings.useRandomAccents" (ngModelChange)="updateSettings()"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Click Sound</ion-label>
+      <ion-select [(ngModel)]="settings.clickSound">
+        <ion-option value="assets/sounds/pink.wav">Dink</ion-option>
+        <ion-option value="assets/sounds/4d.wav">Stick</ion-option>
+        <ion-option value="assets/sounds/cowbell.wav">Bell</ion-option>
+      </ion-select>
     </ion-item>
 
   </ion-list>

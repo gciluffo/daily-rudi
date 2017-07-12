@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
   @ViewChild('ogStaff') ogStaff: ElementRef;
   @ViewChild('ogBar') ogBar: ElementRef;
 
-  public metronome: any;
+  public metronome: Metronome;
   public bpm: number;
   public isPlaying: boolean = false;
   public playMidi: boolean = false;
@@ -39,10 +39,6 @@ export class HomePage implements OnInit {
     public splashService: SplashService) {
   }
 
-  ionViewDidLoad() {
-    this.splashService.hide();
-  }
-
   ngOnInit() {
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
@@ -53,9 +49,9 @@ export class HomePage implements OnInit {
       console.log('[INFO] App resumed');
     });
 
+    this.metronome = new Metronome();
     this.loadSettings();
     this.bpm = 50;
-    this.metronome = new Metronome();
     this.moveRight();
   }
 
@@ -117,18 +113,13 @@ export class HomePage implements OnInit {
     });
   }
 
-  createSettingsObject() {
-    return {
-      useMetronomeSlider: this.settings.useMetronomeSlider,
-      useRandomAccents: this.settings.useRandomAccents
-    };
-  }
-
   openSettings() {
-    let settingsModal = this.modalCtrl.create(SettingsPage, this.createSettingsObject());
+    let settingsModal = this.modalCtrl.create(SettingsPage);
     settingsModal.onDidDismiss(data => {
       this.settings = data;
       this.vexRendererService.settings = data;
+      this.metronome.settings = data;
+      this.metronome.loadSound();
     });
     settingsModal.present();
   }
@@ -166,6 +157,8 @@ export class HomePage implements OnInit {
       .then((data: any) => {
         this.settings = data;
         this.vexRendererService.settings = data;
+        this.metronome.settings = data;
+        this.metronome.loadSound();
 
         if (data.pattern) {
           let pattern = JSON.parse(data.pattern)

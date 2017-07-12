@@ -10,6 +10,7 @@ export class StorageService {
     }
 
     updateSettings(settings: any) {
+        this.settings = settings;
         this.nativeStorage.setItem('settings', settings)
             .then(() => {
                 console.log('Stored item!', settings);
@@ -23,6 +24,7 @@ export class StorageService {
             this.nativeStorage.getItem('settings')
                 .then((data) => {
                     console.log('Got item!', data)
+                    this.settings = data;
                     resolve(data);
                 },
                 error => {
@@ -31,6 +33,7 @@ export class StorageService {
                     let dumbData = {
                         useMetronomeSlider: true,
                         useRandomAccents: false,
+                        clickSound: 'assets/sounds/pink.wav'
                     };
                     this.updateSettings(dumbData);
                     resolve(dumbData);

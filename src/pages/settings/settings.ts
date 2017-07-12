@@ -10,7 +10,8 @@ export class SettingsPage implements OnInit {
 
   public settings: any = {
     useMetronomeSlider: null,
-    useRandomAccents: null
+    useRandomAccents: null,
+    clickSound: null
   };
 
   constructor(public navCtrl: NavController,
@@ -21,8 +22,8 @@ export class SettingsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getNavParams();
     this.overrideBackButton();
+    this.settings = this.storageService.settings;
   }
 
   updateSettings() {
@@ -31,11 +32,6 @@ export class SettingsPage implements OnInit {
 
   dismiss() {
     this.viewCtrl.dismiss(this.settings);
-  }
-
-  getNavParams() {
-    this.settings.useMetronomeSlider = this.navParams.get('useMetronomeSlider');
-    this.settings.useRandomAccents = this.navParams.get('useRandomAccents');
   }
 
   overrideBackButton() {

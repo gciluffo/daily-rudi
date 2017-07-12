@@ -24,6 +24,7 @@ export class Metronome {
     private suspendTimerId: number = 0;
     private nextNoteTime: number = 0;
     private next4thNote: number = 0;
+    public settings: any;
 
     private noteQue: { progress: number, time: number, tempo: number }[];
     public tick: EventEmitter<boolean> = new EventEmitter();
@@ -201,9 +202,9 @@ export class Metronome {
         }
     }
 
-    loadSound() {
+    public loadSound() {
         let request = new XMLHttpRequest();
-        request.open('GET', 'assets/sounds/pink.wav', true);
+        request.open('GET', this.settings ? this.settings.clickSound : 'assets/sounds/pink.wav', true);
         request.responseType = 'arraybuffer';
 
         // Decode asynchronously
