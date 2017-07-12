@@ -21,6 +21,7 @@ export class HomePage implements OnInit {
   public bpm: number;
   public isPlaying: boolean = false;
   public playMidi: boolean = false;
+  public showRange: boolean = false;
   public pattern: Rudiment[];
   public sliderPosition: number = 0;
   private counter: number = 0;
@@ -81,6 +82,7 @@ export class HomePage implements OnInit {
   toggleMidi() {
     if (this.playMidi) {
       this.initializeMidi();
+      this.showRange = false;
     }
 
     if (this.isPlaying && !this.playMidi) {
@@ -92,10 +94,6 @@ export class HomePage implements OnInit {
     if (this.isPlaying) {
       this.metronome.setTempo(this.bpm);
     }
-  }
-
-  tempoOnRelease() {
-    this.initializeMidi();
   }
 
   moveRight() {
@@ -186,5 +184,15 @@ export class HomePage implements OnInit {
 
   initializeMidi() {
     this.playaService.initializeVoice(this.vexRendererService.voice, this.bpm);
+  }
+
+  addMinusOneBpm(operation: string) {
+    if (operation === 'add') {
+      this.bpm += 1;
+    } else {
+      this.bpm -= 1;
+    }
+
+    this.tempoChange();
   }
 }

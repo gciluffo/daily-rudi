@@ -28,9 +28,12 @@
         </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
         <ion-item *ngIf="showRange">
-          <ion-range snaps="true" debounce="500" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" (ionChange)="tempoOnRelease()" min="20"
-            max="200"></ion-range>
+          <ion-range snaps="true" debounce="500" [(ngModel)]="bpm" (ngModelChange)="tempoChange()" min="20" max="200">
+            <button class="metronome-button" ion-button outline range-left (click)="addMinusOneBpm('minus')">-</button>
+            <button class="metronome-button" ion-button outline range-right (click)="addMinusOneBpm('add')">+</button>
+          </ion-range>
         </ion-item>
+
       </ion-row>
     </ion-toolbar>
   </ion-footer>
