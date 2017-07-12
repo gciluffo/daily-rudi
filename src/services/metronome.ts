@@ -4,7 +4,6 @@ import { EventEmitter } from '@angular/core';
  */
 const minTempo = 40; // BPM
 const maxTempo = 250; // BPM
-const noteLength = 0.05; // Seconds
 const numBeatsPerBar = 4;
 const maxNoteQueLength = 5;
 
@@ -187,7 +186,6 @@ export class Metronome {
         while (this.nextNoteTime < this.audioContext.currentTime + scheduleAheadTime) {
             // this.scheduleTone(this.nextNoteTime);
             this.playSound();
-            this.tick.emit(true);
             let secondsPerBeat = 60.0 / this.tempo;
             this.nextNoteTime += secondsPerBeat;
             this.next4thNote = (this.next4thNote + 1) % numBeatsPerBar;
@@ -221,12 +219,23 @@ export class Metronome {
         source.buffer = this.soundBuffer;
         source.connect(this.audioContext.destination);
 
+        // toggle volume
         let gain = this.audioContext.createGain();
         gain.gain.value = 4;
         source.connect(gain);
         gain.connect(this.audioContext.destination);
 
-        source.start(0);
+        this.tick.emit(true);
+        source.start(this.audioContext.currentTime + .1);
+    }
+
+    private scheduleTone(): void {
+        let osc = this.audioContext.createOscillator();
+        osc.connect(this.audioContext.destination);
+
+        osc.frequency.value = 700;
+        osc.start(this.audioContext.currentTime + .1);
+        osc.stop(this.audioContext.currentTime + .1 + .020);
     }
 }
 
