@@ -16,6 +16,22 @@
         font-size: 50px;
     }
 
+    .ion-ios-play:before {
+        font-size: 50px;
+    }
+
+    .ion-ios-pause:before {
+        font-size: 50px;
+    }
+
+    .ion-ios-refresh:before {
+        font-size: 50px;
+    }
+
+    .ion-ios-settings:before {
+        font-size: 50px;
+    }
+
     .bpm-footer {
         display: inline;
         font-weight: 700;
@@ -39,7 +55,7 @@
         background-color: blue;
         height: 180px;
         z-index: 10;
-        top: 12%;
+        top: 9%;
         position: fixed;
     }
 
@@ -59,50 +75,17 @@
 
     .rudiment-names {
         position: absolute; // redo this, temp for now
-        top: 50px;
+        top: 10%;
         display: inline-block;
+    }
+
+    .staff-position {
+        position: absolute;
+        top: -6%;
     }
 
     .rudiment-name {
         color: orange;
-    }
-
-    .rudiment-name-lining {
-        display: inline-block;
-        width: 30px;
-        height: 1px;
-        background-color: blue;
-    }
-
-    .line {
-        color: blue;
-        width: 112px;
-        height: 47px;
-        border-bottom: 1px solid black;
-        position: absolute;
-    }
-
-    .button-badge {
-        background-color: black;
-        border-radius: 10px;
-        color: white;
-        padding: 1px 4px;
-        font-size: 20px;
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    .canvas {
-        position: relative;
-        z-index:100;
-        background-color: white;
-        opacity: .7;
-    }
-
-    .canvas-div {
-        position: relative;
-        top: 45%;
     }
 
     .snare-button-active {
