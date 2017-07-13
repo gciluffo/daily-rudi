@@ -39,10 +39,6 @@ export class HomePage implements OnInit {
     public splashService: SplashService) {
   }
 
-  ionViewDidLoad() {
-    this.splashService.hide();
-  }
-
   ngOnInit() {
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');

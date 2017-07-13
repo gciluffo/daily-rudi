@@ -2,13 +2,11 @@ import { EventEmitter } from '@angular/core';
 /**
  * Metronome
  */
-const minTempo = 40; // BPM
-const maxTempo = 250; // BPM
 const numBeatsPerBar = 4;
 const maxNoteQueLength = 5;
 
 const scheduleInterval = 25.0; // ms. How often the scheduling is called.
-const scheduleAheadTime = 0.1; // Seconds
+const scheduleAheadTime = .1; // Seconds
 
 export class Metronome {
 
@@ -16,6 +14,7 @@ export class Metronome {
     private isPlaying: boolean = false;
     private audioContext: AudioContext;
     private soundBuffer: any;
+    private soundSource: any;
     private audioLoopTimerHandle: any;
     private canSuspend: boolean = false;
     private usesWorker: boolean = false;
@@ -95,46 +94,8 @@ export class Metronome {
         return this.isPlaying;
     }
 
-    validateTempo(tempo: number): { valid: boolean, error: string } {
-        if (isNaN(tempo)) {
-            return { valid: false, error: 'You must enter a number' };
-        }
-
-        tempo = Number(tempo);
-
-        if (tempo < minTempo) {
-            return { valid: false, error: 'Minimum tempo is ' + minTempo };
-        }
-
-        if (tempo > maxTempo) {
-            return { valid: false, error: 'Max tempo is ' + maxTempo };
-        }
-
-        return { valid: true, error: '' };
-    }
-
     setTempo(tempo: number): void {
-
-        if (this.tempo === tempo) {
-            // Do nothing if it is the same
-            return;
-        }
-
-        let { valid } = this.validateTempo(tempo);
-
-        if (!valid) {
-            return;
-        }
-
         this.tempo = Number(tempo);
-    }
-
-    getMinTempo() {
-        return minTempo;
-    }
-
-    getMaxTempo() {
-        return maxTempo;
     }
 
     getCurrentTime() {
@@ -184,7 +145,6 @@ export class Metronome {
 
     private scheduler() {
         while (this.nextNoteTime < this.audioContext.currentTime + scheduleAheadTime) {
-            // this.scheduleTone(this.nextNoteTime);
             this.playSound();
             let secondsPerBeat = 60.0 / this.tempo;
             this.nextNoteTime += secondsPerBeat;
@@ -209,25 +169,28 @@ export class Metronome {
         request.onload = () => {
             this.audioContext.decodeAudioData(request.response, (buffer) => {
                 this.soundBuffer = buffer;
-                this.soundBuffer.set = this.audioContext.sampleRate / 2;
+                this.makeBufferSource();
             });
         }
         request.send();
     }
 
-    playSound() {
-        let source = this.audioContext.createBufferSource();
-        source.buffer = this.soundBuffer;
-        source.connect(this.audioContext.destination);
+    makeBufferSource() {
+        this.soundSource = this.audioContext.createBufferSource();
+        this.soundSource.buffer = this.soundBuffer;
+        this.soundSource.connect(this.audioContext.destination);
 
         // toggle volume
         let gain = this.audioContext.createGain();
         gain.gain.value = 5;
-        source.connect(gain);
+        this.soundSource.connect(gain);
         gain.connect(this.audioContext.destination);
+    }
 
+    playSound() {
+        this.soundSource.start(this.nextNoteTime);
         this.tick.emit(true);
-        source.start(this.audioContext.currentTime + .1);
+        this.makeBufferSource();
     }
 }
 
