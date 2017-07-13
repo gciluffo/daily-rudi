@@ -16,11 +16,11 @@ export class Metronome {
     private isPlaying: boolean = false;
     private audioContext: AudioContext;
     private soundBuffer: any;
-    private audioLoopTimerHandle: number;
+    private audioLoopTimerHandle: any;
     private canSuspend: boolean = false;
     private usesWorker: boolean = false;
     private intervalWorker: Worker;
-    private suspendTimerId: number = 0;
+    private suspendTimerId: any;
     private nextNoteTime: number = 0;
     private next4thNote: number = 0;
     public settings: any;
@@ -209,6 +209,7 @@ export class Metronome {
         request.onload = () => {
             this.audioContext.decodeAudioData(request.response, (buffer) => {
                 this.soundBuffer = buffer;
+                this.soundBuffer.set = this.audioContext.sampleRate / 2;
             });
         }
         request.send();
@@ -221,21 +222,12 @@ export class Metronome {
 
         // toggle volume
         let gain = this.audioContext.createGain();
-        gain.gain.value = 4;
+        gain.gain.value = 5;
         source.connect(gain);
         gain.connect(this.audioContext.destination);
 
         this.tick.emit(true);
         source.start(this.audioContext.currentTime + .1);
-    }
-
-    private scheduleTone(): void {
-        let osc = this.audioContext.createOscillator();
-        osc.connect(this.audioContext.destination);
-
-        osc.frequency.value = 700;
-        osc.start(this.audioContext.currentTime + .1);
-        osc.stop(this.audioContext.currentTime + .1 + .020);
     }
 }
 
