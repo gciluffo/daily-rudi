@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 
 import * as MidiWriter from 'midi-writer-js';
 import * as MidiPlayer from 'midi-player-js';
-import * as SoundfontPlayer from 'soundfont-player';
 
 @Injectable()
 export class PlayaService {
 
     private midi: any;
-    private instrument: any;
     private player: any;
     private midiLoop: any;
     private bpm: number = 50;
@@ -17,12 +15,11 @@ export class PlayaService {
     private filterGain: any;
 
     constructor() {
-        this.intitializeInstrument();
         this.initializeWebAudio();
     }
 
     initializeWebAudio() {
-        this.audioContext = new AudioContext();
+        this.audioContext = new ((<any>window).AudioContext || (<any>window).webkitAudioContext)();
         this.filterGain = this.audioContext.createGain();
         this.mixGain = this.audioContext.createGain();
         this.mixGain.connect(this.audioContext.destination);
@@ -120,12 +117,6 @@ export class PlayaService {
         }, ((60.0 / this.bpm) * 1000) * 4);
     }
 
-    intitializeInstrument() {
-        SoundfontPlayer.instrument(new AudioContext(), 'woodblock').then((instrument) => {
-            this.instrument = instrument;
-        });
-    }
-
     stop() {
         if (this.player) {
             this.player.stop();
@@ -163,8 +154,8 @@ export class PlayaService {
     }
 
     snare() {
-        var osc3 = this.audioContext.createOscillator();
-        var gainOsc3 = this.audioContext.createGain();
+        let osc3 = this.audioContext.createOscillator();
+        let gainOsc3 = this.audioContext.createGain();
 
         this.filterGain.gain.setValueAtTime(1, this.audioContext.currentTime);
         this.filterGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
@@ -184,17 +175,17 @@ export class PlayaService {
         osc3.start(this.audioContext.currentTime);
         osc3.stop(this.audioContext.currentTime + 0.2);
 
-        var node = this.audioContext.createBufferSource(),
+        let node = this.audioContext.createBufferSource(),
             buffer = this.audioContext.createBuffer(1, 4096, this.audioContext.sampleRate),
             data = buffer.getChannelData(0);
 
-        var filter = this.audioContext.createBiquadFilter();
+        let filter = this.audioContext.createBiquadFilter();
         filter.type = "highpass";
         filter.frequency.setValueAtTime(100, this.audioContext.currentTime);
         filter.frequency.linearRampToValueAtTime(1000, this.audioContext.currentTime + 0.2);
 
 
-        for (var i = 0; i < 4096; i++) {
+        for (let i = 0; i < 4096; i++) {
             data[i] = Math.random();
         }
         node.buffer = buffer;
@@ -204,5 +195,5 @@ export class PlayaService {
         this.filterGain.connect(this.mixGain);
         node.start(this.audioContext.currentTime);
         node.stop(this.audioContext.currentTime + 0.020);
-    };
+    }
 }

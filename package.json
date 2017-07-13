@@ -43,7 +43,6 @@
         "moment": "^2.18.1",
         "note-parser": "^2.0.1",
         "rxjs": "5.4.0",
-        "soundfont-player": "^0.10.5",
         "sw-toolbox": "3.6.0",
         "tonal-midi": "^0.69.6",
         "vexflow": "^1.2.83",
