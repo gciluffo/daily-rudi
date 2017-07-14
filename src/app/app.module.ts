@@ -7,7 +7,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 
-import { RudimentService, VexRendererService, StorageService, SplashService, PlayaService } from '../services';
+import { RudimentService, VexRendererService, StorageService, PlatformService, PlayaService } from '../services';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -32,7 +32,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
   ],
   providers: [
     PlayaService,
-    SplashService,
+    PlatformService,
     StorageService,
     VexRendererService,
     RudimentService,

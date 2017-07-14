@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 
-import { Metronome, RudimentService, VexRendererService, StorageService, SplashService, PlayaService } from '../../services';
+import { Metronome, RudimentService, VexRendererService, StorageService, PlatformService, PlayaService } from '../../services';
 
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
@@ -29,6 +29,7 @@ export class HomePage implements OnInit {
   public notePositions: any;
 
   constructor(public navCtrl: NavController,
+    public platformService: PlatformService,
     public rudimentService: RudimentService,
     public vexRendererService: VexRendererService,
     private storageService: StorageService,
@@ -36,7 +37,7 @@ export class HomePage implements OnInit {
     public platform: Platform,
     private _ngZone: NgZone,
     private playaService: PlayaService,
-    public splashService: SplashService) {
+    public splashService: PlatformService) {
   }
 
   ionViewDidLoad() {
