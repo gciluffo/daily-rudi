@@ -1,13 +1,14 @@
 <ion-content class="home-content" no-bounce>
 
-  <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
-    [style.height.px]="vexRendererService.stave.getHeight() + 40" class="blue-line"></div>
-
   <ion-row class="rudiment-names">
     <span *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'" class="rudiment-name">{{rudiment.name}}</span>
   </ion-row>
 
-  <div class="staff-position" [style.position]="platformService.isAndroid ? relative : absolute" #ogStaff></div>
+  <div class="staff-position" [style.position]="platformService.isAndroid ? relative : absolute" #ogStaff>
+    <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
+      [style.height.px]="vexRendererService.stave.getHeight()" [style.top.%]="platformService.isTablet || platformService.isIPad ? 10 : 16"
+      class="blue-line"></div>
+  </div>
 
   <ion-footer no-border>
     <ion-toolbar height="80px">

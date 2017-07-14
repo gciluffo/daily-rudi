@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Rudiment } from '../models/rudiment';
 import { PlayaService } from './playa.service';
+import { PlatformService } from './platform.service';
 import * as vexflow from 'vexflow';
 
 const offset = 15;
@@ -25,7 +26,8 @@ export class VexRendererService {
     };
 
     constructor(private platform: Platform,
-        private playaService: PlayaService) {
+        private playaService: PlayaService,
+        private platformService: PlatformService) {
     }
 
     getScreenDimensions() {
@@ -59,10 +61,10 @@ export class VexRendererService {
             fill_style: '#999999',
             left_bar: true,               // draw vertical bar on left
             right_bar: true,               // draw vertical bar on right
-            spacing_between_lines_px: 20, // in pixels
+            spacing_between_lines_px: this.platformService.isTablet() || this.platformService.isIPad() ? 40 : 20, // in pixels
             space_above_staff_ln: 4,      // in staff lines
             space_below_staff_ln: 10,      // in staff lines
-            top_text_position: 1,          // in staff lines
+            top_text_position: 1
         };
 
         // Create a stave of width 400 at position 10, 40 on the canvas.
@@ -209,6 +211,8 @@ export class VexRendererService {
     }
 
     draw(mergedNotes: any[], beams: any[], tripletPositions: any[], allNotes: any[], pattern: Rudiment[]) {
+        let staveNoteGroup = this.context.openGroup();
+
         vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
         if (tripletPositions.length) {
             let positionsObj = this.getTripletPositionsFromMergedNotes(mergedNotes, allNotes, tripletPositions, pattern);
@@ -217,7 +221,12 @@ export class VexRendererService {
             }
         }
         beams.forEach(b => b.draw());
+
+        this.context.closeGroup();
+        // TODO: Get this working increase note size for tablets
+        staveNoteGroup.style.fontsize = "20";
     }
+
 
     createMIDITrack(notes: any[]) {
         this.voice = new vexflow.Flow.Voice({ num_beats: 4, beat_value: 1 });
