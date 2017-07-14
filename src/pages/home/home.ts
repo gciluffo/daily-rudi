@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
 
     this.metronome = new Metronome();
     this.loadSettings();
-    this.bpm = 50;
+    this.bpm = 45;
     this.moveRight();
   }
 

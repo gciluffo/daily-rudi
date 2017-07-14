@@ -172,15 +172,12 @@ export class VexRendererService {
 
     addTremoloToNote(staveNote: any) {
         let tremolo = new vexflow.Flow.Tremolo(1)
-            .setPosition(vexflow.Flow.Modifier.Position.RIGHT);
+            .setPosition(vexflow.Flow.Modifier.Position.ABOVE);
 
-        tremolo.setXShift(20);
+        // tremolo.setYShift(20);
 
         staveNote.addArticulation(0, tremolo);
-    }
-
-    setGraceNoteShift(gracenote: any) {
-        gracenote.setXShift(0);
+        console.log(staveNote);
     }
 
     addGraceNoteSticking(gracenote: any, voice) {
@@ -195,7 +192,6 @@ export class VexRendererService {
     addFlam(staveNote: any, voice: any) {
         let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' });
 
-        this.setGraceNoteShift(gracenote);
         this.addGraceNoteSticking(gracenote, voice);
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
         staveNote.addModifier(0, gracenotegroup.beamNotes());
@@ -203,11 +199,9 @@ export class VexRendererService {
 
     addDoubleGraceNote(staveNote: any, voice) {
         let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
-        this.setGraceNoteShift(gracenote1);
         this.addGraceNoteSticking(gracenote1, voice);
 
         let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
-        this.setGraceNoteShift(gracenote2);
         this.addGraceNoteSticking(gracenote2, voice);
 
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote1, gracenote2], true);
@@ -223,8 +217,6 @@ export class VexRendererService {
             }
         }
         beams.forEach(b => b.draw());
-
-        this.createMIDITrack(mergedNotes);
     }
 
     createMIDITrack(notes: any[]) {

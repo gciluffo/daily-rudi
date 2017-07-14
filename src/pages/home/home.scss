@@ -74,18 +74,20 @@
     }
 
     .rudiment-names {
-        position: absolute; // redo this, temp for now
-        top: 10%;
-        display: inline-block;
+        position: absolute;
+        top: 7%;
     }
 
     .staff-position {
         position: absolute;
-        top: -6%;
+        top: -7%;
     }
 
     .rudiment-name {
+        display: inline;
         color: orange;
+        position: absolute;
+        width: 160px;
     }
 
     .snare-button-active {

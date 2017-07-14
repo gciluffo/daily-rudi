@@ -3,8 +3,8 @@
   <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
     class="blue-line"></div>
 
-  <div class="rudiment-names" *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'">
-    <span class="rudiment-name">{{rudiment.name}}</span>
+  <div class="rudiment-names">
+    <span *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'" class="rudiment-name">{{rudiment.name}}</span>
   </div>
 
   <div class="staff-position" #ogStaff></div>
