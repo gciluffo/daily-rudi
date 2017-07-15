@@ -244,19 +244,27 @@ export class HomePage implements OnInit {
 
         alert.addButton('Cancel');
         alert.addButton({
+          text: 'Delete',
+          handler: name => {
+            if (name) {
+              this.storageService.deletePatternByName(name);
+            }
+          }
+        });
+        alert.addButton({
           text: 'Load',
           handler: name => {
-            this.storageService.loadPatternByName(name)
-              .then((pattern: any) => {
-                this.renderPattern(pattern);
-              });
+            if (name) {
+              this.storageService.loadPatternByName(name)
+                .then((pattern: any) => {
+                  this.renderPattern(pattern);
+                });
+            }
           }
         });
         alert.present();
 
       });
-
-
   }
 
 }

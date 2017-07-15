@@ -100,4 +100,16 @@ export class StorageService {
             .then(() => { }, error => console.error('Error storing item', error));
     }
 
+    deletePatternByName(name) {
+        this.nativeStorage.remove(name);
+        this.loadPatternNames()
+            .then((names: any[]) => {
+                let index = names.findIndex((o) => {
+                    return o.name === name;
+                });
+                names.splice(index, 1);
+                this.nativeStorage.setItem('patternNames', JSON.stringify(names));
+            });
+    }
+
 }
