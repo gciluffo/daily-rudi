@@ -1,0 +1,12 @@
+<ion-content padding>
+  <ion-item>
+    <ion-input #input [(ngModel)]="patternName" placeholder="My Sick Rudiment Pattern" type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-row>
+    <ion-col col-3></ion-col>
+    <button ion-button (click)="dismiss()">Cancel</button>
+    <button ion-button (click)="savePattern()" [disabled]="!patternName">Save</button>
+  </ion-row>
+
+</ion-content>

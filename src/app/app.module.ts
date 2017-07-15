@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
+import { NewPatternPage } from '../pages/new-pattern/new-pattern';
 
 import { RudimentService, VexRendererService, StorageService, PlatformService, PlayaService } from '../services';
 
@@ -17,7 +19,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
   declarations: [
     MyApp,
     HomePage,
-    SettingsPage
+    SettingsPage,
+    NewPatternPage
   ],
   imports: [
     BrowserAnimationsModule,
@@ -28,9 +31,11 @@ import { NativeStorage } from '@ionic-native/native-storage';
   entryComponents: [
     MyApp,
     SettingsPage,
-    HomePage
+    HomePage,
+    NewPatternPage
   ],
   providers: [
+    Keyboard,
     PlayaService,
     PlatformService,
     StorageService,

@@ -6,7 +6,7 @@
 
   <div class="staff-position" [style.position]="platformService.isAndroid ? relative : absolute" #ogStaff>
     <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
-      [style.height.px]="vexRendererService.stave.getHeight()" [style.top.%]="platformService.isTablet || platformService.isIPad ? 10 : 16"
+      [style.height.px]="vexRendererService.stave.getHeight() + 30" [style.top.%]="platformService.isTablet || platformService.isIPad ? 10 : 16"
       class="blue-line"></div>
   </div>
 
@@ -20,7 +20,7 @@
         <button ion-button *ngIf="isPlaying" (click)="pause(); isPlaying = !isPlaying">
           <ion-icon name="pause"></ion-icon>
         </button>
-        <ion-label class="bpm-footer">bpm: {{bpm}}</ion-label>
+        <ion-label class="bpm-footer">{{bpm}}</ion-label>
         <!--<button ion-button (click)="playMidi = !playMidi; toggleMidi()" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
             <span style="font-size: 30px" class="snare-button-text">S</span>
         </button>-->

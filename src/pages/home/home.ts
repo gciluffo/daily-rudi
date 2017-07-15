@@ -5,6 +5,7 @@ import { Metronome, RudimentService, VexRendererService, StorageService, Platfor
 
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
+import { NewPatternPage } from '../new-pattern/new-pattern';
 
 const offset = 10;
 
@@ -196,34 +197,42 @@ export class HomePage implements OnInit {
   }
 
   openSavePatternAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'Save Pattern',
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'My Sick Rudiment Pattern'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            if (data) {
-              this.storageService.savePattern(this.pattern, data.name);
-              this.storageService.savePatternName(data);
-            }
-          }
-        }
-      ]
+    let newPatternModal = this.modalCtrl.create(NewPatternPage);
+    newPatternModal.onDidDismiss(name => {
+      if (name) {
+        console.log('name', name);
+        this.storageService.savePattern(this.pattern, name);
+        this.storageService.savePatternName(name);
+      }
     });
-    alert.present();
+    newPatternModal.present();
+    // let alert = this.alertCtrl.create({
+    //   title: 'Save Pattern',
+    //   inputs: [
+    //     {
+    //       name: 'name',
+    //       placeholder: 'My Sick Rudiment Pattern'
+    //     }
+    //   ],
+    //   buttons: [
+    //     {
+    //       text: 'Cancel',
+    //       role: 'cancel',
+    //       handler: data => {
+    //         console.log('Cancel clicked');
+    //       }
+    //     },
+    //     {
+    //       text: 'Save',
+    //       handler: data => {
+    //         if (data) {
+
+    //         }
+    //       }
+    //     }
+    //   ]
+    // });
+    // alert.present();
   }
 
   openPatternsAlert() {
@@ -232,12 +241,11 @@ export class HomePage implements OnInit {
 
     this.storageService.loadPatternNames()
       .then((names: any) => {
-        console.log('names', names);
         for (let name of names) {
           alert.addInput({
             type: 'radio',
-            label: name.name,
-            value: name.name,
+            label: name,
+            value: name,
             checked: false
           });
         }

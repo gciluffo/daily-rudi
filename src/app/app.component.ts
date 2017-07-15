@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard';
 import { Nav } from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';
@@ -13,7 +14,7 @@ export class MyApp {
 
   constructor(private storageService: StorageService,
     private vexRendererService: VexRendererService,
-    public splashService: PlatformService) {
-    this.splashService.show();
+    public platformService: PlatformService) {
+    this.platformService.show();
   }
 }

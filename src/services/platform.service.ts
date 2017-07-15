@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard';
 import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -6,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class PlatformService {
 
     constructor(public splashScreen: SplashScreen,
+        private keyboard: Keyboard,
         public platform: Platform) {
     }
 
