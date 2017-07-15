@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { NavController, ModalController, Platform } from 'ionic-angular';
+import { NavController, ModalController, Platform, AlertController } from 'ionic-angular';
 
 import { Metronome, RudimentService, VexRendererService, StorageService, PlatformService, PlayaService } from '../../services';
 
@@ -37,7 +37,8 @@ export class HomePage implements OnInit {
     public platform: Platform,
     private _ngZone: NgZone,
     private playaService: PlayaService,
-    public splashService: PlatformService) {
+    public splashService: PlatformService,
+    private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
@@ -193,4 +194,69 @@ export class HomePage implements OnInit {
 
     this.tempoChange();
   }
+
+  openSavePatternAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Save Pattern',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'My Sick Rudiment Pattern'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            if (data) {
+              this.storageService.savePattern(this.pattern, data.name);
+              this.storageService.savePatternName(data);
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  openPatternsAlert() {
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Load Pattern');
+
+    this.storageService.loadPatternNames()
+      .then((names: any) => {
+        console.log('names', names);
+        for (let name of names) {
+          alert.addInput({
+            type: 'radio',
+            label: name.name,
+            value: name.name,
+            checked: false
+          });
+        }
+
+        alert.addButton('Cancel');
+        alert.addButton({
+          text: 'Load',
+          handler: name => {
+            this.storageService.loadPatternByName(name)
+              .then((pattern: any) => {
+                this.renderPattern(pattern);
+              });
+          }
+        });
+        alert.present();
+
+      });
+
+
+  }
+
 }

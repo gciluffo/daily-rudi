@@ -24,6 +24,12 @@
         <!--<button ion-button (click)="playMidi = !playMidi; toggleMidi()" [ngClass]="{'snare-button-inactive': !playMidi, 'snare-button-active': playMidi}">
             <span style="font-size: 30px" class="snare-button-text">S</span>
         </button>-->
+        <button ion-button (click)="openPatternsAlert()">
+          <ion-icon name="folder-open"></ion-icon>
+        </button>
+        <button ion-button (click)="openSavePatternAlert()">
+          <ion-icon name="download"></ion-icon>
+        </button>
         <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())">
           <ion-icon name="refresh"></ion-icon>
         </button>
