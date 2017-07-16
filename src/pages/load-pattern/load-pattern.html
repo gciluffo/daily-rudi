@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Saved Patterns</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list *ngIf="patternNames">
+    <ion-item-sliding *ngFor="let pattern of patternNames">
+      <ion-item [class.selected]="pattern === selectedPattern" (click)="onSelect(pattern)">
+        <span class="list-item">{{pattern}}</span>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="delete(pattern)">Delete</button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <ion-row>
+    <ion-col col-5></ion-col>
+    <button ion-button (click)="dismiss()">Cancel</button>
+    <button ion-button (click)="loadPattern()">Load</button>
+  </ion-row>
+
+</ion-content>

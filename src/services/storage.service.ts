@@ -13,7 +13,6 @@ export class StorageService {
         this.settings = settings;
         this.nativeStorage.setItem('settings', settings)
             .then(() => {
-                console.log('Stored item!', settings);
             },
             error => console.error('Error storing item', error)
             );
@@ -23,7 +22,6 @@ export class StorageService {
         return new Promise((resolve, reject) => {
             this.nativeStorage.getItem('settings')
                 .then((data) => {
-                    console.log('Got item!', data)
                     this.settings = data;
                     resolve(data);
                 },
@@ -45,7 +43,6 @@ export class StorageService {
     savePattern(pattern: any[], name) {
         this.nativeStorage.setItem(name, JSON.stringify(pattern))
             .then(() => {
-                console.log('Stored pattern with name: ', name);
             },
             error => console.error('Error storing item', error)
             );
@@ -59,7 +56,6 @@ export class StorageService {
                     names.push(name);
                     this.nativeStorage.setItem('patternNames', JSON.stringify(names))
                         .then(() => {
-                            console.log('Stored names!', names);
                         },
                         error => console.error('Error storing item', error)
                         );
@@ -71,7 +67,6 @@ export class StorageService {
         return new Promise((resolve, reject) => {
             this.nativeStorage.getItem(name)
                 .then((data) => {
-                    console.log('Got pattern!', data);
                     resolve(JSON.parse(data));
                 },
                 error => {
@@ -85,7 +80,6 @@ export class StorageService {
         return new Promise((resolve, reject) => {
             this.nativeStorage.getItem('patternNames')
                 .then((data) => {
-                    console.log('Got pattern names!', data);
                     resolve(JSON.parse(data));
                 },
                 error => {
@@ -105,7 +99,7 @@ export class StorageService {
         this.loadPatternNames()
             .then((names: any[]) => {
                 let index = names.findIndex((o) => {
-                    return o.name === name;
+                    return name === name;
                 });
                 names.splice(index, 1);
                 this.nativeStorage.setItem('patternNames', JSON.stringify(names));

@@ -104,7 +104,7 @@ export class VexRendererService {
         let notes: any = [];
 
         for (let i = 0; i < rudiment.voicing.length; i++) {
-            let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note });
+            let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note, stem_direction: 1 });
             this.addSticking(note, rudiment.voicing[i].sticking);
 
             if (rudiment.voicing[i].double) {
@@ -173,13 +173,9 @@ export class VexRendererService {
     }
 
     addTremoloToNote(staveNote: any) {
-        let tremolo = new vexflow.Flow.Tremolo(1)
-            .setPosition(vexflow.Flow.Modifier.Position.ABOVE);
-
-        // tremolo.setYShift(20);
+        let tremolo = new vexflow.Flow.Tremolo(1);
 
         staveNote.addArticulation(0, tremolo);
-        console.log(staveNote);
     }
 
     addGraceNoteSticking(gracenote: any, voice) {

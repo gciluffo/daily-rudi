@@ -6,6 +6,7 @@ import { Metronome, RudimentService, VexRendererService, StorageService, Platfor
 import { Rudiment } from '../../models/rudiment';
 import { SettingsPage } from '../settings/settings';
 import { NewPatternPage } from '../new-pattern/new-pattern';
+import { LoadPatternPage } from '../load-pattern/load-pattern';
 
 const offset = 10;
 
@@ -200,79 +201,24 @@ export class HomePage implements OnInit {
     let newPatternModal = this.modalCtrl.create(NewPatternPage);
     newPatternModal.onDidDismiss(name => {
       if (name) {
-        console.log('name', name);
         this.storageService.savePattern(this.pattern, name);
         this.storageService.savePatternName(name);
       }
     });
     newPatternModal.present();
-    // let alert = this.alertCtrl.create({
-    //   title: 'Save Pattern',
-    //   inputs: [
-    //     {
-    //       name: 'name',
-    //       placeholder: 'My Sick Rudiment Pattern'
-    //     }
-    //   ],
-    //   buttons: [
-    //     {
-    //       text: 'Cancel',
-    //       role: 'cancel',
-    //       handler: data => {
-    //         console.log('Cancel clicked');
-    //       }
-    //     },
-    //     {
-    //       text: 'Save',
-    //       handler: data => {
-    //         if (data) {
-
-    //         }
-    //       }
-    //     }
-    //   ]
-    // });
-    // alert.present();
   }
 
   openPatternsAlert() {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Load Pattern');
-
-    this.storageService.loadPatternNames()
-      .then((names: any) => {
-        for (let name of names) {
-          alert.addInput({
-            type: 'radio',
-            label: name,
-            value: name,
-            checked: false
+    let loadPatternModal = this.modalCtrl.create(LoadPatternPage);
+    loadPatternModal.onDidDismiss(name => {
+      if (name) {
+        this.storageService.loadPatternByName(name)
+          .then((pattern: any) => {
+            this.renderPattern(pattern);
           });
-        }
-
-        alert.addButton('Cancel');
-        alert.addButton({
-          text: 'Delete',
-          handler: name => {
-            if (name) {
-              this.storageService.deletePatternByName(name);
-            }
-          }
-        });
-        alert.addButton({
-          text: 'Load',
-          handler: name => {
-            if (name) {
-              this.storageService.loadPatternByName(name)
-                .then((pattern: any) => {
-                  this.renderPattern(pattern);
-                });
-            }
-          }
-        });
-        alert.present();
-
-      });
+      }
+    });
+    loadPatternModal.present();
   }
 
 }

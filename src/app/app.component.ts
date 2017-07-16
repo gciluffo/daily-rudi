@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Keyboard } from '@ionic-native/keyboard';
 import { Nav } from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';

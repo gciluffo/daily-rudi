@@ -99,9 +99,7 @@ export class PlayaService {
         this.player = new MidiPlayer.Player((event) => {
             if (event.name == 'Note on') {
                 console.log(event);
-                // this.instrument.play(event.noteName, null, { gain: 2 });
-                // this.snare();
-                this.snare();
+                this.scheduleTone();
             }
         });
 
@@ -153,47 +151,4 @@ export class PlayaService {
         osc.stop(this.audioContext.currentTime + .1 + .020);
     }
 
-    snare() {
-        let osc3 = this.audioContext.createOscillator();
-        let gainOsc3 = this.audioContext.createGain();
-
-        this.filterGain.gain.setValueAtTime(1, this.audioContext.currentTime);
-        this.filterGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
-
-        osc3.type = "triangle";
-        osc3.frequency.value = 100;
-        gainOsc3.gain.value = 0;
-
-        gainOsc3.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainOsc3.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
-
-        osc3.connect(gainOsc3);
-        gainOsc3.connect(this.mixGain);
-
-        this.mixGain.gain.value = 1;
-
-        osc3.start(this.audioContext.currentTime);
-        osc3.stop(this.audioContext.currentTime + 0.2);
-
-        let node = this.audioContext.createBufferSource(),
-            buffer = this.audioContext.createBuffer(1, 4096, this.audioContext.sampleRate),
-            data = buffer.getChannelData(0);
-
-        let filter = this.audioContext.createBiquadFilter();
-        filter.type = "highpass";
-        filter.frequency.setValueAtTime(100, this.audioContext.currentTime);
-        filter.frequency.linearRampToValueAtTime(1000, this.audioContext.currentTime + 0.2);
-
-
-        for (let i = 0; i < 4096; i++) {
-            data[i] = Math.random();
-        }
-        node.buffer = buffer;
-        node.loop = true;
-        node.connect(filter);
-        filter.connect(this.filterGain);
-        this.filterGain.connect(this.mixGain);
-        node.start(this.audioContext.currentTime);
-        node.stop(this.audioContext.currentTime + 0.020);
-    }
 }
