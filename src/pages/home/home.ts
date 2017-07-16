@@ -51,15 +51,16 @@ export class HomePage implements OnInit {
     this.platform.pause.subscribe(() => {
       console.log('[INFO] App paused');
       this.saveSettings();
+      this.platformService.removeZombie();
     });
 
     this.platform.resume.subscribe(() => {
+      this.platformService.makeZombie();
       console.log('[INFO] App resumed');
     });
 
     this.metronome = new Metronome();
     this.loadSettings();
-    this.bpm = 45;
     this.moveRight();
   }
 
@@ -167,6 +168,7 @@ export class HomePage implements OnInit {
         this.vexRendererService.settings = data;
         this.metronome.settings = data;
         this.metronome.loadSound();
+        this.bpm = +data.bpm;
 
         if (data.pattern) {
           let pattern = JSON.parse(data.pattern)
@@ -179,6 +181,7 @@ export class HomePage implements OnInit {
 
   saveSettings() {
     this.settings.pattern = JSON.stringify(this.pattern);
+    this.settings.bpm = this.bpm.toString();
     this.storageService.updateSettings(this.settings);
     this.pause();
   }

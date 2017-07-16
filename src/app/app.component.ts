@@ -15,5 +15,6 @@ export class MyApp {
     private vexRendererService: VexRendererService,
     public platformService: PlatformService) {
     this.platformService.show();
+    this.platformService.makeZombie();
   }
 }

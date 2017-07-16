@@ -1,12 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Insomnia } from '@ionic-native/insomnia';
+
 
 @Injectable()
 export class PlatformService {
 
     constructor(public splashScreen: SplashScreen,
+        private insomnia: Insomnia,
         public platform: Platform) {
+    }
+
+    makeZombie() {
+        this.insomnia.keepAwake()
+            .then(
+            () => console.log('success'),
+            () => console.log('error')
+            );
+    }
+
+    removeZombie() {
+        this.insomnia.allowSleepAgain()
+            .then(
+            () => console.log('success'),
+            () => console.log('error')
+            );
     }
 
     isAndroid() {

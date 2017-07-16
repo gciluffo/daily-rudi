@@ -31,7 +31,8 @@ export class StorageService {
                     let dumbData = {
                         useMetronomeSlider: true,
                         useRandomAccents: false,
-                        clickSound: 'assets/sounds/pink.wav'
+                        clickSound: 'assets/sounds/pink.wav',
+                        bpm: '55'
                     };
                     this.initializePatternNames();
                     this.updateSettings(dumbData);
