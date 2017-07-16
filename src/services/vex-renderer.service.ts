@@ -6,7 +6,8 @@ import { PlatformService } from './platform.service';
 import * as vexflow from 'vexflow';
 
 const OFFSET = 15;
-const STEMDIRECTION = 1
+const STEMDIRECTION = -1
+const TUPLETLOCATION = vexflow.Flow.Tuplet.LOCATION_TOP;
 
 @Injectable()
 export class VexRendererService {
@@ -105,7 +106,7 @@ export class VexRendererService {
         let notes: any = [];
 
         for (let i = 0; i < rudiment.voicing.length; i++) {
-            let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note, stem_direction: STEMDIRECTION });
+            let note = new vexflow.Flow.StaveNote({ keys: ["d/5"], duration: rudiment.voicing[i].note, stem_direction: STEMDIRECTION });
 
             this.addSticking(note, rudiment.voicing[i].sticking);
 
@@ -139,7 +140,10 @@ export class VexRendererService {
         });
 
         for (let beams of rudiment.beamPositions) {
-            triplets.push(new vexflow.Flow.Tuplet(notes.slice(beams[0], beams[1])));
+            let tuplet = new vexflow.Flow.Tuplet(notes.slice(beams[0], beams[1]));
+            tuplet.setTupletLocation(TUPLETLOCATION);
+            tuplet.setBracketed(true);
+            triplets.push(tuplet);
         }
 
         beams.forEach(beam => {
@@ -190,7 +194,7 @@ export class VexRendererService {
     }
 
     addFlam(staveNote: any, voice: any) {
-        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d', stem_direction: STEMDIRECTION });
+        let gracenote = new vexflow.Flow.GraceNote({ keys: ["d/5"], duration: '8d', stem_direction: STEMDIRECTION });
 
         this.addGraceNoteSticking(gracenote, voice);
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
@@ -198,10 +202,10 @@ export class VexRendererService {
     }
 
     addDoubleGraceNote(staveNote: any, voice) {
-        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d', stem_direction: STEMDIRECTION });
+        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["d/5"], duration: '16d', stem_direction: STEMDIRECTION });
         this.addGraceNoteSticking(gracenote1, voice);
 
-        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d', stem_direction: STEMDIRECTION });
+        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["d/5"], duration: '16d', stem_direction: STEMDIRECTION });
         this.addGraceNoteSticking(gracenote2, voice);
 
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote1, gracenote2], true);
