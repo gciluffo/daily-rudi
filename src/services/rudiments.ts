@@ -1,5 +1,57 @@
 export const RUDIMENTS: any[] = [
     {
+        name: "Single Stroke",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Single Stroke",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'R',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Double Stroke",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: true },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
+        name: "Double Stroke",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'R',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: true },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false }
+        ]
+    },
+    {
         name: "Paraddidle",
         beats: 1,
         startingHand: 'R',
@@ -258,6 +310,34 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
+        name: "5 Stroke Roll",
+        beats: 2,
+        startingHand: 'R',
+        lastHand: 'R',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: 'q', flam: false, double: false, accent: true }
+        ]
+    },
+    {
+        name: "5 Stroke Roll",
+        beats: 2,
+        startingHand: 'L',
+        lastHand: 'L',
+        isTriplet: false,
+        voicing: [
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'R', note: '16d', flam: false, double: false, accent: false },
+            { sticking: 'L', note: 'q', flam: false, double: false, accent: true }
+        ]
+    },
+    {
         name: "Single Stroke Roll",
         beats: 1,
         startingHand: 'R',
@@ -326,7 +406,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flam Accent ",
+        name: "Flam Accent",
         beats: 2,
         startingHand: 'R',
         lastHand: 'L',
@@ -342,7 +422,7 @@ export const RUDIMENTS: any[] = [
         ]
     },
     {
-        name: "Flam Accent ",
+        name: "Flam Accent",
         beats: 2,
         startingHand: 'L',
         lastHand: 'R',
@@ -355,6 +435,64 @@ export const RUDIMENTS: any[] = [
             { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
             { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
             { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
+        ]
+    },
+    {
+        name: "Swiss Army Triplet",
+        beats: 2,
+        startingHand: 'R',
+        lastHand: 'L',
+        isTriplet: true,
+        beamPositions: [[0, 3], [3, 6]],
+        voicing: [
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
+        ]
+    },
+    {
+        name: "Swiss Army Triplet",
+        beats: 2,
+        startingHand: 'L',
+        lastHand: 'R',
+        isTriplet: true,
+        beamPositions: [[0, 3], [3, 6]],
+        voicing: [
+            { sticking: 'L', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
+        ]
+    },
+    {
+        name: "Flam Drag",
+        beats: 1,
+        startingHand: 'R',
+        lastHand: 'R',
+        isTriplet: true,
+        beamPositions: [[0, 3]],
+        voicing: [
+            { sticking: 'R', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: true, accent: false, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
+        ]
+    },
+    {
+        name: "Flam Drag",
+        beats: 1,
+        startingHand: 'L',
+        lastHand: 'L',
+        isTriplet: true,
+        beamPositions: [[0, 3]],
+        voicing: [
+            { sticking: 'L', note: '8d', flam: true, double: false, accent: true, isTriplet: true },
+            { sticking: 'R', note: '8d', flam: false, double: true, accent: false, isTriplet: true },
+            { sticking: 'L', note: '8d', flam: false, double: false, accent: false, isTriplet: true }
         ]
     },
     {

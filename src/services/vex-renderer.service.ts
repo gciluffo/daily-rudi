@@ -5,7 +5,8 @@ import { PlayaService } from './playa.service';
 import { PlatformService } from './platform.service';
 import * as vexflow from 'vexflow';
 
-const offset = 15;
+const OFFSET = 15;
+const STEMDIRECTION = 1
 
 @Injectable()
 export class VexRendererService {
@@ -104,7 +105,8 @@ export class VexRendererService {
         let notes: any = [];
 
         for (let i = 0; i < rudiment.voicing.length; i++) {
-            let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note, stem_direction: 1 });
+            let note = new vexflow.Flow.StaveNote({ keys: ["b/4"], duration: rudiment.voicing[i].note, stem_direction: STEMDIRECTION });
+
             this.addSticking(note, rudiment.voicing[i].sticking);
 
             if (rudiment.voicing[i].double) {
@@ -188,7 +190,7 @@ export class VexRendererService {
     }
 
     addFlam(staveNote: any, voice: any) {
-        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d' });
+        let gracenote = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '8d', stem_direction: STEMDIRECTION });
 
         this.addGraceNoteSticking(gracenote, voice);
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote], true);
@@ -196,18 +198,28 @@ export class VexRendererService {
     }
 
     addDoubleGraceNote(staveNote: any, voice) {
-        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
+        let gracenote1 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d', stem_direction: STEMDIRECTION });
         this.addGraceNoteSticking(gracenote1, voice);
 
-        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d' });
+        let gracenote2 = new vexflow.Flow.GraceNote({ keys: ["b/4"], duration: '16d', stem_direction: STEMDIRECTION });
         this.addGraceNoteSticking(gracenote2, voice);
 
         let gracenotegroup = new vexflow.Flow.GraceNoteGroup([gracenote1, gracenote2], true);
         staveNote.addModifier(0, gracenotegroup.beamNotes());
     }
 
+    // TODO: Finish dis
+    addFourOnFloorPattern(mergedNotes: any[], pattern: Rudiment[]) {
+        let positions = this.getFirstBeatPositionsOfNotes(pattern);
+
+        for (let position of positions) {
+
+        }
+    }
+
     draw(mergedNotes: any[], beams: any[], tripletPositions: any[], allNotes: any[], pattern: Rudiment[]) {
         let staveNoteGroup = this.context.openGroup();
+        this.addFourOnFloorPattern(mergedNotes, pattern);
 
         vexflow.Flow.Formatter.FormatAndDraw(this.context, this.stave, mergedNotes);
         if (tripletPositions.length) {
@@ -221,6 +233,7 @@ export class VexRendererService {
         this.context.closeGroup();
         // TODO: Get this working increase note size for tablets
         staveNoteGroup.style.fontsize = "20";
+        console.log('merged notes', mergedNotes);
     }
 
 
@@ -291,9 +304,9 @@ export class VexRendererService {
     getWidthsOfFirstBeats(positions: any[]) {
         for (let i = 0; i < positions.length; i++) {
             if (i === positions.length - 1) {
-                this.firstBeatWidths[i] = (this.stave.getWidth() - positions[i] - offset) + 13;
+                this.firstBeatWidths[i] = (this.stave.getWidth() - positions[i] - OFFSET) + 13;
             } else {
-                this.firstBeatWidths[i] = positions[i + 1] - positions[i] - offset;
+                this.firstBeatWidths[i] = positions[i + 1] - positions[i] - OFFSET;
             }
         }
     }
