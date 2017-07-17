@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
   private counter: number = 0;
   public settings: any;
   public notePositions: any;
+  public showIntro: boolean = false;
 
   constructor(public navCtrl: NavController,
     public platformService: PlatformService,
@@ -173,7 +174,7 @@ export class HomePage implements OnInit {
           let pattern = JSON.parse(data.pattern)
           this.renderPattern(pattern);
         } else { // else first time logging in 
-          this.renderPattern(this.rudimentService.getRudimentPattern());
+          this.showIntro = true;
         }
       }, error => console.log(error));
   }
@@ -227,5 +228,10 @@ export class HomePage implements OnInit {
     if (swipe.deltaX < -100) {
       this.renderPattern(this.rudimentService.getRudimentPattern())
     }
+  }
+
+  endIntro() {
+    this.showIntro = false;
+    this.renderPattern(this.rudimentService.getRudimentPattern());
   }
 }

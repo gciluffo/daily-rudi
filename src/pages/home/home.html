@@ -1,4 +1,6 @@
-<ion-content class="home-content" no-bounce>
+<intro *ngIf="showIntro" (closeSlides)="endIntro()"></intro>
+
+<ion-content [hidden]="showIntro" class="home-content" no-bounce>
 
   <ion-row class="rudiment-names">
     <span *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'" class="rudiment-name">{{rudiment.name}}</span>
