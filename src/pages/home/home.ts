@@ -8,7 +8,7 @@ import { SettingsPage } from '../settings/settings';
 import { NewPatternPage } from '../new-pattern/new-pattern';
 import { LoadPatternPage } from '../load-pattern/load-pattern';
 
-const offset = 10;
+const offset = 20;
 
 @Component({
   selector: 'page-home',
@@ -17,7 +17,6 @@ const offset = 10;
 export class HomePage implements OnInit {
 
   @ViewChild('ogStaff') ogStaff: ElementRef;
-  @ViewChild('ogBar') ogBar: ElementRef;
 
   public metronome: Metronome;
   public bpm: number;

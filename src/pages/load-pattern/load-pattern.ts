@@ -31,10 +31,12 @@ export class LoadPatternPage implements OnInit {
 
   loadPattern() {
     this.viewCtrl.dismiss(this.selectedPattern);
+    this.selectedPattern = null;
   }
 
   dismiss() {
     this.viewCtrl.dismiss(null);
+    this.selectedPattern = null;
   }
 
   overrideBackButton() {

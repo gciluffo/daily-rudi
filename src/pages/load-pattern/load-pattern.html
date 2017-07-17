@@ -22,7 +22,7 @@
   <ion-row>
     <ion-col col-5></ion-col>
     <button ion-button (click)="dismiss()">Cancel</button>
-    <button ion-button (click)="loadPattern()">Load</button>
+    <button ion-button (click)="loadPattern()" [disabled]="!selectedPattern">Load</button>
   </ion-row>
 
 </ion-content>
