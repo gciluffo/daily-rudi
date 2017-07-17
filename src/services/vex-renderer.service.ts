@@ -237,7 +237,6 @@ export class VexRendererService {
         this.context.closeGroup();
         // TODO: Get this working increase note size for tablets
         staveNoteGroup.style.fontsize = "20";
-        console.log('merged notes', mergedNotes);
     }
 
 
@@ -318,7 +317,7 @@ export class VexRendererService {
     setDistancesBetweenPatterns(pattern: Rudiment[], mergedNotes: any[]) {
         let indicies = this.getFirstNotePositionsOfPattern(pattern, mergedNotes);
         for (let i = 0; i < indicies.length; i++) {
-            pattern[i].firstNotePosition = mergedNotes[indicies[i]].getNoteHeadEndX();
+            pattern[i].firstNotePosition = mergedNotes[indicies[i]].getNoteHeadEndX() - 10;
         }
     }
 

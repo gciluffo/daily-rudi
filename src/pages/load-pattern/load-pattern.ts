@@ -24,7 +24,6 @@ export class LoadPatternPage implements OnInit {
   ngOnInit() {
     this.storageService.loadPatternNames()
       .then((names: any) => {
-        console.log('name', names);
         this.patternNames = names;
       })
   }

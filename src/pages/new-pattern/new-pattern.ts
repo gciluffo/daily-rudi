@@ -22,7 +22,7 @@ export class NewPatternPage {
     this.patternName = null;
     setTimeout(() => {
       this.myInput.setFocus();
-    }, 500);
+    }, 600);
   }
 
   savePattern() {

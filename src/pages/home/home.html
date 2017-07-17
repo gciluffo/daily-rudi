@@ -4,7 +4,7 @@
     <span *ngFor="let rudiment of pattern" [style.transform]="'translateX(' + rudiment.firstNotePosition + 'px)'" class="rudiment-name">{{rudiment.name}}</span>
   </ion-row>
 
-  <ion-row class="staff-position">
+  <ion-row class="staff-position" (swipe)="swipeEvent($event)">
     <div #ogStaff>
       <div *ngIf="isPlaying && settings?.useMetronomeSlider" [style.transform]="'translateX(' + sliderPosition + 'px)'" [style.width.px]="vexRendererService.firstBeatWidths[counter - 1]"
         [style.height.px]="vexRendererService.stave.getHeight()" class="blue-line"></div>
@@ -32,9 +32,6 @@
         </button>
         <button ion-button (click)="openSavePatternAlert()">
           <ion-icon name="download"></ion-icon>
-        </button>
-        <button ion-button (click)="renderPattern(rudimentService.getRudimentPattern())">
-          <ion-icon name="refresh"></ion-icon>
         </button>
         <button ion-button (click)="openSettings()"><ion-icon name="settings"></ion-icon></button>
         <ion-item *ngIf="showRange">

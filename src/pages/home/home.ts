@@ -223,4 +223,9 @@ export class HomePage implements OnInit {
     loadPatternModal.present();
   }
 
+  swipeEvent(swipe) {
+    if (swipe.deltaX < -100) {
+      this.renderPattern(this.rudimentService.getRudimentPattern())
+    }
+  }
 }
