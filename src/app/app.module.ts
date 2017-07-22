@@ -9,7 +9,6 @@ import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 import { NewPatternPage } from '../pages/new-pattern/new-pattern';
 import { LoadPatternPage } from '../pages/load-pattern/load-pattern';
-import { IntroPage } from '../pages/intro/intro';
 
 import { RudimentService, VexRendererService, StorageService, PlatformService, PlayaService } from '../services';
 
@@ -23,8 +22,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
     HomePage,
     SettingsPage,
     NewPatternPage,
-    LoadPatternPage,
-    IntroPage
+    LoadPatternPage
   ],
   imports: [
     BrowserAnimationsModule,
@@ -37,8 +35,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
     SettingsPage,
     HomePage,
     NewPatternPage,
-    LoadPatternPage,
-    IntroPage
+    LoadPatternPage
   ],
   providers: [
     Insomnia,
