@@ -213,13 +213,7 @@ export class VexRendererService {
     }
 
     // TODO: Finish dis
-    addFourOnFloorPattern(mergedNotes: any[], pattern: Rudiment[]) {
-        let positions = this.getFirstBeatPositionsOfNotes(pattern);
-
-        for (let position of positions) {
-
-        }
-    }
+    addFourOnFloorPattern(mergedNotes: any[], pattern: Rudiment[]) {}
 
     draw(mergedNotes: any[], beams: any[], tripletPositions: any[], allNotes: any[], pattern: Rudiment[]) {
         let staveNoteGroup = this.context.openGroup();
