@@ -32,7 +32,7 @@ export class VexRendererService {
         private platformService: PlatformService) {
     }
 
-    getScreenDimensions() {
+    getScreenDimensions(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.platform.ready().then((readySource) => {
                 this.screenDimensions.width = this.platform.width();
@@ -42,7 +42,7 @@ export class VexRendererService {
         });
     }
 
-    createRenderer(domElement: any) {
+    createRenderer(domElement: any): Promise<any> {
         return new Promise((resolve, reject) => {
             this.getScreenDimensions().then(() => {
                 let renderer = new vexflow.Flow.Renderer(domElement, vexflow.Flow.Renderer.Backends.SVG);

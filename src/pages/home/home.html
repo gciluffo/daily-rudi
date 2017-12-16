@@ -14,7 +14,7 @@
   <!--[style.top.%]="platformService.isTablet() || platformService.isIPad() ? 10 : 16"-->
 
   <ion-footer no-border>
-    <ion-toolbar height="80px">
+    <ion-toolbar>
       <ion-row>
         <button ion-button (click)="showRange = !showRange" style="font-size: 20px" [disabled]="playMidi">Tempo</button>
         <button ion-button *ngIf="!isPlaying" (click)="playAll(); isPlaying = !isPlaying">
